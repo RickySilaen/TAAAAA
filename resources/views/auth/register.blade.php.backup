@@ -1,0 +1,19 @@
+<!-- Role Selection -->
+                <div class="role-selection text-center mb-4">
+                  <label class="form-label text-primary fw-bold mb-3">Pilih Peran Anda:</label>
+                  <div class="d-flex justify-content-center flex-wrap">
+                    <label class="role-option" for="role_admin">
+                      <input type="radio" name="role" value="admin" id="role_admin" {{ old('role') == 'admin' ? 'checked' : '' }}>
+                      <i class="fas fa-user-shield me-2"></i>Admin
+                    </label>
+                    <label class="role-option" for="role_petugas">
+                      <input type="radio" name="role" value="petugas" id="role_petugas" {{ old('role') == 'petugas' ? 'checked' : '' }}>
+                      <i class="fas fa-user-tie me-2"></i>Petugas
+                    </label>
+                  </div>
+                  @error('role')
+                      <div class="text-danger mt-2">
+                          <small>{{ $message }}</small>
+                      </div>
+                  @enderror
+                </div>

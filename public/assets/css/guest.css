@@ -1,0 +1,152 @@
+/* ==========================================================================
+   Guest Layout Styles - Sistem Pertanian
+   Desain seragam dengan Argon Dashboard (tema biru profesional)
+   ========================================================================== */
+
+/* Reset & Font */
+body {
+    font-family: "Figtree", "Open Sans", sans-serif;
+    background-color: #f8f9fe;
+    color: #344767;
+    margin: 0;
+    padding: 0;
+}
+
+/* Navbar */
+.navbar {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.navbar-brand {
+    font-weight: 600;
+    color: #2d3748 !important;
+}
+
+.nav-link {
+    color: #5e72e4 !important;
+    font-weight: 500;
+}
+
+.nav-link.active,
+.nav-link:hover {
+    color: #233dd2 !important;
+}
+
+/* Card Style */
+.content-card {
+    background: #fff;
+    border-radius: 1rem;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+    padding: 2rem;
+    border: 1px solid #e9ecef;
+}
+
+.card-header-agriculture {
+    border-bottom: 2px solid #5e72e4;
+    margin-bottom: 1.5rem;
+}
+
+.card-header-agriculture h4 {
+    font-weight: 600;
+    color: #2d3748;
+}
+
+.card-header-agriculture p {
+    color: #718096;
+}
+
+/* Input & Form */
+.form-control-agriculture,
+.form-select-agriculture {
+    border-radius: 0.5rem;
+    border: 1px solid #d2d6dc;
+    padding: 0.65rem 1rem;
+    transition: all 0.2s ease-in-out;
+}
+
+.form-control-agriculture:focus,
+.form-select-agriculture:focus {
+    border-color: #5e72e4;
+    box-shadow: 0 0 0 0.2rem rgba(94, 114, 228, 0.25);
+}
+
+.form-label {
+    color: #344767;
+}
+
+/* Buttons */
+.btn-agriculture-primary {
+    background-color: #5e72e4;
+    border-color: #5e72e4;
+    color: #fff;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-agriculture-primary:hover {
+    background-color: #324cdd;
+    border-color: #324cdd;
+    transform: translateY(-1px);
+}
+
+.btn-outline-agriculture {
+    color: #5e72e4;
+    border: 1px solid #5e72e4;
+    border-radius: 0.5rem;
+    background-color: transparent;
+}
+
+.btn-outline-agriculture:hover {
+    background-color: #5e72e4;
+    color: #fff;
+}
+
+/* Info Cards */
+.card.border-agriculture {
+    border-color: #5e72e4 !important;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 10px rgba(94, 114, 228, 0.1);
+}
+
+.bg-agriculture {
+    background-color: #5e72e4 !important;
+}
+
+.info-item strong {
+    color: #2d3748;
+}
+
+/* Preview Section */
+#previewContent {
+    font-size: 0.95rem;
+    color: #344767;
+}
+
+.preview-item {
+    background: #f8f9fe;
+    padding: 0.6rem 0.8rem;
+    border-radius: 0.5rem;
+    margin-bottom: 0.5rem;
+    border: 1px solid #edf2f7;
+}
+
+/* Footer */
+footer {
+    background-color: #172b4d;
+    color: #fff;
+    padding-top: 2rem;
+    padding-bottom: 1.5rem;
+}
+
+footer a {
+    color: #d4d9ff;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+footer hr {
+    border-color: rgba(255, 255, 255, 0.2);
+}
