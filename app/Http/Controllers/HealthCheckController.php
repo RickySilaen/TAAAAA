@@ -6,7 +6,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 
 /**
- * Health Check Controller
+ * Health Check Controller.
  *
  * Provides endpoints for monitoring system health.
  * Used by CI/CD pipeline and monitoring tools.
@@ -14,9 +14,7 @@ use Illuminate\Support\Facades\DB;
 class HealthCheckController extends Controller
 {
     /**
-     * Basic health check
-     *
-     * @return JsonResponse
+     * Basic health check.
      */
     public function index(): JsonResponse
     {
@@ -28,9 +26,7 @@ class HealthCheckController extends Controller
     }
 
     /**
-     * Detailed health check
-     *
-     * @return JsonResponse
+     * Detailed health check.
      */
     public function detailed(): JsonResponse
     {
@@ -51,9 +47,7 @@ class HealthCheckController extends Controller
     }
 
     /**
-     * Check database connection
-     *
-     * @return array
+     * Check database connection.
      */
     private function checkDatabase(): array
     {
@@ -73,9 +67,7 @@ class HealthCheckController extends Controller
     }
 
     /**
-     * Check cache system
-     *
-     * @return array
+     * Check cache system.
      */
     private function checkCache(): array
     {
@@ -102,9 +94,7 @@ class HealthCheckController extends Controller
     }
 
     /**
-     * Check storage directory
-     *
-     * @return array
+     * Check storage directory.
      */
     private function checkStorage(): array
     {
