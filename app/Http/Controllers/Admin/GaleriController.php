@@ -21,6 +21,7 @@ class GaleriController extends Controller
     public function index()
     {
         $galeris = Galeri::latest()->paginate(12);
+
         return view('admin.galeri.index', compact('galeris'));
     }
 
@@ -41,7 +42,7 @@ class GaleriController extends Controller
             'judul' => 'required|string|max:255',
             'gambar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'lokasi' => 'nullable|string|max:255',
-            'deskripsi' => 'nullable|string'
+            'deskripsi' => 'nullable|string',
         ]);
 
         $data = $request->all();
@@ -64,6 +65,7 @@ class GaleriController extends Controller
     public function show(string $id)
     {
         $galeri = Galeri::findOrFail($id);
+
         return view('admin.galeri.show', compact('galeri'));
     }
 
@@ -73,6 +75,7 @@ class GaleriController extends Controller
     public function edit(string $id)
     {
         $galeri = Galeri::findOrFail($id);
+
         return view('admin.galeri.edit', compact('galeri'));
     }
 
@@ -87,7 +90,7 @@ class GaleriController extends Controller
             'judul' => 'required|string|max:255',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'lokasi' => 'nullable|string|max:255',
-            'deskripsi' => 'nullable|string'
+            'deskripsi' => 'nullable|string',
         ]);
 
         $data = $request->all();

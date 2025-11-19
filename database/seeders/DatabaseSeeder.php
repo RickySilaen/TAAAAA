@@ -2,131 +2,110 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
-    public function run()
+    /**
+     * Seed the application's database.
+     * Data Real Kabupaten Toba: 1 Admin, 16 Petugas, 32 Petani.
+     */
+    public function run(): void
     {
-        // Insert admin user
-        DB::table('users')->insert([
-            'name' => 'Admin',
-            'email' => 'admin@example.com',
-            'email_verified_at' => now(),
-            'password' => bcrypt('password123'),
+        $kecamatan = [
+            'Balige', 'Laguboti', 'Habinsaran', 'Ajibata',
+            'Lumban Julu', 'Porsea', 'Silaen', 'Sigumpar',
+            'Pintupohan Meranti', 'Nassau', 'Siantar Narumonda',
+            'Parmaksian', 'Bonatua Lunasi', 'Tampahan', 'Bor Bor', 'Uluan',
+        ];
+
+        $this->command->info('🌾 Seeding Database - Kabupaten Toba');
+        $this->command->info('=====================================');
+
+        // 1. CREATE ADMIN
+        User::create([
+            'name' => 'Administrator Sistem',
+            'email' => 'admin@tobapertanian.com',
+            'password' => Hash::make('admin123'),
             'role' => 'admin',
-            'created_at' => now(),
-            'updated_at' => now(),
+            'telepon' => '081234567890',
+            'alamat_desa' => null,
+            'alamat_kecamatan' => null,
+            'is_verified' => true,
+            'verified_at' => now(),
         ]);
+        $this->command->info('✅ Admin: admin@tobapertanian.com');
 
-        // Insert petugas user
-        DB::table('users')->insert([
-            'name' => 'Petugas Lapangan',
-            'email' => 'petugas@example.com',
-            'email_verified_at' => now(),
-            'password' => bcrypt('password123'),
-            'role' => 'petugas',
-            'alamat_desa' => 'Desa X', // Petugas bertugas di Desa X
-            'luas_lahan' => 10.0,
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        // 2. CREATE 16 PETUGAS
+        $this->command->info('👷 Creating 16 Petugas...');
+        foreach ($kecamatan as $index => $kec) {
+            User::create([
+                'name' => 'Petugas ' . $kec,
+                'email' => strtolower(str_replace(' ', '', $kec)) . '@petugas.toba.com',
+                'password' => Hash::make('petugas123'),
+                'role' => 'petugas',
+                'telepon' => '0812' . str_pad($index + 1, 8, '0', STR_PAD_LEFT),
+                'alamat_desa' => $kec,
+                'alamat_kecamatan' => $kec,
+                'is_verified' => true,
+                'verified_at' => now(),
+                'verified_by' => 1,
+            ]);
+            $this->command->info('  ✅ ' . $kec);
+        }
 
-        // Insert petugas users
-        $petugas1 = DB::table('users')->insertGetId([
-            'name' => 'Petugas A',
-            'email' => 'petugasa@example.com',
-            'email_verified_at' => now(),
-            'password' => bcrypt('password123'),
-            'role' => 'petugas',
-            'alamat_desa' => 'Desa X',
-            'luas_lahan' => 5.0,
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        // 3. CREATE 32 PETANI
+        $this->command->info('👨‍🌾 Creating 32 Petani...');
+        $nama_petani = [
+            'Balige' => ['Jonatan Siahaan', 'Maria Situmorang'],
+            'Laguboti' => ['Parulian Panggabean', 'Ruth Simbolon'],
+            'Habinsaran' => ['Samuel Manurung', 'Esther Hutabarat'],
+            'Ajibata' => ['Daniel Simatupang', 'Sarah Lumbantobing'],
+            'Lumban Julu' => ['Andreas Sinaga', 'Rebecca Silaen'],
+            'Porsea' => ['David Nababan', 'Martha Sihombing'],
+            'Silaen' => ['Kristian Tampubolon', 'Debora Silalahi'],
+            'Sigumpar' => ['Mikhael Pasaribu', 'Anna Sitorus'],
+            'Pintupohan Meranti' => ['Gabriel Siregar', 'Eva Panjaitan'],
+            'Nassau' => ['Yohanes Sitanggang', 'Hanna Sibarani'],
+            'Siantar Narumonda' => ['Petrus Gultom', 'Magdalena Purba'],
+            'Parmaksian' => ['Lukas Hutapea', 'Rahel Simanjuntak'],
+            'Bonatua Lunasi' => ['Markus Ambarita', 'Lydia Pardede'],
+            'Tampahan' => ['Timotius Simbolon', 'Nora Manurung'],
+            'Bor Bor' => ['Filipus Siahaan', 'Ester Nababan'],
+            'Uluan' => ['Thomas Panggabean', 'Veronika Situmorang'],
+        ];
 
-        $petugas2 = DB::table('users')->insertGetId([
-            'name' => 'Petugas B',
-            'email' => 'petugasb@example.com',
-            'email_verified_at' => now(),
-            'password' => bcrypt('password123'),
-            'role' => 'petugas',
-            'alamat_desa' => 'Desa Y',
-            'luas_lahan' => 3.5,
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        $petani_counter = 1;
+        foreach ($kecamatan as $kec_idx => $kec) {
+            for ($i = 0; $i < 2; $i++) {
+                $nama = $nama_petani[$kec][$i];
+                $email = strtolower(str_replace(' ', '', $kec)) . '.petani' . ($i + 1) . '@toba.com';
 
-        // Insert bantuans
-        DB::table('bantuan')->insert([
-            [
-                'user_id' => $petugas1,
-                'jenis_bantuan' => 'Pupuk',
-                'jumlah' => 50,
-                'status' => 'Dikirim',
-                'tanggal' => '2025-10-09',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'user_id' => $petugas2,
-                'jenis_bantuan' => 'Benih Jagung',
-                'jumlah' => 30,
-                'status' => 'Diproses',
-                'tanggal' => '2025-10-04',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'user_id' => $petugas1,
-                'jenis_bantuan' => 'Alat Pertanian',
-                'jumlah' => 2,
-                'status' => 'Dikirim',
-                'tanggal' => now()->format('Y-m-d'),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-        ]);
+                User::create([
+                    'name' => $nama,
+                    'email' => $email,
+                    'password' => Hash::make('petani123'),
+                    'role' => 'petani',
+                    'telepon' => '0813' . str_pad($petani_counter, 8, '0', STR_PAD_LEFT),
+                    'alamat_desa' => $kec . ' Desa ' . ($i + 1),
+                    'alamat_kecamatan' => $kec,
+                    'luas_lahan' => rand(5, 50) / 10,
+                    'is_verified' => ($i == 0) ? true : false,
+                    'verified_at' => ($i == 0) ? now() : null,
+                    'verified_by' => ($i == 0) ? (2 + $kec_idx) : null,
+                ]);
 
-        // Insert laporans
-        DB::table('laporan')->insert([
-            [
-                'user_id' => $petugas1,
-                'nama_petani' => 'Petugas A',
-                'alamat_desa' => 'Desa X',
-                'jenis_tanaman' => 'Padi',
-                'deskripsi_kemajuan' => 'Panen Padi Selesai',
-                'hasil_panen' => 100,
-                'luas_panen' => 1.5,
-                'tanggal' => '2025-10-05',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'user_id' => $petugas2,
-                'nama_petani' => 'Petugas B',
-                'alamat_desa' => 'Desa Y',
-                'jenis_tanaman' => 'Jagung',
-                'deskripsi_kemajuan' => 'Pengaruh Dibuka',
-                'hasil_panen' => 0,
-                'luas_panen' => 0.0,
-                'tanggal' => '2025-10-06',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'user_id' => $petugas1,
-                'nama_petani' => 'Petugas A',
-                'alamat_desa' => 'Desa X',
-                'jenis_tanaman' => 'Padi',
-                'deskripsi_kemajuan' => 'Laporan baru hari ini',
-                'hasil_panen' => 50,
-                'luas_panen' => 0.75,
-                'tanggal' => now()->format('Y-m-d'),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-        ]);
+                $status = ($i == 0) ? '✅' : '⏳';
+                $this->command->info("  $status {$nama} ({$kec})");
+                $petani_counter++;
+            }
+        }
+
+        $this->command->info('=====================================');
+        $this->command->info('🎉 Seeding Completed!');
+        $this->command->info('📊 Total: 1 Admin + 16 Petugas + 32 Petani = 49 Users');
+        $this->command->info('🔑 Passwords: admin123, petugas123, petani123');
     }
 }

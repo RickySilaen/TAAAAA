@@ -74,10 +74,67 @@ return [
         ],
 
         'form_errors' => [
-    'driver' => 'single',
-    'path' => storage_path('logs/form-errors.log'),
-    'level' => 'debug',
-],
+            'driver' => 'single',
+            'path' => storage_path('logs/form-errors.log'),
+            'level' => 'debug',
+        ],
+
+        // Custom Activity Logging Channels
+        'activity' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/activity.log'),
+            'level' => 'info',
+            'days' => 30,
+        ],
+
+        'auth' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/auth.log'),
+            'level' => 'info',
+            'days' => 90, // Keep auth logs for 3 months
+        ],
+
+        'verification' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/verification.log'),
+            'level' => 'info',
+            'days' => 180, // Keep verification logs for 6 months
+        ],
+
+        'status' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/status-changes.log'),
+            'level' => 'info',
+            'days' => 60,
+        ],
+
+        'files' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/file-uploads.log'),
+            'level' => 'info',
+            'days' => 60,
+        ],
+
+        'security' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/security.log'),
+            'level' => 'warning',
+            'days' => 365, // Keep security logs for 1 year
+        ],
+
+        'query' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/query.log'),
+            'level' => 'debug',
+            'days' => 7, // Only keep query logs for 1 week
+        ],
+
+        'performance' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/performance.log'),
+            'level' => 'info',
+            'days' => 30,
+        ],
 
         'slack' => [
             'driver' => 'slack',
@@ -95,7 +152,7 @@ return [
             'handler_with' => [
                 'host' => env('PAPERTRAIL_URL'),
                 'port' => env('PAPERTRAIL_PORT'),
-                'connectionString' => 'tls://'.env('PAPERTRAIL_URL').':'.env('PAPERTRAIL_PORT'),
+                'connectionString' => 'tls://' . env('PAPERTRAIL_URL') . ':' . env('PAPERTRAIL_PORT'),
             ],
             'processors' => [PsrLogMessageProcessor::class],
         ],

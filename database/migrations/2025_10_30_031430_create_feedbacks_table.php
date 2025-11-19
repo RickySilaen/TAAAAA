@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+return new class() extends Migration
 {
     /**
      * Run the migrations.
@@ -17,9 +17,9 @@ return new class extends Migration
             $table->string('email');
             $table->string('subjek');
             $table->text('pesan');
-            $table->enum('kategori', ['saran', 'keluhan', 'pertanyaan', 'lainnya'])->default('lainnya');
-            $table->enum('status', ['baru', 'dibaca', 'ditanggapi'])->default('baru');
-            $table->timestamp('tanggal');
+            $table->string('kategori')->default('lainnya');
+            $table->string('status')->default('unread');
+            $table->timestamp('tanggal')->nullable();
             $table->timestamps();
         });
     }

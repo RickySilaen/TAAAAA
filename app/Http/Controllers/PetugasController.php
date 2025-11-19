@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Bantuan;
 use App\Models\Laporan;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Notification;
 use App\Notifications\BantuanCreated;
 use App\Notifications\LaporanCreated;
 use App\Notifications\PetaniVerified;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PetugasController extends Controller
 {
@@ -18,42 +17,31 @@ class PetugasController extends Controller
     public function dashboard()
     {
         $user = Auth::user();
-        $desa = $user->alamat_desa; // Asumsi petugas bertugas di desa tertentu
 
-        // Statistik wilayah
-        $petani_di_desa = User::where('role', 'petani')->where('alamat_desa', $desa)->count();
-        $petani_belum_verifikasi = User::where('role', 'petani')
-            ->where('alamat_desa', $desa)
-            ->where('is_verified', false)
-            ->count();
-        $laporan_di_desa = Laporan::whereHas('user', function($q) use ($desa) {
-            $q->where('alamat_desa', $desa);
-        })->count();
-        $bantuan_di_desa = Bantuan::whereHas('user', function($q) use ($desa) {
-            $q->where('alamat_desa', $desa);
-        })->count();
-        $total_hasil_panen = Laporan::whereHas('user', function($q) use ($desa) {
-            $q->where('alamat_desa', $desa);
-        })->sum('hasil_panen');
+        // Statistik
+        $jumlah_petani = User::where('role', 'petani')->count();
+        $laporan_pending = Laporan::where('status', 'pending')->count();
+        $bantuan_aktif = Bantuan::where('status', 'Diproses')->count();
+        $total_panen = Laporan::whereMonth('created_at', now()->month)->sum('hasil_panen');
 
         // Data terbaru
-        $laporan_terbaru = Laporan::whereHas('user', function($q) use ($desa) {
-            $q->where('alamat_desa', $desa);
-        })->with('user')->latest()->take(5)->get();
-        $bantuan_terbaru = Bantuan::whereHas('user', function($q) use ($desa) {
-            $q->where('alamat_desa', $desa);
-        })->with('user')->latest()->take(5)->get();
-        $notifications = Auth::user()->notifications()->latest()->take(5)->get();
+        $petani_baru = User::where('role', 'petani')
+            ->latest()
+            ->take(5)
+            ->get();
+        $laporan_terbaru = Laporan::with('user')
+            ->where('status', 'pending')
+            ->latest()
+            ->take(5)
+            ->get();
 
         return view('petugas.dashboard', compact(
-            'petani_di_desa',
-            'petani_belum_verifikasi',
-            'laporan_di_desa',
-            'bantuan_di_desa',
-            'total_hasil_panen',
-            'laporan_terbaru',
-            'bantuan_terbaru',
-            'notifications'
+            'jumlah_petani',
+            'laporan_pending',
+            'bantuan_aktif',
+            'total_panen',
+            'petani_baru',
+            'laporan_terbaru'
         ));
     }
 
@@ -66,16 +54,16 @@ class PetugasController extends Controller
         // Jika petugas punya kecamatan, filter berdasarkan kecamatan
         // Jika tidak, tampilkan semua petani
         $query = User::where('role', 'petani');
-        
+
         if ($kecamatan) {
             $query->where('alamat_kecamatan', $kecamatan);
         }
 
-        $petani = $query->orderBy('is_verified', 'asc')
+        $petanis = $query->orderBy('is_verified', 'asc')
             ->orderBy('created_at', 'desc')
             ->paginate(15);
 
-        return view('petugas.petani.index', compact('petani'));
+        return view('petugas.petani.index', compact('petanis'));
     }
 
     // Detail Petani
@@ -87,7 +75,7 @@ class PetugasController extends Controller
         // Jika petugas punya kecamatan, filter berdasarkan kecamatan
         // Jika tidak, tampilkan semua petani
         $query = User::where('role', 'petani')->where('id', $id);
-        
+
         if ($kecamatan) {
             $query->where('alamat_kecamatan', $kecamatan);
         }
@@ -108,7 +96,7 @@ class PetugasController extends Controller
         $query = User::where('role', 'petani')
             ->where('id', $id)
             ->where('is_verified', false);
-        
+
         if ($kecamatan) {
             $query->where('alamat_kecamatan', $kecamatan);
         }
@@ -139,7 +127,7 @@ class PetugasController extends Controller
         $query = User::where('role', 'petani')
             ->where('id', $id)
             ->where('is_verified', false);
-        
+
         if ($kecamatan) {
             $query->where('alamat_kecamatan', $kecamatan);
         }
@@ -160,7 +148,7 @@ class PetugasController extends Controller
         $user = Auth::user();
         $desa = $user->alamat_desa;
 
-        $laporans = Laporan::whereHas('user', function($q) use ($desa) {
+        $laporans = Laporan::whereHas('user', function ($q) use ($desa) {
             $q->where('alamat_desa', $desa);
         })->with('user')->get();
 
@@ -172,7 +160,7 @@ class PetugasController extends Controller
         $user = Auth::user();
         $desa = $user->alamat_desa;
 
-        $laporan = Laporan::whereHas('user', function($q) use ($desa) {
+        $laporan = Laporan::whereHas('user', function ($q) use ($desa) {
             $q->where('alamat_desa', $desa);
         })->with('user')->findOrFail($id);
 
@@ -184,20 +172,13 @@ class PetugasController extends Controller
         $user = Auth::user();
         $desa = $user->alamat_desa;
 
-        $laporan = Laporan::whereHas('user', function($q) use ($desa) {
+        $laporan = Laporan::whereHas('user', function ($q) use ($desa) {
             $q->where('alamat_desa', $desa);
         })->findOrFail($id);
 
-        $request->validate([
-            'status_verifikasi' => 'required|in:disetujui,ditolak',
-            'catatan_petugas' => 'nullable|string',
-        ]);
-
         $laporan->update([
-            'status_verifikasi' => $request->status_verifikasi,
-            'catatan_petugas' => $request->catatan_petugas,
-            'verified_by' => Auth::id(),
-            'verified_at' => now(),
+            'status' => 'verified',
+            'catatan' => $request->catatan ?? null,
         ]);
 
         // Kirim notifikasi ke petani
@@ -206,13 +187,30 @@ class PetugasController extends Controller
         return redirect()->route('petugas.laporan.show', $laporan->id)->with('success', 'Laporan berhasil diverifikasi!');
     }
 
+    public function laporanReject(Request $request, $id)
+    {
+        $user = Auth::user();
+        $desa = $user->alamat_desa;
+
+        $laporan = Laporan::whereHas('user', function ($q) use ($desa) {
+            $q->where('alamat_desa', $desa);
+        })->findOrFail($id);
+
+        $laporan->update([
+            'status' => 'rejected',
+            'catatan' => $request->alasan ?? null,
+        ]);
+
+        return redirect()->route('petugas.laporan.index')->with('success', 'Laporan berhasil ditolak!');
+    }
+
     // Kelola Bantuan
     public function bantuanIndex()
     {
         $user = Auth::user();
         $desa = $user->alamat_desa;
 
-        $bantuans = Bantuan::whereHas('user', function($q) use ($desa) {
+        $bantuans = Bantuan::whereHas('user', function ($q) use ($desa) {
             $q->where('alamat_desa', $desa);
         })->with('user')->get();
 
@@ -224,7 +222,7 @@ class PetugasController extends Controller
         $user = Auth::user();
         $desa = $user->alamat_desa;
 
-        $bantuan = Bantuan::whereHas('user', function($q) use ($desa) {
+        $bantuan = Bantuan::whereHas('user', function ($q) use ($desa) {
             $q->where('alamat_desa', $desa);
         })->with('user')->findOrFail($id);
 
@@ -236,7 +234,7 @@ class PetugasController extends Controller
         $user = Auth::user();
         $desa = $user->alamat_desa;
 
-        $bantuan = Bantuan::whereHas('user', function($q) use ($desa) {
+        $bantuan = Bantuan::whereHas('user', function ($q) use ($desa) {
             $q->where('alamat_desa', $desa);
         })->findOrFail($id);
 
@@ -262,19 +260,19 @@ class PetugasController extends Controller
         $user = Auth::user();
         $desa = $user->alamat_desa;
 
-        $bantuans = Bantuan::whereHas('user', function($q) use ($desa) {
+        $bantuans = Bantuan::whereHas('user', function ($q) use ($desa) {
             $q->where('alamat_desa', $desa);
         })->with('user')->paginate(10);
 
         // Statistik berdasarkan jenis bantuan
-        $statsByType = Bantuan::whereHas('user', function($q) use ($desa) {
+        $statsByType = Bantuan::whereHas('user', function ($q) use ($desa) {
             $q->where('alamat_desa', $desa);
         })->selectRaw('jenis_bantuan, COUNT(*) as total')
             ->groupBy('jenis_bantuan')
             ->get();
 
         // Statistik berdasarkan status
-        $statsByStatus = Bantuan::whereHas('user', function($q) use ($desa) {
+        $statsByStatus = Bantuan::whereHas('user', function ($q) use ($desa) {
             $q->where('alamat_desa', $desa);
         })->selectRaw('status, COUNT(*) as total')
             ->groupBy('status')

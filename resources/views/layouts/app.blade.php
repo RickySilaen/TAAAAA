@@ -22,12 +22,23 @@
     <link rel="stylesheet" href="{{ asset('css/modern-style.css') }}?v={{ time() }}">
     <link rel="stylesheet" href="{{ asset('css/modern-navbar-sidebar.css') }}?v={{ time() }}">
     <link rel="stylesheet" href="{{ asset('css/admin-modern.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/dashboard-modern.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/dashboard-enhancements.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/icon-fix.css') }}?v={{ time() }}">
 
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
-    <!-- Dashboard Enhanced JS -->
+    <!-- SVG Icon Replacer - AUTO REPLACE ALL FONTAWESOME ICONS -->
+    <script src="{{ asset('js/svg-icon-replacer.js') }}"></script>
+    
+    <!-- Icon Debug & Fix -->
+    <script src="{{ asset('js/icon-debug.js') }}"></script>
+    
+    <!-- Dashboard JS -->
     <script src="{{ asset('js/dashboard-enhanced.js') }}" defer></script>
+    <script src="{{ asset('js/dashboard-modern.js') }}" defer></script>
+    <script src="{{ asset('js/dashboard-interactive.js') }}" defer></script>
 
     <!-- Custom CSS -->
     <style>

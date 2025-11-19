@@ -15,7 +15,7 @@ class Galeri extends Model
         'gambar',
         'kategori',
         'tanggal',
-        'lokasi'
+        'lokasi',
     ];
 
     protected $casts = [

@@ -36,10 +36,10 @@ class LaporanCreated extends Notification implements ShouldQueue
      */
     public function toMail(object $notifiable): MailMessage
     {
-        return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+        return (new MailMessage())
+            ->line('The introduction to the notification.')
+            ->action('Notification Action', url('/'))
+            ->line('Thank you for using our application!');
     }
 
     /**
@@ -58,7 +58,7 @@ class LaporanCreated extends Notification implements ShouldQueue
             'tanggal' => $this->laporan->tanggal,
             'type' => 'laporan_created',
             'icon' => 'fas fa-file-lines',
-            'color' => 'primary'
+            'color' => 'primary',
         ];
     }
 }

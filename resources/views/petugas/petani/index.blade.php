@@ -44,7 +44,7 @@
                         </div>
                         <div>
                             <p class="text-sm mb-0 text-uppercase font-weight-bold">Menunggu Verifikasi</p>
-                            <h5 class="font-weight-bolder mb-0">{{ $petani->where('is_verified', false)->count() }} Petani</h5>
+                            <h5 class="font-weight-bolder mb-0">{{ $petanis->where('is_verified', false)->count() }} Petani</h5>
                         </div>
                     </div>
                 </div>
@@ -59,7 +59,7 @@
                         </div>
                         <div>
                             <p class="text-sm mb-0 text-uppercase font-weight-bold">Sudah Terverifikasi</p>
-                            <h5 class="font-weight-bolder mb-0">{{ $petani->where('is_verified', true)->count() }} Petani</h5>
+                            <h5 class="font-weight-bolder mb-0">{{ $petanis->where('is_verified', true)->count() }} Petani</h5>
                         </div>
                     </div>
                 </div>
@@ -90,11 +90,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse($petani as $index => $item)
+                                @forelse($petanis as $index => $item)
                                 <tr class="{{ !$item->is_verified ? 'table-warning' : '' }}">
                                     <td>
                                         <div class="px-3 py-1">
-                                            <p class="text-xs font-weight-bold mb-0">{{ $petani->firstItem() + $index }}</p>
+                                            <p class="text-xs font-weight-bold mb-0">{{ $petanis->firstItem() + $index }}</p>
                                         </div>
                                     </td>
                                     <td>
@@ -183,10 +183,10 @@
                         </table>
                     </div>
                 </div>
-                @if($petani->hasPages())
+                @if($petanis->hasPages())
                 <div class="card-footer">
                     <div class="d-flex justify-content-center">
-                        {{ $petani->links() }}
+                        {{ $petanis->links() }}
                     </div>
                 </div>
                 @endif
@@ -196,7 +196,7 @@
 </div>
 
 <!-- Modal Verifikasi dan Tolak untuk setiap petani -->
-@foreach($petani as $item)
+@foreach($petanis as $item)
     @if(!$item->is_verified)
         <!-- Modal Verifikasi -->
         <div class="modal fade" id="verifyModal{{ $item->id }}" tabindex="-1" aria-labelledby="verifyModalLabel{{ $item->id }}" aria-hidden="true">

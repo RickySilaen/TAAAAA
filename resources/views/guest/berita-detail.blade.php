@@ -3,7 +3,13 @@
 @section('title', $berita->judul . ' - Sistem Pertanian')
 
 @section('content')
-<div class="container-fluid py-4">
+<div class="containe                        <a href="{{ route('hasil.panen') }}" class="btn btn-outline-success btn-sm">
+                            <i class="fas fa-seedling me-1"></i>Data Panen
+                        </a>
+                        <a href="{{ route('bantuan.publik') }}" class="btn btn-outline-warning btn-sm">
+                            <i class="fas fa-hands-helping me-1"></i>Bantuan
+                        </a>
+                        <a href="{{ route('galeri') }}" class="btn btn-outline-info btn-sm"> py-4">
     <div class="row">
         <div class="col-lg-8">
             <div class="card">
@@ -12,7 +18,7 @@
                     <nav aria-label="breadcrumb" class="mb-4">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{ route('home') }}">Beranda</a></li>
-                            <li class="breadcrumb-item"><a href="{{ route('guest.berita') }}">Berita</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('berita') }}">Berita</a></li>
                             <li class="breadcrumb-item active" aria-current="page">{{ Str::limit($berita->judul, 50) }}</li>
                         </ol>
                     </nav>
@@ -84,7 +90,7 @@
                                 @endif
                                 <div class="flex-grow-1">
                                     <h6 class="mb-1">
-                                        <a href="{{ route('guest.berita.detail', $item->slug) }}" class="text-decoration-none text-dark">
+                                        <a href="{{ route('berita.detail', $item->slug) }}" class="text-decoration-none text-dark">
                                             {{ Str::limit($item->judul, 50) }}
                                         </a>
                                     </h6>
@@ -129,13 +135,13 @@
                 </div>
                 <div class="card-body">
                     <div class="d-grid gap-2">
-                        <a href="{{ route('guest.laporan.index') }}" class="btn btn-outline-success btn-sm">
+                        <a href="{{ route('hasil.panen') }}" class="btn btn-outline-success btn-sm">
                             <i class="fas fa-chart-line me-1"></i>Laporan Panen
                         </a>
-                        <a href="{{ route('guest.bantuan') }}" class="btn btn-outline-warning btn-sm">
+                        <a href="{{ route('bantuan.publik') }}" class="btn btn-outline-warning btn-sm">
                             <i class="fas fa-hand-holding-heart me-1"></i>Bantuan
                         </a>
-                        <a href="{{ route('guest.galeri') }}" class="btn btn-outline-info btn-sm">
+                        <a href="{{ route('galeri') }}" class="btn btn-outline-info btn-sm">
                             <i class="fas fa-images me-1"></i>Galeri
                         </a>
                         <a href="{{ route('kontak') }}" class="btn btn-outline-primary btn-sm">

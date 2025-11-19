@@ -21,6 +21,7 @@ class NewsletterController extends Controller
     public function index()
     {
         $newsletters = Newsletter::latest()->paginate(10);
+
         return view('admin.newsletter.index', compact('newsletters'));
     }
 
@@ -41,14 +42,14 @@ class NewsletterController extends Controller
             'subject' => 'required|string|max:255',
             'content' => 'required|string',
             'recipients' => 'required|array',
-            'recipients.*' => 'email'
+            'recipients.*' => 'email',
         ]);
 
         $newsletter = Newsletter::create([
             'subject' => $request->subject,
             'content' => $request->content,
             'recipients' => json_encode($request->recipients),
-            'status' => 'draft'
+            'status' => 'draft',
         ]);
 
         return redirect()->route('admin.newsletter.index')->with('success', 'Newsletter berhasil dibuat.');
@@ -60,6 +61,7 @@ class NewsletterController extends Controller
     public function show(string $id)
     {
         $newsletter = Newsletter::findOrFail($id);
+
         return view('admin.newsletter.show', compact('newsletter'));
     }
 
@@ -69,6 +71,7 @@ class NewsletterController extends Controller
     public function edit(string $id)
     {
         $newsletter = Newsletter::findOrFail($id);
+
         return view('admin.newsletter.edit', compact('newsletter'));
     }
 
@@ -83,13 +86,13 @@ class NewsletterController extends Controller
             'subject' => 'required|string|max:255',
             'content' => 'required|string',
             'recipients' => 'required|array',
-            'recipients.*' => 'email'
+            'recipients.*' => 'email',
         ]);
 
         $newsletter->update([
             'subject' => $request->subject,
             'content' => $request->content,
-            'recipients' => json_encode($request->recipients)
+            'recipients' => json_encode($request->recipients),
         ]);
 
         return redirect()->route('admin.newsletter.index')->with('success', 'Newsletter berhasil diperbarui.');
@@ -107,7 +110,7 @@ class NewsletterController extends Controller
     }
 
     /**
-     * Send newsletter
+     * Send newsletter.
      */
     public function send($id)
     {
@@ -124,29 +127,29 @@ class NewsletterController extends Controller
             foreach ($recipients as $email) {
                 Mail::raw($newsletter->content, function ($message) use ($newsletter, $email) {
                     $message->to($email)
-                            ->subject($newsletter->subject)
-                            ->from(config('mail.from.address'), config('mail.from.name'));
+                        ->subject($newsletter->subject)
+                        ->from(config('mail.from.address'), config('mail.from.name'));
                 });
             }
 
             $newsletter->update([
                 'status' => 'sent',
-                'sent_at' => now()
+                'sent_at' => now(),
             ]);
 
             return redirect()->route('admin.newsletter.index')->with('success', 'Newsletter berhasil dikirim ke ' . count($recipients) . ' penerima.');
-
         } catch (\Exception $e) {
             return redirect()->route('admin.newsletter.index')->with('error', 'Gagal mengirim newsletter: ' . $e->getMessage());
         }
     }
 
     /**
-     * Get all subscriber emails
+     * Get all subscriber emails.
      */
     public function getSubscribers()
     {
         $subscribers = Newsletter::where('status', 'subscribed')->pluck('email')->toArray();
+
         return response()->json($subscribers);
     }
 }

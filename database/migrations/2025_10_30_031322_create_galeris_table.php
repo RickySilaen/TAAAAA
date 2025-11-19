@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+return new class() extends Migration
 {
     /**
      * Run the migrations.
@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('judul');
             $table->text('deskripsi')->nullable();
             $table->string('gambar');
-            $table->enum('kategori', ['kegiatan', 'panen', 'pelatihan', 'lainnya'])->default('lainnya');
+            $table->string('kategori')->default('lainnya'); // Changed from enum to string
             $table->timestamp('tanggal')->nullable();
             $table->string('lokasi')->nullable();
             $table->timestamps();

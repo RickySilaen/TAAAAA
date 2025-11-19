@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Bantuan;
 use App\Models\Laporan;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
-use Barryvdh\DomPDF\Facade\Pdf;
 use App\Notifications\BantuanCreated;
 use App\Notifications\LaporanCreated;
 use App\Notifications\ProfileUpdated;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Storage;
 
 class DashboardController extends Controller
 {
@@ -27,8 +27,8 @@ class DashboardController extends Controller
             $laporan_baru = Laporan::whereDate('created_at', today())->count();
             $total_hasil_panen = Laporan::sum('hasil_panen');
 
-            $bantuans = Bantuan::latest()->take(5)->get();
-            $laporans = Laporan::latest()->take(5)->get();
+            $bantuans = Bantuan::with('user')->latest()->take(5)->get();
+            $laporans = Laporan::with('user')->latest()->take(5)->get();
             $notifications = Auth::user()->notifications()->latest()->take(5)->get();
 
             return view('admin.dashboard', compact(
@@ -55,6 +55,7 @@ class DashboardController extends Controller
     public function daftar_bantuan()
     {
         $bantuans = Bantuan::all();
+
         return view('admin.daftar_bantuan', compact('bantuans'));
     }
 
@@ -62,7 +63,7 @@ class DashboardController extends Controller
     {
         return view('admin.input_data');
     }
-    
+
     public function inputLaporan()
     {
         return view('admin.input_laporan');
@@ -120,18 +121,21 @@ class DashboardController extends Controller
     public function daftar_laporan()
     {
         $laporans = Laporan::with('user')->get();
+
         return view('admin.daftar_laporan', compact('laporans'));
     }
 
     public function profile()
     {
         $user = Auth::user();
+
         return view('admin.profile', compact('user'));
     }
 
     public function showProfile($id)
     {
         $user = User::findOrFail($id);
+
         return view('admin.profile', compact('user'));
     }
 
@@ -211,18 +215,18 @@ class DashboardController extends Controller
         return redirect()->route('profile.show', $user->id)->with('success', 'Profil berhasil diperbarui!');
     }
 
-
-
     public function hasilPanen()
     {
         $laporans = Laporan::with('user')->get();
         $total_hasil_panen = Laporan::sum('hasil_panen');
+
         return view('admin.hasil_panen', compact('laporans', 'total_hasil_panen'));
     }
 
     public function editBantuan($id)
     {
         $bantuan = Bantuan::findOrFail($id);
+
         return view('admin.edit_bantuan', compact('bantuan'));
     }
 
@@ -267,6 +271,7 @@ class DashboardController extends Controller
     public function editLaporan($id)
     {
         $laporan = Laporan::findOrFail($id);
+
         return view('admin.edit_laporan', compact('laporan'));
     }
 
@@ -303,7 +308,7 @@ class DashboardController extends Controller
 
         // Stats by desa
         $statsByDesa = Bantuan::selectRaw('users.alamat_desa, COUNT(*) as total')
-            ->join('users', 'bantuan.user_id', '=', 'users.id')
+            ->join('users', 'bantuans.user_id', '=', 'users.id')
             ->groupBy('users.alamat_desa')
             ->get();
 
@@ -319,6 +324,7 @@ class DashboardController extends Controller
     public function latestBantuan()
     {
         $bantuans = Bantuan::latest()->take(10)->get();
+
         return response()->json($bantuans);
     }
 
@@ -326,6 +332,7 @@ class DashboardController extends Controller
     {
         $bantuans = Bantuan::all();
         $pdf = Pdf::loadView('admin.exports.bantuan_pdf', compact('bantuans'));
+
         return $pdf->download('daftar_bantuan.pdf');
     }
 
@@ -333,6 +340,7 @@ class DashboardController extends Controller
     {
         $laporans = Laporan::all();
         $pdf = Pdf::loadView('admin.exports.laporan_pdf', compact('laporans'));
+
         return $pdf->download('daftar_laporan.pdf');
     }
 
@@ -354,24 +362,28 @@ class DashboardController extends Controller
     public function notificationsIndex()
     {
         $notifications = Auth::user()->notifications()->paginate(20);
+
         return view('admin.notifications', compact('notifications'));
     }
 
     public function showBantuan($id)
     {
         $bantuan = Bantuan::with('user')->findOrFail($id);
+
         return response()->json($bantuan);
     }
 
     public function showLaporan($id)
     {
         $laporan = Laporan::with('user')->findOrFail($id);
+
         return response()->json($laporan);
     }
 
     public function petaniList()
     {
         $petanis = User::where('role', 'petani')->get();
+
         return view('admin.petani_list', compact('petanis'));
     }
 
@@ -402,6 +414,7 @@ class DashboardController extends Controller
     public function editPetani($id)
     {
         $petani = User::findOrFail($id);
+
         return view('admin.edit_petani', compact('petani'));
     }
 

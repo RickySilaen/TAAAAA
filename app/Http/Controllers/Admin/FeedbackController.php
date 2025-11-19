@@ -20,6 +20,7 @@ class FeedbackController extends Controller
     public function index()
     {
         $feedbacks = Feedback::latest()->paginate(10);
+
         return view('admin.feedback.index', compact('feedbacks'));
     }
 
@@ -47,6 +48,7 @@ class FeedbackController extends Controller
     public function show(string $id)
     {
         $feedback = Feedback::findOrFail($id);
+
         return view('admin.feedback.show', compact('feedback'));
     }
 
@@ -80,7 +82,7 @@ class FeedbackController extends Controller
     }
 
     /**
-     * Mark feedback as read
+     * Mark feedback as read.
      */
     public function markAsRead($id)
     {
@@ -92,7 +94,7 @@ class FeedbackController extends Controller
     }
 
     /**
-     * Mark feedback as unread
+     * Mark feedback as unread.
      */
     public function markAsUnread($id)
     {

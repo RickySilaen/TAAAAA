@@ -9,6 +9,8 @@ class Feedback extends Model
 {
     use HasFactory;
 
+    protected $table = 'feedbacks';
+
     protected $fillable = [
         'nama',
         'email',
@@ -16,7 +18,7 @@ class Feedback extends Model
         'pesan',
         'kategori',
         'status',
-        'tanggal'
+        'tanggal',
     ];
 
     protected $casts = [

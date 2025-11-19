@@ -36,10 +36,10 @@ class ProfileUpdated extends Notification implements ShouldQueue
      */
     public function toMail(object $notifiable): MailMessage
     {
-        return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+        return (new MailMessage())
+            ->line('The introduction to the notification.')
+            ->action('Notification Action', url('/'))
+            ->line('Thank you for using our application!');
     }
 
     /**
@@ -56,7 +56,7 @@ class ProfileUpdated extends Notification implements ShouldQueue
             'user_name' => $this->user->name,
             'type' => 'profile_update',
             'icon' => 'fas fa-user-check',
-            'color' => 'success'
+            'color' => 'success',
         ];
     }
 }

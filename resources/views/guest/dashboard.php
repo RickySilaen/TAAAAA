@@ -1,7 +1,7 @@
 <?php
-$totalCrops    = $totalCrops ?? 25;
+$totalCrops = $totalCrops ?? 25;
 $farmingGuides = $farmingGuides ?? 12;
-$weatherUpdates= $weatherUpdates ?? 'Daily';
+$weatherUpdates = $weatherUpdates ?? 'Daily';
 ?>
 <!DOCTYPE html>
 <html lang="en">

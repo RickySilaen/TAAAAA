@@ -2,12 +2,18 @@
 
 namespace App\Models;
 
+use App\Traits\OptimizedQuery;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
+    use HasApiTokens;
+    use HasFactory;
     use Notifiable;
+    use OptimizedQuery;
 
     protected $fillable = [
         'name',
@@ -32,7 +38,6 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
             'verified_at' => 'datetime',
             'password' => 'hashed',
             'is_verified' => 'boolean',
@@ -50,7 +55,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Relasi ke petugas yang memverifikasi akun ini
+     * Relasi ke petugas yang memverifikasi akun ini.
      */
     public function verifiedBy()
     {
@@ -58,7 +63,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Relasi ke petani yang diverifikasi oleh petugas ini
+     * Relasi ke petani yang diverifikasi oleh petugas ini.
      */
     public function verifiedPetani()
     {

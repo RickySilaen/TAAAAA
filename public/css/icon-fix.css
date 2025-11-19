@@ -1,0 +1,278 @@
+/**
+ * Icon Visibility Fix - SUPER STRONG VERSION
+ * Memastikan semua icon FontAwesome terlihat dengan jelas
+ */
+
+/* Stat Card Icons - Force Visibility */
+.stat-icon {
+    width: 64px !important;
+    height: 64px !important;
+    border-radius: 14px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+    position: relative;
+    overflow: visible !important;
+}
+
+.stat-icon i,
+.stat-icon .fas,
+.stat-icon .far,
+.stat-icon .fab {
+    font-size: 32px !important;
+    line-height: 1 !important;
+    display: inline-block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    font-family: "Font Awesome 6 Free" !important;
+    font-weight: 900 !important;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+}
+
+/* Green Icon - VERY VISIBLE */
+.stat-icon-green {
+    background: linear-gradient(135deg, #a8e6cf 0%, #81c995 100%) !important;
+    border: 3px solid #27ae60 !important;
+}
+
+.stat-icon-green i,
+.stat-icon-green .fas,
+.stat-icon-green .far {
+    color: #0d5c2d !important;
+}
+
+/* Blue Icon - VERY VISIBLE */
+.stat-icon-blue {
+    background: linear-gradient(135deg, #a8d5f0 0%, #81b8d9 100%) !important;
+    border: 3px solid #3498db !important;
+}
+
+.stat-icon-blue i,
+.stat-icon-blue .fas,
+.stat-icon-blue .far {
+    color: #1a5c8a !important;
+}
+
+/* Yellow Icon - VERY VISIBLE */
+.stat-icon-yellow {
+    background: linear-gradient(135deg, #ffe4a8 0%, #ffd981 100%) !important;
+    border: 3px solid #ffb300 !important;
+}
+
+.stat-icon-yellow i,
+.stat-icon-yellow .fas,
+.stat-icon-yellow .far {
+    color: #9a6a00 !important;
+}
+
+/* Purple Icon - VERY VISIBLE */
+.stat-icon-purple {
+    background: linear-gradient(135deg, #d4c5f0 0%, #b8a5d9 100%) !important;
+    border: 3px solid #6B46C1 !important;
+}
+
+.stat-icon-purple i,
+.stat-icon-purple .fas,
+.stat-icon-purple .far {
+    color: #3d2870 !important;
+}
+
+/* Quick Action Icons */
+.quick-action-icon-large {
+    width: 70px !important;
+    height: 70px !important;
+    border-radius: 16px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    background: linear-gradient(135deg, #27ae60, #1e8449) !important;
+    color: white !important;
+    box-shadow: 0 6px 16px rgba(39, 174, 96, 0.3) !important;
+    transition: all 0.3s ease !important;
+}
+
+.quick-action-icon-large i,
+.quick-action-icon-large .fas {
+    font-size: 32px !important;
+    color: white !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Notification Icons */
+.notification-icon {
+    width: 48px !important;
+    height: 48px !important;
+    border-radius: 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    background: rgba(39, 174, 96, 0.15) !important;
+}
+
+.notification-icon i,
+.notification-icon .fas {
+    font-size: 1.25rem !important;
+    color: #27ae60 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Quick Stat Icons */
+.quick-stat-icon {
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.quick-stat-icon i,
+.quick-stat-icon .fas {
+    font-size: 1.25rem !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+.bg-success-soft .quick-stat-icon i,
+.bg-success-soft i {
+    color: #27ae60 !important;
+}
+
+.bg-warning-soft .quick-stat-icon i,
+.bg-warning-soft i {
+    color: #ffb300 !important;
+}
+
+.bg-primary-soft .quick-stat-icon i,
+.bg-primary-soft i {
+    color: #3498db !important;
+}
+
+.bg-purple-soft .quick-stat-icon i,
+.bg-purple-soft i {
+    color: #6B46C1 !important;
+}
+
+/* Sidebar Icons */
+.sidebar-menu-icon {
+    width: 24px !important;
+    height: 24px !important;
+    margin-right: 0.875rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.sidebar-menu-icon i,
+.sidebar-menu-icon .fas {
+    font-size: 1.2rem !important;
+    color: inherit !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Page Header Icons */
+.page-header-modern h2 i {
+    font-size: 1.5rem !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Badge Icons */
+.badge i,
+.stat-badge i {
+    opacity: 1 !important;
+    visibility: visible !important;
+    margin-right: 0.25rem;
+}
+
+/* Card Header Icons */
+.modern-card-header i {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Button Icons */
+.btn i {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Tips Icons */
+.tips-icon {
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 10px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+}
+
+.tips-icon i,
+.tips-icon .fas {
+    font-size: 1.25rem !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Bantuan Icons */
+.bantuan-icon {
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+}
+
+.bantuan-icon i,
+.bantuan-icon .fas {
+    font-size: 1.5rem !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Override any conflicting styles */
+* .stat-icon i {
+    opacity: 1 !important;
+    visibility: visible !important;
+    color: inherit !important;
+}
+
+[class*="icon"] i::before {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Ensure FontAwesome is loaded properly */
+.fas, .far, .fab, .fa {
+    font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands" !important;
+    font-weight: 900 !important;
+    -webkit-font-smoothing: antialiased !important;
+    display: inline-block !important;
+    font-style: normal !important;
+    font-variant: normal !important;
+    text-rendering: auto !important;
+    line-height: 1 !important;
+}
+
+.far {
+    font-weight: 400 !important;
+}
+
+/* Additional icon visibility */
+i[class^="fa-"],
+i[class*=" fa-"] {
+    display: inline-block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}

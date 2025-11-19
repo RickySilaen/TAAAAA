@@ -22,6 +22,7 @@ class BeritaController extends Controller
     public function index()
     {
         $beritas = Berita::latest()->paginate(10);
+
         return view('admin.berita.index', compact('beritas'));
     }
 
@@ -40,10 +41,11 @@ class BeritaController extends Controller
     {
         $request->validate([
             'judul' => 'required|string|max:255',
+            'kategori' => 'nullable|string|max:255',
             'konten' => 'required|string',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'status' => 'required|in:draft,published',
-            'tanggal_publikasi' => 'nullable|date'
+            'tanggal_publikasi' => 'nullable|date',
         ]);
 
         $data = $request->all();
@@ -69,6 +71,7 @@ class BeritaController extends Controller
     public function show(string $id)
     {
         $berita = Berita::findOrFail($id);
+
         return view('admin.berita.show', compact('berita'));
     }
 
@@ -78,6 +81,7 @@ class BeritaController extends Controller
     public function edit(string $id)
     {
         $berita = Berita::findOrFail($id);
+
         return view('admin.berita.edit', compact('berita'));
     }
 
@@ -90,10 +94,11 @@ class BeritaController extends Controller
 
         $request->validate([
             'judul' => 'required|string|max:255',
+            'kategori' => 'nullable|string|max:255',
             'konten' => 'required|string',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'status' => 'required|in:draft,published',
-            'tanggal_publikasi' => 'nullable|date'
+            'tanggal_publikasi' => 'nullable|date',
         ]);
 
         $data = $request->all();
@@ -138,7 +143,7 @@ class BeritaController extends Controller
     }
 
     /**
-     * Toggle status of the berita
+     * Toggle status of the berita.
      */
     public function toggleStatus($id)
     {

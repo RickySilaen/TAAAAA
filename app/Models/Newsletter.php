@@ -13,7 +13,7 @@ class Newsletter extends Model
         'email',
         'nama',
         'status',
-        'subscribed_at'
+        'subscribed_at',
     ];
 
     protected $casts = [

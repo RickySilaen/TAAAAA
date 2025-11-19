@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Validator;
 class PetugasController extends Controller
 {
     /**
-     * Constructor - memastikan hanya admin yang bisa akses
+     * Constructor - memastikan hanya admin yang bisa akses.
      */
     public function __construct()
     {
@@ -26,7 +26,7 @@ class PetugasController extends Controller
         $petugas = User::where('role', 'petugas')
             ->orderBy('created_at', 'desc')
             ->paginate(10);
-            
+
         return view('admin.petugas.index', compact('petugas'));
     }
 
@@ -96,6 +96,7 @@ class PetugasController extends Controller
     public function show($id)
     {
         $petugas = User::where('role', 'petugas')->findOrFail($id);
+
         return view('admin.petugas.show', compact('petugas'));
     }
 
@@ -105,6 +106,7 @@ class PetugasController extends Controller
     public function edit($id)
     {
         $petugas = User::where('role', 'petugas')->findOrFail($id);
+
         return view('admin.petugas.edit', compact('petugas'));
     }
 

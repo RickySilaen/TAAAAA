@@ -44,7 +44,7 @@ class LoginController extends Controller
     }
 
     /**
-     * Validasi kredensial dan status verifikasi
+     * Validasi kredensial dan status verifikasi.
      */
     protected function credentials(Request $request)
     {
@@ -52,41 +52,42 @@ class LoginController extends Controller
     }
 
     /**
-     * Override method untuk cek verifikasi setelah kredensial valid
+     * Override method untuk cek verifikasi setelah kredensial valid.
      */
     protected function attemptLogin(Request $request)
     {
         $credentials = $this->credentials($request);
-        
+
         // Cek apakah user ada
         $user = \App\Models\User::where('email', $credentials['email'])->first();
-        
+
         // Jika user adalah petani dan belum terverifikasi
-        if ($user && $user->role === 'petani' && !$user->is_verified) {
+        if ($user && $user->role === 'petani' && ! $user->is_verified) {
             return false; // Gagalkan login
         }
-        
+
         // Lanjutkan proses login normal
         return $this->guard()->attempt(
-            $credentials, $request->filled('remember')
+            $credentials,
+            $request->filled('remember')
         );
     }
 
     /**
-     * Override untuk menampilkan pesan error khusus untuk akun belum terverifikasi
+     * Override untuk menampilkan pesan error khusus untuk akun belum terverifikasi.
      */
     protected function sendFailedLoginResponse(Request $request)
     {
         $user = \App\Models\User::where('email', $request->email)->first();
-        
-        if ($user && $user->role === 'petani' && !$user->is_verified) {
+
+        if ($user && $user->role === 'petani' && ! $user->is_verified) {
             return redirect()->back()
                 ->withInput($request->only('email', 'remember'))
                 ->withErrors([
                     'email' => 'Akun Anda belum diverifikasi oleh petugas. Silakan tunggu konfirmasi dari petugas daerah Anda.',
                 ]);
         }
-        
+
         return redirect()->back()
             ->withInput($request->only('email', 'remember'))
             ->withErrors([

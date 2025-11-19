@@ -1,0 +1,35 @@
+includes:
+    - ./vendor/nunomaduro/larastan/extension.neon
+
+parameters:
+    paths:
+        - app
+        - config
+        - database
+        - routes
+    
+    # Rule level (0-9, 9 is strictest)
+    level: 5
+    
+    # Ignore errors
+    ignoreErrors:
+        - '#Unsafe usage of new static#'
+    
+    # Excluded files/directories
+    excludePaths:
+        - ./*/*/FileToBeExcluded.php
+        - bootstrap/cache/*
+        - storage/*
+        - vendor/*
+    
+    # Bleeding edge features
+    treatPhpDocTypesAsCertain: true
+    
+    # Custom rules
+    reportUnmatchedIgnoredErrors: false
+    
+    # Parallel processing
+    parallel:
+        jobSize: 20
+        maximumNumberOfProcesses: 32
+        minimumNumberOfJobsPerProcess: 2

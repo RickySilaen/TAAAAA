@@ -1,22 +1,30 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\GuestController;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Admin\BeritaController;
-use App\Http\Controllers\Admin\GaleriController;
 use App\Http\Controllers\Admin\FeedbackController;
+use App\Http\Controllers\Admin\GaleriController;
 use App\Http\Controllers\Admin\NewsletterController;
 use App\Http\Controllers\Admin\PetugasController as AdminPetugasController;
 use App\Http\Controllers\AdminPetaniController;
-use App\Http\Controllers\PetugasController;
-use App\Http\Controllers\PetaniController;
-
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\GuestController;
+use App\Http\Controllers\HealthCheckController;
 use App\Http\Controllers\InputDataController;
+use App\Http\Controllers\PetaniController;
+use App\Http\Controllers\PetugasController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| Health Check Routes
+|--------------------------------------------------------------------------
+*/
+Route::get('/health', [HealthCheckController::class, 'index']);
+Route::get('/health/detailed', [HealthCheckController::class, 'detailed']);
 
 /*
 |--------------------------------------------------------------------------
@@ -52,10 +60,14 @@ Route::get('/download/laporan/pdf', [GuestController::class, 'downloadLaporanPdf
 | Authentication Routes (Login, Register, Logout)
 |--------------------------------------------------------------------------
 */
-Route::middleware('guest')->group(function () {
+
+// Authentication Routes (without email verification)
+Auth::routes();
+
+Route::middleware(['guest', 'throttle:5,1'])->group(function () {
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [LoginController::class, 'login']);
-    
+
     Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
     Route::post('/register', [RegisterController::class, 'register']);
 });
@@ -69,17 +81,17 @@ Route::post('/logout', [LoginController::class, 'logout'])
 | Authenticated User Routes (Butuh Login)
 |--------------------------------------------------------------------------
 */
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     // Dashboard - Auto redirect berdasarkan role
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    
+
     /*
     |--------------------------------------------------------------------------
     | SHARED ROUTES (Admin, Petugas, Petani)
     |--------------------------------------------------------------------------
     | Routes yang bisa diakses oleh semua role yang sudah login
     */
-    
+
     // Profil (Semua role bisa edit profil sendiri)
     Route::get('/profile', [DashboardController::class, 'profile'])->name('profile');
     Route::get('/profile/{id}', [DashboardController::class, 'showProfile'])->name('profile.show');
@@ -97,7 +109,7 @@ Route::middleware('auth')->group(function () {
     |--------------------------------------------------------------------------
     | Routes lama yang masih dipakai, akan di-refactor bertahap
     */
-    
+
     // TODO: Pindahkan ke petani routes
     Route::get('/daftar-bantuan', [DashboardController::class, 'daftar_bantuan'])->name('daftar.bantuan');
     Route::get('/input-laporan', [DashboardController::class, 'inputLaporan'])->name('input.laporan');
@@ -121,8 +133,6 @@ Route::middleware('auth')->group(function () {
     Route::put('/edit-petani/{id}', [DashboardController::class, 'updatePetani'])->name('update.petani');
     Route::delete('/delete-petani/{id}', [DashboardController::class, 'deletePetani'])->name('delete.petani');
 
-
-
     // Monitoring & Export
     Route::get('/hasil-panen', [DashboardController::class, 'hasilPanen'])->name('hasil.panen');
     Route::get('/monitoring', [DashboardController::class, 'monitoring'])->name('monitoring');
@@ -138,8 +148,6 @@ Route::middleware('auth')->group(function () {
     // API
     Route::get('/api/bantuan/{id}', [DashboardController::class, 'showBantuan'])->name('api.bantuan.show');
     Route::get('/api/laporan/{id}', [DashboardController::class, 'showLaporan'])->name('api.laporan.show');
-
-
 
     /*
     |--------------------------------------------------------------------------
@@ -160,6 +168,7 @@ Route::middleware('auth')->group(function () {
         Route::get('laporan', [PetugasController::class, 'laporanIndex'])->name('laporan.index');
         Route::get('laporan/{laporan}', [PetugasController::class, 'laporanShow'])->name('laporan.show');
         Route::post('laporan/{laporan}/verify', [PetugasController::class, 'laporanVerify'])->name('laporan.verify');
+        Route::delete('laporan/{laporan}/reject', [PetugasController::class, 'laporanReject'])->name('laporan.reject');
 
         // Bantuan Management
         Route::get('bantuan', [PetugasController::class, 'bantuanIndex'])->name('bantuan.index');
@@ -190,9 +199,12 @@ Route::middleware('auth')->group(function () {
 
         // Bantuan Management
         Route::get('bantuan', [PetaniController::class, 'bantuanIndex'])->name('bantuan.index');
+        Route::get('bantuan/create', [PetaniController::class, 'bantuanCreate'])->name('bantuan.create');
+        Route::post('bantuan', [PetaniController::class, 'bantuanStore'])->name('bantuan.store');
         Route::get('bantuan/{bantuan}', [PetaniController::class, 'bantuanShow'])->name('bantuan.show');
         Route::get('bantuan/{bantuan}/edit', [PetaniController::class, 'bantuanEdit'])->name('bantuan.edit');
         Route::put('bantuan/{bantuan}', [PetaniController::class, 'bantuanUpdate'])->name('bantuan.update');
+        Route::delete('bantuan/{bantuan}', [PetaniController::class, 'bantuanDestroy'])->name('bantuan.destroy');
     });
 
     /*
@@ -203,10 +215,10 @@ Route::middleware('auth')->group(function () {
     Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
         // Manajemen Petugas
         Route::resource('petugas', AdminPetugasController::class);
-        
+
         // Manajemen Petani
         Route::resource('petani', AdminPetaniController::class);
-        
+
         // Berita
         Route::resource('berita', BeritaController::class);
         Route::post('berita/{id}/toggle-status', [BeritaController::class, 'toggleStatus'])->name('berita.toggle-status');
@@ -225,14 +237,15 @@ Route::middleware('auth')->group(function () {
         Route::get('newsletter-subscribers', [NewsletterController::class, 'getSubscribers'])->name('newsletter.subscribers');
     });
     Route::post('/log/error', function (Request $request) {
-    \Log::channel('form_errors')->error('Form Validation Error', [
-        'form' => $request->form,
-        'errors' => $request->errors,
-        'input' => $request->input,
-        'url' => $request->url,
-        'user_agent' => $request->userAgent(),
-        'user_id' => auth()->id() ?? 'guest'
-    ]);
-    return response()->json(['status' => 'logged']);
-})->name('log.error');
+        \Log::channel('form_errors')->error('Form Validation Error', [
+            'form' => $request->form,
+            'errors' => $request->errors,
+            'input' => $request->input,
+            'url' => $request->url,
+            'user_agent' => $request->userAgent(),
+            'user_id' => auth()->id() ?? 'guest',
+        ]);
+
+        return response()->json(['status' => 'logged']);
+    })->name('log.error');
 });

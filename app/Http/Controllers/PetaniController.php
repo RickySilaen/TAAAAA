@@ -2,17 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Bantuan;
 use App\Models\Laporan;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Notification;
 use App\Notifications\LaporanCreated;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 
 class PetaniController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            if (Auth::check() && Auth::user()->role === 'petani' && ! Auth::user()->is_verified) {
+                // Only block laporan/bantuan creation, not dashboard
+                $route = $request->route()->getName();
+                if (str_contains($route, 'laporan') || str_contains($route, 'bantuan')) {
+                    return redirect('/dashboard')->with('error', 'Akun Anda belum terverifikasi. Silakan tunggu verifikasi dari petugas.');
+                }
+            }
+
+            return $next($request);
+        });
+    }
+
     // Dashboard Petani
     public function dashboard()
     {
@@ -20,30 +34,30 @@ class PetaniController extends Controller
 
         // Statistik petani
         $total_laporan = Laporan::where('user_id', $user->id)->count();
-        $total_bantuan = Bantuan::where('user_id', $user->id)->count();
-        $bantuan_pending = Bantuan::where('user_id', $user->id)->where('status', 'pending')->count();
-        $bantuan_disetujui = Bantuan::where('user_id', $user->id)->where('status', 'disetujui')->count();
-        $total_hasil_panen = Laporan::where('user_id', $user->id)->sum('hasil_panen');
+        $laporan_bulan_ini = Laporan::where('user_id', $user->id)
+            ->whereMonth('created_at', now()->month)
+            ->count();
+        $bantuan_diterima = Bantuan::where('user_id', $user->id)
+            ->where('status', 'Dikirim')
+            ->count();
+        $total_panen = Laporan::where('user_id', $user->id)->sum('hasil_panen');
 
         // Data terbaru
         $laporan_terbaru = Laporan::where('user_id', $user->id)->latest()->take(5)->get();
-        $bantuan_terbaru = Bantuan::where('user_id', $user->id)->latest()->take(5)->get();
-        $notifications = Auth::user()->notifications()->latest()->take(5)->get();
+        $bantuan_terbaru = Bantuan::where('user_id', $user->id)->latest()->take(3)->get();
 
         return view('petani.dashboard', compact(
             'total_laporan',
-            'total_bantuan',
-            'bantuan_pending',
-            'bantuan_disetujui',
-            'total_hasil_panen',
+            'laporan_bulan_ini',
+            'bantuan_diterima',
+            'total_panen',
             'laporan_terbaru',
-            'bantuan_terbaru',
-            'notifications'
+            'bantuan_terbaru'
         ));
     }
 
     // ==================== LAPORAN MANAGEMENT ====================
-    
+
     public function laporanIndex()
     {
         $user = Auth::user();
@@ -67,7 +81,7 @@ class PetaniController extends Controller
             'hasil_panen' => 'required|numeric|min:0',
             'tanggal_panen' => 'required|date',
             'keterangan' => 'nullable|string',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         $validated['user_id'] = Auth::id();
@@ -94,7 +108,7 @@ class PetaniController extends Controller
     {
         // Pastikan hanya pemilik yang bisa lihat
         if ($laporan->user_id !== Auth::id()) {
-            abort(403, 'Unauthorized');
+            abort(404);
         }
 
         return view('petani.laporan.show', compact('laporan'));
@@ -104,7 +118,7 @@ class PetaniController extends Controller
     {
         // Pastikan hanya pemilik yang bisa edit
         if ($laporan->user_id !== Auth::id()) {
-            abort(403, 'Unauthorized');
+            abort(404);
         }
 
         // Hanya bisa edit jika status masih pending
@@ -120,7 +134,7 @@ class PetaniController extends Controller
     {
         // Pastikan hanya pemilik yang bisa update
         if ($laporan->user_id !== Auth::id()) {
-            abort(403, 'Unauthorized');
+            abort(404);
         }
 
         // Hanya bisa update jika status masih pending
@@ -135,7 +149,7 @@ class PetaniController extends Controller
             'hasil_panen' => 'required|numeric|min:0',
             'tanggal_panen' => 'required|date',
             'keterangan' => 'nullable|string',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         // Handle foto upload
@@ -160,7 +174,7 @@ class PetaniController extends Controller
     {
         // Pastikan hanya pemilik yang bisa delete
         if ($laporan->user_id !== Auth::id()) {
-            abort(403, 'Unauthorized');
+            abort(404);
         }
 
         // Hanya bisa delete jika status masih pending
@@ -180,7 +194,7 @@ class PetaniController extends Controller
     }
 
     // ==================== BANTUAN MANAGEMENT ====================
-    
+
     public function bantuanIndex()
     {
         $user = Auth::user();
@@ -191,11 +205,33 @@ class PetaniController extends Controller
         return view('petani.bantuan.index', compact('bantuans'));
     }
 
+    public function bantuanCreate()
+    {
+        return view('petani.bantuan.create');
+    }
+
+    public function bantuanStore(Request $request)
+    {
+        $validated = $request->validate([
+            'jenis_bantuan' => 'required|string|max:255',
+            'jumlah' => 'required|numeric|min:1',
+            'tanggal_permintaan' => 'required|date',
+            'keterangan' => 'nullable|string',
+        ]);
+
+        $validated['user_id'] = Auth::id();
+        $validated['status'] = 'pending';
+
+        Bantuan::create($validated);
+
+        return redirect()->route('petani.bantuan.index')->with('success', 'Permohonan bantuan berhasil dibuat!');
+    }
+
     public function bantuanShow(Bantuan $bantuan)
     {
         // Pastikan hanya pemilik yang bisa lihat
         if ($bantuan->user_id !== Auth::id()) {
-            abort(403, 'Unauthorized');
+            abort(404);
         }
 
         return view('petani.bantuan.show', compact('bantuan'));
@@ -205,7 +241,7 @@ class PetaniController extends Controller
     {
         // Pastikan hanya pemilik yang bisa edit
         if ($bantuan->user_id !== Auth::id()) {
-            abort(403, 'Unauthorized');
+            abort(404);
         }
 
         // Hanya bisa edit jika status masih pending
@@ -221,7 +257,7 @@ class PetaniController extends Controller
     {
         // Pastikan hanya pemilik yang bisa update
         if ($bantuan->user_id !== Auth::id()) {
-            abort(403, 'Unauthorized');
+            abort(404);
         }
 
         // Hanya bisa update jika status masih pending
@@ -233,8 +269,10 @@ class PetaniController extends Controller
         $validated = $request->validate([
             'jenis_bantuan' => 'required|string|max:255',
             'jumlah' => 'required|numeric|min:0',
-            'alasan' => 'required|string',
-            'dokumen' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048'
+            'alasan' => 'nullable|string',
+            'keterangan' => 'nullable|string',
+            'tanggal_permintaan' => 'nullable|date',
+            'dokumen' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
         ]);
 
         // Handle dokumen upload
@@ -253,5 +291,23 @@ class PetaniController extends Controller
         $bantuan->update($validated);
 
         return redirect()->route('petani.bantuan.index')->with('success', 'Bantuan berhasil diperbarui!');
+    }
+
+    public function bantuanDestroy(Bantuan $bantuan)
+    {
+        // Pastikan hanya pemilik yang bisa delete
+        if ($bantuan->user_id !== Auth::id()) {
+            abort(404);
+        }
+
+        // Hanya bisa delete jika status masih pending
+        if ($bantuan->status !== 'pending') {
+            return redirect()->route('petani.bantuan.index')
+                ->with('error', 'Bantuan yang sudah diproses tidak dapat dihapus!');
+        }
+
+        $bantuan->delete();
+
+        return redirect()->route('petani.bantuan.index')->with('success', 'Permohonan bantuan berhasil dihapus!');
     }
 }

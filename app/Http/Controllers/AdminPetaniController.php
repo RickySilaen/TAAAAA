@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -11,7 +10,7 @@ use Illuminate\Support\Facades\Validator;
 class AdminPetaniController extends Controller
 {
     /**
-     * Constructor - memastikan hanya admin yang bisa akses
+     * Constructor - memastikan hanya admin yang bisa akses.
      */
     public function __construct()
     {
@@ -26,7 +25,7 @@ class AdminPetaniController extends Controller
         $petani = User::where('role', 'petani')
             ->orderBy('created_at', 'desc')
             ->paginate(10);
-            
+
         return view('admin.petani.index', compact('petani'));
     }
 
@@ -96,12 +95,12 @@ class AdminPetaniController extends Controller
     public function show($id)
     {
         $petani = User::where('role', 'petani')->findOrFail($id);
-        
+
         // Statistik petani
         $total_laporan = $petani->laporans()->count();
         $total_bantuan = $petani->bantuans()->count();
         $total_hasil_panen = $petani->laporans()->sum('hasil_panen');
-        
+
         return view('admin.petani.show', compact('petani', 'total_laporan', 'total_bantuan', 'total_hasil_panen'));
     }
 
@@ -111,6 +110,7 @@ class AdminPetaniController extends Controller
     public function edit($id)
     {
         $petani = User::where('role', 'petani')->findOrFail($id);
+
         return view('admin.petani.edit', compact('petani'));
     }
 
@@ -158,7 +158,7 @@ class AdminPetaniController extends Controller
             if ($request->filled('password')) {
                 $updateData['password'] = Hash::make($request->password);
             }
-            
+
             // Update status verifikasi jika ada perubahan
             if ($request->has('is_verified') && $request->is_verified != $petani->is_verified) {
                 $updateData['is_verified'] = $request->is_verified;
@@ -184,16 +184,16 @@ class AdminPetaniController extends Controller
     {
         try {
             $petani = User::where('role', 'petani')->findOrFail($id);
-            
+
             // Cek apakah petani punya data terkait
             $has_laporans = $petani->laporans()->count() > 0;
             $has_bantuans = $petani->bantuans()->count() > 0;
-            
+
             if ($has_laporans || $has_bantuans) {
                 return redirect()->back()
                     ->with('warning', 'Petani tidak bisa dihapus karena memiliki data laporan atau bantuan. Silakan hapus data terkait terlebih dahulu atau nonaktifkan akun petani.');
             }
-            
+
             $petani->delete();
 
             return redirect()->route('admin.petani.index')
@@ -203,22 +203,22 @@ class AdminPetaniController extends Controller
                 ->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
-    
+
     /**
-     * Toggle verification status of petani
+     * Toggle verification status of petani.
      */
     public function toggleVerification($id)
     {
         try {
             $petani = User::where('role', 'petani')->findOrFail($id);
-            
-            $petani->is_verified = !$petani->is_verified;
+
+            $petani->is_verified = ! $petani->is_verified;
             $petani->verified_at = $petani->is_verified ? now() : null;
             $petani->verified_by = $petani->is_verified ? auth()->id() : null;
             $petani->save();
-            
+
             $status = $petani->is_verified ? 'diverifikasi' : 'dibatalkan verifikasinya';
-            
+
             return redirect()->back()
                 ->with('success', "Petani berhasil {$status}!");
         } catch (\Exception $e) {

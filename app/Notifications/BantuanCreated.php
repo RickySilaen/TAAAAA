@@ -36,10 +36,10 @@ class BantuanCreated extends Notification implements ShouldQueue
      */
     public function toMail(object $notifiable): MailMessage
     {
-        return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+        return (new MailMessage())
+            ->line('The introduction to the notification.')
+            ->action('Notification Action', url('/'))
+            ->line('Thank you for using our application!');
     }
 
     /**
@@ -58,7 +58,7 @@ class BantuanCreated extends Notification implements ShouldQueue
             'status' => $this->bantuan->status,
             'type' => 'bantuan_created',
             'icon' => 'fas fa-plus-circle',
-            'color' => 'info'
+            'color' => 'info',
         ];
     }
 }

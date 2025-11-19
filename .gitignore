@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+# Laravel & PHP
 *.log
 .DS_Store
 .env
@@ -23,35 +23,21 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
-=======
-/vendor/
-node_modules/
 npm-debug.log
 yarn-error.log
 
-# Laravel 4 specific
+# Laravel specific
 bootstrap/compiled.php
 app/storage/
-
-# Laravel 5 & Lumen specific
-public/storage
-public/hot
-
-# Laravel 5 & Lumen specific with changed public path
 public_html/storage
 public_html/hot
-
-storage/*.key
-.env
-Homestead.yaml
-Homestead.json
 /.vagrant
-.phpunit.result.cache
 
-/public/build
-/storage/pail
-.env.backup
-.env.production
-.phpactor.json
-auth.json
->>>>>>> 80c683086934fbc3adbe20047b09bed74ddc7374
+# Backup files (development)
+*_backup.blade.php
+*_backup.php
+*-backup.blade.php
+*-ultra-modern.blade.php
+*-modern.blade.php
+*-v2.blade.php
+
