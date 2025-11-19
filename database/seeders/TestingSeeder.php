@@ -29,8 +29,6 @@ class TestingSeeder extends Seeder
      * - 200 newsletter subscriptions
      *
      * Total: 697+ records
-     *
-     * @return void
      */
     public function run(): void
     {

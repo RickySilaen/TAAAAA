@@ -60,7 +60,7 @@ Implementasi lengkap sistem Code Quality & DevOps Infrastructure untuk meningkat
 **Configuration**: `phpstan.neon`
 ```neon
 includes:
-    - ./vendor/nunomaduro/larastan/extension.neon
+    - ./vendor/larastan/larastan/extension.neon
 
 parameters:
     paths: [app, config, database, routes]

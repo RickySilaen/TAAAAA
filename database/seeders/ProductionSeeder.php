@@ -17,8 +17,6 @@ class ProductionSeeder extends Seeder
      * - 2 Officers (Petugas)
      *
      * ⚠️ IMPORTANT: Change all default passwords after first login!
-     *
-     * @return void
      */
     public function run(): void
     {
