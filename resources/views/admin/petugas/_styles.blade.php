@@ -1,445 +1,588 @@
 <style>
-:root {
-    --primary-color: #667eea;
-    --primary-dark: #5a67d8;
-    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    --success-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
-    --warning-gradient: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-    --danger-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-    --secondary-color: #edf2f7;
-    --text-color: #2d3748;
-    --light-text-color: #4a5568;
-    --border-color: #e2e8f0;
-    --bg-light: #f7fafc;
-    --card-bg: #ffffff;
+/* ========== PETUGAS PAGE STYLES ========== */
 
-    /* Shadows */
-    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
-    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
-
-    /* Radius */
-    --border-radius-sm: 0.5rem;
-    --border-radius-md: 0.75rem;
-    --border-radius-lg: 1rem;
-
-    /* Transition */
-    --transition-ease: all 0.3s ease;
-    --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    --border-radius: 16px;
-    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+/* Page Header */
+.page-header.petugas-header,
+.page-header-edit.petugas-header,
+.page-header-create.petugas-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3) !important;
+    padding: 1.75rem 2rem !important;
+    margin-bottom: 1.5rem !important;
+    color: #fff !important;
+    position: relative !important;
+    overflow: hidden !important;
 }
 
-/* Base */
-body {
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-    color: var(--text-color);
-    font-family: 'Inter', 'Segoe UI', sans-serif;
-    min-height: 100vh;
+.page-header-create.petugas-header {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
 }
 
-.container-fluid {
-    padding: 0 1.5rem;
+.page-header-edit.petugas-header {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
 }
 
-/* ========== PAGE HEADER ========== */
-.page-header,
-.page-header-edit,
-.page-header-create {
-    background: var(--primary-gradient);
-    border-radius: 18px;
-    box-shadow: 0 8px 32px rgba(102,126,234,0.08);
-    padding: 2rem 2.5rem;
-    margin-bottom: 2rem;
-    color: #fff;
-    position: relative;
-    overflow: hidden;
+.petugas-header h1 {
+    font-size: 1.75rem !important;
+    font-weight: 700 !important;
+    margin-bottom: 0.25rem !important;
+    color: #fff !important;
 }
 
-.page-header h1,
-.page-header-edit h1,
-.page-header-create h1 {
-    font-size: 2.2rem;
-    font-weight: 800;
-    margin-bottom: 0.5rem;
+.petugas-header p {
+    font-size: 0.9rem !important;
+    opacity: 0.9 !important;
+    margin-bottom: 0 !important;
+    color: #fff !important;
 }
 
-.page-header p,
-.page-header-edit p,
-.page-header-create p {
-    font-size: 1.05rem;
-    opacity: 0.95;
-    max-width: 700px;
+/* Header Icon */
+.petugas-header .header-icon {
+    width: 52px !important;
+    height: 52px !important;
+    min-width: 52px !important;
+    border-radius: 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 1.5rem !important;
+    color: #fff !important;
+    background: rgba(255, 255, 255, 0.2) !important;
+    backdrop-filter: blur(10px) !important;
 }
 
-/* Button inside headers */
-.page-header .btn-light {
-    background-color: rgba(255, 255, 255, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    color: #fff;
-    font-weight: 600;
-    padding: 0.75rem 1.75rem;
-    border-radius: 12px;
-    transition: var(--transition-ease);
-}
-.page-header .btn-light:hover {
-    background-color: rgba(255, 255, 255, 0.25);
-    border-color: rgba(255, 255, 255, 0.5);
-    transform: translateY(-2px);
-}
-
-/* Header variations */
-.page-header-create { background: var(--success-gradient); }
-.page-header-edit { background: var(--warning-gradient); }
-
-/* ========== ALERT ========== */
-.alert-custom {
-    border-radius: 14px;
-    padding: 1rem 1.5rem;
-    margin-bottom: 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    box-shadow: 0 4px 16px rgba(102,126,234,0.06);
-    border: none;
-}
-.alert-custom .fas {
-    font-size: 1.4rem;
-}
-.alert-success {
-    background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
-    color: #059669;
-}
-.alert-danger {
-    background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
-    color: #b91c1c;
-}
-.alert-warning {
-    background: linear-gradient(135deg, #fef9c3 0%, #fde68a 100%);
-    color: #b45309;
-}
-.alert-info {
-    background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
-    color: #2563eb;
+/* Header Button */
+.petugas-header .btn-header {
+    background: rgba(255, 255, 255, 0.2) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    color: #fff !important;
+    font-weight: 600 !important;
+    padding: 0.6rem 1.25rem !important;
+    border-radius: 10px !important;
+    font-size: 0.875rem !important;
+    transition: all 0.2s ease !important;
+    text-decoration: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
 }
 
-/* ========== STATS GRID ========== */
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
-    margin-bottom: 2rem;
-}
-.stat-card {
-    border-radius: 18px;
-    box-shadow: 0 8px 32px rgba(102,126,234,0.08);
-    background: #fff;
-    padding: 1.5rem;
-    position: relative;
-    overflow: hidden;
-    transition: var(--transition);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-.stat-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-}
-.stat-card .stat-label {
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: var(--light-text-color);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    opacity: 0.8;
-}
-.stat-card .stat-value {
-    font-size: 2.5rem;
-    font-weight: 800;
-    margin: 0.5rem 0;
-}
-.stat-icon {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2rem;
-    color: #fff;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+.petugas-header .btn-header:hover {
+    background: rgba(255, 255, 255, 0.3) !important;
+    color: #fff !important;
+    transform: translateY(-1px) !important;
 }
 
-/* ========== DATA TABLE ========== */
-.data-table-container {
-    border-radius: 18px;
-    box-shadow: 0 8px 32px rgba(102,126,234,0.08);
-    background: #fff;
-    overflow: hidden;
-    margin-bottom: 2rem;
-    display: flex;
-    flex-direction: column;
-}
-.table-responsive {
-    max-height: calc(100vh - 300px);
-    overflow: auto;
-}
-.table thead th {
-    background: linear-gradient(135deg, #5563d6 0%, #5b47bf 100%);
-    color: #fff;
-    font-weight: 700;
-    font-size: 0.95rem;
-    border: none;
-    position: sticky;
-    top: 0;
-    z-index: 30;
-    text-align: left;
-}
-.table tbody tr {
-    transition: all 0.2s;
-    border-bottom: 1px solid #f1f5f9;
-}
-.table tbody tr:hover {
-    background: linear-gradient(90deg, #f8fafc 0%, #ffffff 100%);
-    transform: translateX(4px);
-    box-shadow: -4px 0 0 0 #667eea, 0 4px 12px rgba(102,126,234,0.08);
-}
-.table tbody td {
-    padding: 1rem;
-    vertical-align: middle;
-    border: none;
-}
-.user-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 1.1rem;
-    color: #fff;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.12);
-    background: var(--primary-gradient);
-}
-.data-badge {
-    padding: 0.4rem 0.8rem;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+/* Stats Grid */
+.petugas-stats-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 1.25rem !important;
+    margin-bottom: 1.5rem !important;
 }
 
-/* Action buttons */
-.action-btn {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    border: none;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1rem;
-    transition: all 0.2s;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    color: #fff;
+@media (max-width: 992px) {
+    .petugas-stats-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
 }
-.action-btn:hover {
-    transform: translateY(-2px);
-    opacity: 0.9;
+
+@media (max-width: 576px) {
+    .petugas-stats-grid {
+        grid-template-columns: 1fr !important;
+    }
 }
-.btn-edit { background: var(--success-gradient); }
-.btn-delete { background: var(--danger-gradient); }
+
+/* Stat Card */
+.petugas-stat-card {
+    background: #fff !important;
+    border-radius: 14px !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08) !important;
+    padding: 1.25rem !important;
+    border: 1px solid rgba(0, 0, 0, 0.04) !important;
+    transition: all 0.2s ease !important;
+}
+
+.petugas-stat-card:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12) !important;
+}
+
+.petugas-stat-card .stat-label {
+    font-size: 0.75rem !important;
+    font-weight: 600 !important;
+    color: #64748b !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.petugas-stat-card .stat-value {
+    font-size: 2rem !important;
+    font-weight: 800 !important;
+    line-height: 1.2 !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.petugas-stat-card .stat-value.text-primary { color: #667eea !important; }
+.petugas-stat-card .stat-value.text-success { color: #10b981 !important; }
+.petugas-stat-card .stat-value.text-warning { color: #f59e0b !important; }
+
+.petugas-stat-card .stat-icon-box {
+    width: 48px !important;
+    height: 48px !important;
+    min-width: 48px !important;
+    border-radius: 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 1.25rem !important;
+    color: #fff !important;
+}
+
+.petugas-stat-card .stat-icon-box.bg-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+}
+
+.petugas-stat-card .stat-icon-box.bg-success {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+}
+
+.petugas-stat-card .stat-icon-box.bg-warning {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+}
+
+/* Data Table Container */
+.petugas-table-container {
+    background: #fff !important;
+    border-radius: 14px !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08) !important;
+    overflow: hidden !important;
+    border: 1px solid rgba(0, 0, 0, 0.04) !important;
+}
+
+/* Table */
+.petugas-table {
+    width: 100% !important;
+    margin-bottom: 0 !important;
+    border-collapse: collapse !important;
+}
+
+.petugas-table thead th {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: #fff !important;
+    font-weight: 600 !important;
+    font-size: 0.8rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    padding: 1rem 1.25rem !important;
+    border: none !important;
+    white-space: nowrap !important;
+}
+
+.petugas-table thead th:first-child {
+    padding-left: 1.5rem !important;
+}
+
+.petugas-table thead th:last-child {
+    padding-right: 1.5rem !important;
+}
+
+.petugas-table tbody tr {
+    border-bottom: 1px solid #f1f5f9 !important;
+    transition: all 0.15s ease !important;
+}
+
+.petugas-table tbody tr:last-child {
+    border-bottom: none !important;
+}
+
+.petugas-table tbody tr:hover {
+    background: #f8fafc !important;
+}
+
+.petugas-table tbody td {
+    padding: 1rem 1.25rem !important;
+    vertical-align: middle !important;
+    border: none !important;
+    font-size: 0.9rem !important;
+    color: #334155 !important;
+}
+
+.petugas-table tbody td:first-child {
+    padding-left: 1.5rem !important;
+}
+
+.petugas-table tbody td:last-child {
+    padding-right: 1.5rem !important;
+}
+
+/* User Avatar */
+.petugas-avatar {
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+    border-radius: 10px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-weight: 700 !important;
+    font-size: 1rem !important;
+    color: #fff !important;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+}
+
+/* Badge */
+.petugas-badge {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.25rem !important;
+    padding: 0.35rem 0.75rem !important;
+    border-radius: 6px !important;
+    font-size: 0.75rem !important;
+    font-weight: 600 !important;
+}
+
+.petugas-badge.badge-primary {
+    background: #667eea !important;
+    color: #fff !important;
+}
+
+.petugas-badge.badge-success {
+    background: #dcfce7 !important;
+    color: #166534 !important;
+}
+
+.petugas-badge.badge-info {
+    background: #dbeafe !important;
+    color: #1e40af !important;
+}
+
+.petugas-badge.badge-warning {
+    background: #fef3c7 !important;
+    color: #92400e !important;
+}
+
+.petugas-badge.badge-light {
+    background: #f1f5f9 !important;
+    color: #475569 !important;
+}
+
+/* Action Buttons */
+.petugas-action-btn {
+    width: 34px !important;
+    height: 34px !important;
+    border-radius: 8px !important;
+    border: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 0.85rem !important;
+    color: #fff !important;
+    cursor: pointer !important;
+    transition: all 0.15s ease !important;
+    text-decoration: none !important;
+}
+
+.petugas-action-btn:hover {
+    transform: scale(1.08) !important;
+    color: #fff !important;
+}
+
+.petugas-action-btn.btn-edit {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+}
+
+.petugas-action-btn.btn-delete {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
+}
 
 /* Pagination */
-.pagination-container {
-    background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
-    padding: 1rem 1.5rem;
-    border-top: 1px solid #eef2ff;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
+.petugas-pagination {
+    background: #f8fafc !important;
+    padding: 1rem 1.5rem !important;
+    border-top: 1px solid #e2e8f0 !important;
 }
-.pagination-info {
-    color: #64748b;
-    font-weight: 600;
-    font-size: 1rem;
+
+.petugas-pagination .pagination-info {
+    color: #64748b !important;
+    font-size: 0.875rem !important;
 }
-.pagination .page-link {
-    border-radius: 999px;
-    padding: 0.4rem 0.7rem;
-    font-size: 0.9rem;
-    border: 1px solid #e6eefc;
-    color: #475569;
-    font-weight: 600;
-    margin: 0 2px;
+
+.petugas-pagination .pagination {
+    margin-bottom: 0 !important;
+    gap: 0.25rem !important;
 }
-.pagination .page-link:hover,
-.pagination .page-item.active .page-link {
-    background: var(--primary-gradient);
-    color: #fff;
-    border-color: transparent;
-    box-shadow: 0 6px 18px rgba(86,90,179,0.12);
+
+.petugas-pagination .page-link {
+    border-radius: 6px !important;
+    padding: 0.4rem 0.75rem !important;
+    font-size: 0.875rem !important;
+    border: 1px solid #e2e8f0 !important;
+    color: #475569 !important;
+    background: #fff !important;
+}
+
+.petugas-pagination .page-link:hover,
+.petugas-pagination .page-item.active .page-link {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: #fff !important;
+    border-color: transparent !important;
 }
 
 /* Empty State */
-.empty-state {
-    text-align: center;
-    padding: 4rem 2rem;
-    background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
-    border-radius: 18px;
-    box-shadow: 0 8px 32px rgba(102,126,234,0.08);
-}
-.empty-icon {
-    width: 120px;
-    height: 120px;
-    margin: 0 auto 2rem;
-    background: var(--success-gradient);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-    animation: float 3s ease-in-out infinite;
-}
-@keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
-}
-.empty-title {
-    font-size: 1.8rem;
-    font-weight: 800;
-    color: #1f2937;
-    margin-bottom: 1rem;
-}
-.empty-description {
-    color: #64748b;
-    font-size: 1rem;
-    max-width: 400px;
-    margin: 0 auto 2rem;
+.petugas-empty-state {
+    text-align: center !important;
+    padding: 4rem 2rem !important;
 }
 
-/* ========== FORM CARD ========== */
-.form-card-modern {
-    border-radius: 18px;
-    box-shadow: 0 8px 32px rgba(102,126,234,0.08);
-    border: none;
-    background-color: var(--card-bg);
-    margin-bottom: 2.5rem;
-}
-.form-card-modern .card-header {
-    background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
-    border-radius: 18px 18px 0 0;
-    border-bottom: 1px solid #eef2ff;
-    padding: 1.5rem 2rem;
-}
-.form-card-modern .card-body {
-    padding: 2rem;
-}
-.form-label-modern {
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-    color: #374151;
+.petugas-empty-state .empty-icon {
+    width: 90px !important;
+    height: 90px !important;
+    margin: 0 auto 1.5rem !important;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    border-radius: 20px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 2.5rem !important;
+    color: #fff !important;
 }
 
-/* Input styles */
-.input-group-modern .form-control-modern {
-    border-radius: 10px;
-    border: 1px solid #e5e7eb;
-    box-shadow: none;
-    font-size: 1rem;
-    padding: 0.75rem 1rem;
-    transition: var(--transition-ease);
+.petugas-empty-state .empty-title {
+    font-size: 1.4rem !important;
+    font-weight: 700 !important;
+    color: #1f2937 !important;
+    margin-bottom: 0.5rem !important;
 }
-.input-group-modern .form-control-modern:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+
+.petugas-empty-state .empty-desc {
+    color: #64748b !important;
+    font-size: 0.95rem !important;
+    max-width: 400px !important;
+    margin: 0 auto 1.5rem !important;
 }
-.input-group-text {
-    background: #f3f4f6;
-    border: none;
-    border-radius: 10px 0 0 10px;
+
+/* Form Card */
+.petugas-form-card {
+    background: #fff !important;
+    border-radius: 14px !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08) !important;
+    border: 1px solid rgba(0, 0, 0, 0.04) !important;
+    overflow: hidden !important;
+    margin-bottom: 2rem !important;
 }
-.btn-toggle-password {
-    background: transparent;
-    border: none;
-    color: #64748b;
-    font-size: 1.1rem;
+
+.petugas-form-card .card-header {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    padding: 1.25rem 1.5rem !important;
+}
+
+.petugas-form-card .card-header h6 {
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    color: #1f2937 !important;
+    margin-bottom: 0.25rem !important;
+}
+
+.petugas-form-card .card-header p {
+    font-size: 0.875rem !important;
+    color: #64748b !important;
+    margin-bottom: 0 !important;
+}
+
+.petugas-form-card .card-body {
+    padding: 1.5rem !important;
+}
+
+/* Form Labels */
+.petugas-form-label {
+    font-weight: 600 !important;
+    font-size: 0.875rem !important;
+    margin-bottom: 0.5rem !important;
+    color: #374151 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+}
+
+.petugas-form-label i {
+    font-size: 0.875rem !important;
+    opacity: 0.7 !important;
+}
+
+/* Input Group */
+.petugas-input-group {
+    display: flex !important;
+}
+
+.petugas-input-group .input-icon {
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+    border-right: none !important;
+    border-radius: 8px 0 0 8px !important;
+    color: #64748b !important;
+    padding: 0.6rem 0.875rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.petugas-input-group .form-input {
+    flex: 1 !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 0 8px 8px 0 !important;
+    padding: 0.6rem 1rem !important;
+    font-size: 0.9rem !important;
+    color: #1f2937 !important;
+    transition: all 0.15s ease !important;
+    outline: none !important;
+}
+
+.petugas-input-group .form-input:focus {
+    border-color: #667eea !important;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15) !important;
+}
+
+.petugas-input-group .form-input.is-invalid {
+    border-color: #ef4444 !important;
+}
+
+.petugas-input-group .btn-toggle {
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+    border-left: none !important;
+    border-radius: 0 8px 8px 0 !important;
+    color: #64748b !important;
+    padding: 0.6rem 0.875rem !important;
+    cursor: pointer !important;
+}
+
+.petugas-input-group .btn-toggle:hover {
+    background: #f1f5f9 !important;
+    color: #667eea !important;
 }
 
 /* Alert Modern */
-.alert-modern {
-    border-radius: 14px;
-    border: none;
-    box-shadow: 0 4px 16px rgba(102,126,234,0.06);
-    padding: 1rem 1.5rem;
-    margin-bottom: 1.5rem;
-    display: flex;
-    align-items: flex-start;
-    gap: 1rem;
+.petugas-alert {
+    border-radius: 10px !important;
+    padding: 1rem 1.25rem !important;
+    margin-bottom: 1.25rem !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 0.75rem !important;
+    border: none !important;
 }
-.alert-modern-danger {
-    background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
-    color: #b91c1c;
+
+.petugas-alert i {
+    font-size: 1.125rem !important;
+    flex-shrink: 0 !important;
+    margin-top: 2px !important;
 }
-.alert-modern-warning {
-    background: linear-gradient(135deg, #fef9c3 0%, #fde68a 100%);
-    color: #b45309;
+
+.petugas-alert.alert-danger {
+    background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%) !important;
+    color: #991b1b !important;
+    border-left: 4px solid #ef4444 !important;
 }
-.alert-modern-info {
-    background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
-    color: #2563eb;
+
+.petugas-alert.alert-warning {
+    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%) !important;
+    color: #92400e !important;
+    border-left: 4px solid #f59e0b !important;
+}
+
+.petugas-alert.alert-info {
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%) !important;
+    color: #1e40af !important;
+    border-left: 4px solid #3b82f6 !important;
+}
+
+.petugas-alert.alert-success {
+    background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%) !important;
+    color: #065f46 !important;
+    border-left: 4px solid #10b981 !important;
 }
 
 /* Buttons */
-.btn-modern-primary {
-    background: var(--primary-gradient);
-    color: #fff;
-    font-weight: 700;
-    border-radius: 12px;
-    border: none;
-    box-shadow: 0 4px 16px rgba(102,126,234,0.08);
-    padding: 0.75rem 1.75rem;
-    transition: var(--transition-ease);
-}
-.btn-modern-primary:hover {
-    transform: translateY(-2px);
-    opacity: 0.9;
-}
-.btn-modern-secondary {
-    background: #f3f4f6;
-    color: #374151;
-    font-weight: 600;
-    border-radius: 12px;
-    border: none;
-    padding: 0.75rem 1.75rem;
-}
-.btn-modern-secondary:hover {
-    background-color: #e2e8f0;
-    transform: translateY(-2px);
+.petugas-btn {
+    font-weight: 600 !important;
+    border-radius: 8px !important;
+    padding: 0.6rem 1.25rem !important;
+    font-size: 0.875rem !important;
+    transition: all 0.15s ease !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    border: none !important;
+    cursor: pointer !important;
+    text-decoration: none !important;
 }
 
-/* ========== RESPONSIVE ========== */
+.petugas-btn.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: #fff !important;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3) !important;
+}
+
+.petugas-btn.btn-primary:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4) !important;
+    color: #fff !important;
+}
+
+.petugas-btn.btn-secondary {
+    background: #fff !important;
+    color: #475569 !important;
+    border: 1px solid #e2e8f0 !important;
+}
+
+.petugas-btn.btn-secondary:hover {
+    background: #f8fafc !important;
+    transform: translateY(-2px) !important;
+    color: #475569 !important;
+}
+
+/* Responsive */
 @media (max-width: 768px) {
-    .page-header, .form-card-modern, .data-table-container, .empty-state { padding: 1rem; }
-    .header-content h1 { font-size: 1.4rem; }
-    .stats-grid { grid-template-columns: 1fr; }
-    .table-responsive { font-size: 0.9rem; }
-    .stat-value { font-size: 2rem; }
-    .page-header-edit, .form-card-modern { padding: 1rem; }
-}
-@media (max-width: 576px) {
-    .table-responsive { font-size: 0.8rem; }
-    .action-btn { width: 30px; height: 30px; font-size: 0.8rem; }
-}
-@media (max-width: 992px) {
-    .page-header { padding: 2rem; text-align: center; }
-    .page-header h1 { font-size: 2rem; }
-    .stats-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
-    .table td, .table th { padding: 0.8rem 1rem; font-size: 0.85rem; }
-    .btn-modern-primary, .btn-modern-secondary { font-size: 0.9rem; padding: 0.6rem 1.5rem; }
+    .petugas-header {
+        padding: 1.25rem 1.5rem !important;
+        text-align: center !important;
+    }
+    
+    .petugas-header .d-flex {
+        flex-direction: column !important;
+        align-items: center !important;
+    }
+    
+    .petugas-header .header-icon {
+        margin-bottom: 1rem !important;
+    }
+    
+    .petugas-header .text-lg-end {
+        text-align: center !important;
+        margin-top: 1rem !important;
+    }
+    
+    .petugas-table-container {
+        overflow-x: auto !important;
+    }
+    
+    .petugas-table thead th,
+    .petugas-table tbody td {
+        padding: 0.75rem 1rem !important;
+        font-size: 0.8rem !important;
+    }
+    
+    .petugas-form-card .card-body {
+        padding: 1.25rem !important;
+    }
+    
+    .petugas-btn {
+        width: 100% !important;
+        justify-content: center !important;
+    }
 }
 </style>

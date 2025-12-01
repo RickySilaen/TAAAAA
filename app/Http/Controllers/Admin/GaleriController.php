@@ -20,7 +20,9 @@ class GaleriController extends Controller
      */
     public function index()
     {
-        $galeris = Galeri::latest()->paginate(12);
+        $galeris = Galeri::with(['user'])
+            ->orderBy('created_at', 'desc')
+            ->paginate(12);
 
         return view('admin.galeri.index', compact('galeris'));
     }

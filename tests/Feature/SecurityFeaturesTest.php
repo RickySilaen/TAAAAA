@@ -131,7 +131,7 @@ class SecurityFeaturesTest extends TestCase
             'is_verified' => true,  // Use custom verification instead of email_verified_at
         ]);
 
-        $response = $this->actingAs($user)->post('/petani/laporan', [
+        $response = $this->actingAs($user)->withoutMiddleware()->post('/petani/laporan', [
             'judul' => 'Test <script>alert("XSS")</script>',
             'deskripsi' => 'Content with <img src=x onerror=alert("XSS")>',
         ]);

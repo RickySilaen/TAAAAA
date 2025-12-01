@@ -230,6 +230,19 @@
         box-shadow: 0 8px 25px rgba(46,125,50,0.3);
         transition: all 0.3s ease;
     }
+    
+    .feature-icon i,
+    .feature-icon .fas,
+    .feature-icon .far,
+    .feature-icon .fab {
+        font-size: 2rem !important;
+        color: #fff !important;
+        display: inline-block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        font-family: "Font Awesome 6 Free" !important;
+        font-weight: 900 !important;
+    }
 
     .feature-card:hover .feature-icon {
         transform: rotateY(360deg);
@@ -300,6 +313,19 @@
         font-size: 2.5rem;
         color: rgba(255,255,255,0.3);
         margin-bottom: 1rem;
+    }
+    
+    .stat-icon i,
+    .stat-icon .fas,
+    .stat-icon .far,
+    .stat-icon .fab {
+        font-size: 2.5rem !important;
+        color: rgba(255,255,255,0.3) !important;
+        display: inline-block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        font-family: "Font Awesome 6 Free" !important;
+        font-weight: 900 !important;
     }
 
     /* ===== PROGRAMS SECTION ===== */
@@ -387,6 +413,178 @@
     .program-meta-item i {
         color: var(--primary-green);
         margin-right: 0.5rem;
+    }
+
+    /* ===== PROGRAM CARD MODERN ===== */
+    .program-card-modern {
+        background: #fff;
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        height: 100%;
+        border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .program-card-modern:hover {
+        transform: translateY(-12px);
+        box-shadow: 0 25px 60px rgba(0,0,0,0.15);
+    }
+
+    .program-header {
+        height: 180px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .program-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        opacity: 0.6;
+    }
+
+    .program-icon-large {
+        font-size: 5rem;
+        filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+        position: relative;
+        z-index: 1;
+        animation: float-icon 3s ease-in-out infinite;
+    }
+
+    @keyframes float-icon {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+
+    .program-badge-modern {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        padding: 8px 16px;
+        border-radius: 50px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        backdrop-filter: blur(10px);
+        z-index: 2;
+    }
+
+    .program-badge-modern.badge-success {
+        background: rgba(40, 167, 69, 0.9);
+        color: white;
+    }
+
+    .program-badge-modern.badge-warning {
+        background: rgba(255, 193, 7, 0.9);
+        color: #000;
+    }
+
+    .program-body {
+        padding: 24px;
+    }
+
+    .program-title-modern {
+        font-size: 1.4rem;
+        font-weight: 800;
+        color: #1a1a1a;
+        margin-bottom: 10px;
+    }
+
+    .program-desc-modern {
+        color: #666;
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin-bottom: 16px;
+    }
+
+    .program-divider {
+        height: 1px;
+        background: linear-gradient(90deg, transparent, #e0e0e0, transparent);
+        margin: 16px 0;
+    }
+
+    .program-info-row {
+        display: flex;
+        gap: 16px;
+        margin-bottom: 20px;
+    }
+
+    .program-info-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex: 1;
+        padding: 12px;
+        background: #f8f9fa;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+    }
+
+    .program-info-item:hover {
+        background: #f0f4f0;
+        transform: translateX(3px);
+    }
+
+    .program-info-item .info-icon {
+        font-size: 1.4rem;
+    }
+
+    .program-info-item .info-content {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .program-info-item .info-label {
+        font-size: 0.7rem;
+        color: #999;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 600;
+    }
+
+    .program-info-item .info-value {
+        font-size: 0.95rem;
+        color: #333;
+        font-weight: 700;
+    }
+
+    .program-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding: 14px 24px;
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 0.95rem;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        gap: 8px;
+    }
+
+    .program-btn:hover {
+        background: linear-gradient(135deg, #218838 0%, #1aa179 100%);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(40, 167, 69, 0.35);
+        color: white;
+    }
+
+    .program-btn .btn-arrow {
+        transition: transform 0.3s ease;
+    }
+
+    .program-btn:hover .btn-arrow {
+        transform: translateX(5px);
     }
 
     /* ===== CTA SECTION ===== */
@@ -625,27 +823,56 @@
 
         <div class="row g-4">
             @foreach($bantuans->take(3) as $index => $bantuan)
+            @php
+                $icons = ['🌾', '🌱', '🚜', '💧', '🧪', '🌿'];
+                $gradients = [
+                    'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)',
+                    'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+                ];
+            @endphp
             <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="{{ 200 + ($index * 100) }}">
-                <div class="program-card">
-                    <div class="program-image">
-                        <img src="https://source.unsplash.com/600x400/?agriculture,farming,{{ $index }}" alt="{{ $bantuan->jenis_bantuan }}">
-                        <div class="program-badge">{{ ucfirst($bantuan->status) }}</div>
+                <div class="program-card-modern">
+                    <div class="program-header" style="background: {{ $gradients[$index % 3] }}">
+                        <div class="program-icon-large">
+                            {{ $icons[$index % count($icons)] }}
+                        </div>
+                        <div class="program-badge-modern {{ $bantuan->status === 'Dikirim' ? 'badge-success' : 'badge-warning' }}">
+                            @if($bantuan->status === 'Dikirim')
+                                ✅ Tersalurkan
+                            @elseif($bantuan->status === 'Diproses')
+                                ⏳ Diproses
+                            @else
+                                📋 {{ $bantuan->status }}
+                            @endif
+                        </div>
                     </div>
-                    <div class="program-content">
-                        <h3 class="program-title">{{ $bantuan->jenis_bantuan }}</h3>
-                        <p class="program-description">
-                            {{ Str::limit($bantuan->alasan ?? 'Program bantuan pertanian untuk mendukung kesejahteraan petani', 100) }}
+                    <div class="program-body">
+                        <h3 class="program-title-modern">{{ $bantuan->jenis_bantuan }}</h3>
+                        <p class="program-desc-modern">
+                            Program bantuan pertanian untuk mendukung kesejahteraan petani di Kabupaten Toba
                         </p>
-                        <div class="program-meta">
-                            <div class="program-meta-item">
-                                <i class="fas fa-box"></i>
-                                <span>{{ $bantuan->jumlah }} unit</span>
+                        <div class="program-divider"></div>
+                        <div class="program-info-row">
+                            <div class="program-info-item">
+                                <span class="info-icon">📦</span>
+                                <div class="info-content">
+                                    <span class="info-label">Jumlah</span>
+                                    <span class="info-value">{{ number_format($bantuan->jumlah) }} unit</span>
+                                </div>
                             </div>
-                            <div class="program-meta-item">
-                                <i class="fas fa-calendar"></i>
-                                <span>{{ $bantuan->created_at->format('d M Y') }}</span>
+                            <div class="program-info-item">
+                                <span class="info-icon">📅</span>
+                                <div class="info-content">
+                                    <span class="info-label">Tanggal</span>
+                                    <span class="info-value">{{ \Carbon\Carbon::parse($bantuan->tanggal)->format('d M Y') }}</span>
+                                </div>
                             </div>
                         </div>
+                        <a href="{{ route('guest.bantuan.show', $bantuan->id) }}" class="program-btn">
+                            Lihat Detail
+                            <span class="btn-arrow">→</span>
+                        </a>
                     </div>
                 </div>
             </div>

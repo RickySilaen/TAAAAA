@@ -3,12 +3,34 @@
 namespace App\Models;
 
 use App\Traits\OptimizedQuery;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+/**
+ * App\Models\User.
+ *
+ * @property int $id
+ * @property string $name
+ * @property string $email
+ * @property string|null $role
+ * @property string|null $alamat_desa
+ * @property string|null $alamat_kecamatan
+ * @property string|null $telepon
+ * @property float|null $luas_lahan
+ * @property string|null $profile_picture
+ * @property bool $is_verified
+ * @property \Illuminate\Support\Carbon|null $verified_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Bantuan[] $bantuans
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Laporan[] $laporans
+ *
+ * @method static \Illuminate\Database\Eloquent\Factories\Factory factory(...$parameters)
+ */
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens;
     use HasFactory;

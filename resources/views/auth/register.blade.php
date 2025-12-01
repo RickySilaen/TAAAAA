@@ -6,12 +6,13 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Daftar Akun - Dinas Pertanian Kabupaten Toba</title>
     <link rel="icon" href="{{ asset('images/logo-dinas-pertanian-toba.png') }}" type="image/png">
+    <link rel="apple-touch-icon" href="{{ asset('images/logo-dinas-pertanian-toba.png') }}">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <!-- Font Awesome - Local Version -->
+    <link rel="stylesheet" href="{{ asset('css/fontawesome-local.css') }}">
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -27,6 +28,31 @@
             --gradient-overlay: linear-gradient(135deg, rgba(46, 125, 50, 0.95) 0%, rgba(76, 175, 80, 0.90) 100%);
             --font-primary: 'Poppins', sans-serif;
             --font-secondary: 'Inter', sans-serif;
+        }
+        
+        /* Force Font Awesome Icons */
+        .fas, .far, .fab, .fa, .fa-solid, .fa-regular, .fa-brands,
+        i[class^="fa-"], i[class*=" fa-"] {
+            font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands", FontAwesome !important;
+            font-style: normal !important;
+            -webkit-font-smoothing: antialiased !important;
+            -moz-osx-font-smoothing: grayscale !important;
+            display: inline-block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+        
+        .fas, .fa-solid, .fa {
+            font-weight: 900 !important;
+        }
+        
+        .far, .fa-regular {
+            font-weight: 400 !important;
+        }
+        
+        .fab, .fa-brands {
+            font-family: "Font Awesome 6 Brands" !important;
+            font-weight: 400 !important;
         }
 
         * {
@@ -715,7 +741,9 @@
         <div class="form-panel">
             <div class="form-container">
                 <a href="{{ route('home') }}" class="back-button">
-                    <i class="fas fa-arrow-left"></i> Kembali ke Beranda
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" style="margin-right: 0.5rem;">
+                        <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+                    </svg> Kembali ke Beranda
                 </a>
 
                 <div class="form-header">
@@ -741,7 +769,10 @@
 
                 @if ($errors->any())
                     <div class="alert alert-danger">
-                        <i class="fas fa-exclamation-circle me-2"></i>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16" class="me-2" style="vertical-align: -3px;">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                            <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+                        </svg>
                         <strong>Oops!</strong> Ada kesalahan dalam formulir Anda.
                         <ul class="mb-0 mt-2" style="padding-left: 1.5rem;">
                             @foreach ($errors->all() as $error)
@@ -757,7 +788,9 @@
                     <!-- Nama Lengkap -->
                     <div class="form-group">
                         <div class="input-wrapper">
-                            <i class="fas fa-user input-icon"></i>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" class="input-icon">
+                                <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z"/>
+                            </svg>
                             <input type="text" class="form-control" id="name" name="name" placeholder="Nama Lengkap" value="{{ old('name') }}" required autofocus>
                         </div>
                     </div>
@@ -765,7 +798,9 @@
                     <!-- Email -->
                     <div class="form-group">
                         <div class="input-wrapper">
-                            <i class="fas fa-envelope input-icon"></i>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" class="input-icon">
+                                <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z"/>
+                            </svg>
                             <input type="email" class="form-control" id="email" name="email" placeholder="Email" value="{{ old('email') }}" required>
                         </div>
                     </div>
@@ -774,10 +809,15 @@
                     <div class="form-row">
                         <div class="form-group">
                             <div class="input-wrapper">
-                                <i class="fas fa-lock input-icon"></i>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" class="input-icon">
+                                    <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
+                                </svg>
                                 <input type="password" class="form-control" id="password" name="password" placeholder="Kata Sandi" required>
                                 <button type="button" class="password-toggle" onclick="togglePassword('password', 'toggleIcon1')">
-                                    <i class="fas fa-eye" id="toggleIcon1"></i>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" id="toggleIcon1">
+                                        <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+                                        <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                                    </svg>
                                 </button>
                             </div>
                             <div class="password-strength">
@@ -790,10 +830,15 @@
 
                         <div class="form-group">
                             <div class="input-wrapper">
-                                <i class="fas fa-lock input-icon"></i>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" class="input-icon">
+                                    <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
+                                </svg>
                                 <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Konfirmasi Kata Sandi" required>
                                 <button type="button" class="password-toggle" onclick="togglePassword('password_confirmation', 'toggleIcon2')">
-                                    <i class="fas fa-eye" id="toggleIcon2"></i>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" id="toggleIcon2">
+                                        <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+                                        <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                                    </svg>
                                 </button>
                             </div>
                         </div>
@@ -802,7 +847,9 @@
                     <!-- Nomor Telepon -->
                     <div class="form-group">
                         <div class="input-wrapper">
-                            <i class="fas fa-phone input-icon"></i>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" class="input-icon">
+                                <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/>
+                            </svg>
                             <input type="text" class="form-control" id="telepon" name="telepon" placeholder="Nomor Telepon (Opsional)" value="{{ old('telepon') }}">
                         </div>
                     </div>
@@ -814,14 +861,18 @@
                     <div class="form-row">
                         <div class="form-group">
                             <div class="input-wrapper">
-                                <i class="fas fa-map-marker-alt input-icon"></i>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" class="input-icon">
+                                    <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+                                </svg>
                                 <input type="text" class="form-control" id="alamat_desa" name="alamat_desa" placeholder="Alamat Desa" value="{{ old('alamat_desa') }}" required>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <div class="input-wrapper">
-                                <i class="fas fa-map input-icon"></i>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" class="input-icon">
+                                    <path fill-rule="evenodd" d="M15.817.113A.5.5 0 0 1 16 .5v14a.5.5 0 0 1-.402.49l-5 1a.502.502 0 0 1-.196 0L5.5 15.01l-4.902.98A.5.5 0 0 1 0 15.5v-14a.5.5 0 0 1 .402-.49l5-1a.5.5 0 0 1 .196 0L10.5.99l4.902-.98a.5.5 0 0 1 .415.103zM10 1.91l-4-.8v12.98l4 .8V1.91zm1 12.98 4-.8V1.11l-4 .8v12.98zm-6-.8V1.11l-4 .8v12.98l4-.8z"/>
+                                </svg>
                                 <input type="text" class="form-control" id="alamat_kecamatan" name="alamat_kecamatan" placeholder="Alamat Kecamatan" value="{{ old('alamat_kecamatan') }}" required>
                             </div>
                         </div>
@@ -838,7 +889,9 @@
                     <!-- Info Verifikasi -->
                     <div class="alert alert-info mb-3" style="border-left: 4px solid #17a2b8;">
                         <div class="d-flex align-items-start">
-                            <i class="fas fa-info-circle me-3" style="font-size: 1.5rem; margin-top: 2px;"></i>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#17a2b8" viewBox="0 0 16 16" class="me-3" style="flex-shrink: 0; margin-top: 2px;">
+                                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+                            </svg>
                             <div>
                                 <strong>Informasi Penting:</strong>
                                 <p class="mb-0 mt-1" style="font-size: 0.9rem;">
@@ -851,7 +904,10 @@
 
                     <!-- Submit Button -->
                     <button type="submit" class="btn-submit">
-                        <i class="fas fa-user-plus me-2"></i>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16" class="me-2" style="vertical-align: -2px;">
+                            <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0Zm-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/>
+                            <path d="M8.256 14a4.474 4.474 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10c.26 0 .507.009.74.025.226-.341.496-.65.804-.918C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4s1 1 1 1h5.256Z"/>
+                        </svg>
                         Daftar Sekarang
                     </button>
                 </form>
@@ -875,12 +931,12 @@
             
             if (input.type === 'password') {
                 input.type = 'text';
-                icon.classList.remove('fa-eye');
-                icon.classList.add('fa-eye-slash');
+                // Eye slash icon (password visible)
+                icon.innerHTML = '<path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7.028 7.028 0 0 0-2.79.588l.77.771A5.944 5.944 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.134 13.134 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755-.165.165-.337.328-.517.486l.708.709z"/><path d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.829 2.829l.822.822zm-2.943 1.299.822.822a3.5 3.5 0 0 1-4.474-4.474l.823.823a2.5 2.5 0 0 0 2.829 2.829z"/><path d="M3.35 5.47c-.18.16-.353.322-.518.487A13.134 13.134 0 0 0 1.172 8l.195.288c.335.48.83 1.12 1.465 1.755C4.121 11.332 5.881 12.5 8 12.5c.716 0 1.39-.133 2.02-.36l.77.772A7.029 7.029 0 0 1 8 13.5C3 13.5 0 8 0 8s.939-1.721 2.641-3.238l.708.709zm10.296 8.884-12-12 .708-.708 12 12-.708.708z"/>';
             } else {
                 input.type = 'password';
-                icon.classList.remove('fa-eye-slash');
-                icon.classList.add('fa-eye');
+                // Eye icon (password hidden)
+                icon.innerHTML = '<path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/><path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>';
             }
         }
 
@@ -962,7 +1018,7 @@
         registerForm.addEventListener('submit', function(e) {
             const submitBtn = this.querySelector('.btn-submit');
             submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Mendaftar...';
+            submitBtn.innerHTML = '<svg class="spinner me-2" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="animation: spin 1s linear infinite; vertical-align: -2px;"><style>@keyframes spin{to{transform:rotate(360deg)}}</style><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" fill="none" stroke-dasharray="31.416" stroke-dashoffset="10"/></svg>Mendaftar...';
         });
 
         // Auto-hide Alerts

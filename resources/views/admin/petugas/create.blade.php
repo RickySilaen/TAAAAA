@@ -1,201 +1,439 @@
 @extends('layouts.app')
 
-@section('title', 'Tambah Petugas - Sistem Bantuan Pertanian')
-
-@push('styles')
-    @include('admin.petugas._styles')
-@endpush
+@section('title', 'Tambah Petugas Baru')
 
 @section('content')
-<div class="container-fluid py-4">
-    <!-- Modern Header -->
-    <div class="page-header-create mb-4">
-        <div class="row align-items-center">
-            <div class="col-lg-8">
-                <div class="d-flex align-items-center gap-3">
-                    <div class="stat-icon">
-                        <i class="fas fa-user-plus"></i>
-                    </div>
-                    <div>
-                        <h1 class="mb-2 text-white" style="font-size: 2rem; font-weight: 800;">Tambah Petugas Baru</h1>
-                        <p class="mb-0 text-white-50" style="font-size: 1rem; opacity: 0.95;">Daftarkan petugas baru untuk membantu mengelola sistem pertanian</p>
-                    </div>
+<style>
+    .ptgs-container { padding: 24px; max-width: 900px; margin: 0 auto; }
+    
+    /* Header Card */
+    .ptgs-header-card {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        border-radius: 16px;
+        padding: 24px 32px;
+        margin-bottom: 24px;
+        box-shadow: 0 10px 40px rgba(16, 185, 129, 0.3);
+    }
+    .ptgs-header-card h1 {
+        color: #fff;
+        font-size: 28px;
+        font-weight: 700;
+        margin: 0 0 8px 0;
+    }
+    .ptgs-header-card p {
+        color: rgba(255,255,255,0.85);
+        margin: 0;
+        font-size: 14px;
+    }
+    .ptgs-header-icon {
+        width: 56px;
+        height: 56px;
+        background: rgba(255,255,255,0.2);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 16px;
+    }
+    .ptgs-header-icon i {
+        font-size: 24px;
+        color: #fff;
+    }
+    .ptgs-btn-back {
+        background: #fff;
+        color: #10b981;
+        padding: 12px 24px;
+        border-radius: 10px;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s;
+        border: none;
+    }
+    .ptgs-btn-back:hover {
+        background: #f0fdf4;
+        color: #059669;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    /* Form Card */
+    .ptgs-form-card {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        border: 1px solid #e2e8f0;
+        overflow: hidden;
+    }
+    .ptgs-form-header {
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        padding: 20px 24px;
+        border-bottom: 1px solid #e2e8f0;
+    }
+    .ptgs-form-header h5 {
+        color: #1e293b;
+        margin: 0 0 4px 0;
+        font-weight: 600;
+        font-size: 18px;
+    }
+    .ptgs-form-header p {
+        color: #64748b;
+        margin: 0;
+        font-size: 14px;
+    }
+    .ptgs-form-body {
+        padding: 32px;
+    }
+
+    /* Form Elements */
+    .ptgs-form-group {
+        margin-bottom: 24px;
+    }
+    .ptgs-form-label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #334155;
+        font-size: 14px;
+    }
+    .ptgs-form-label .required {
+        color: #ef4444;
+    }
+    .ptgs-input-wrapper {
+        position: relative;
+    }
+    .ptgs-input-wrapper .input-icon {
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #94a3b8;
+        font-size: 16px;
+    }
+    .ptgs-input {
+        width: 100%;
+        padding: 14px 16px 14px 48px;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        font-size: 15px;
+        color: #1e293b;
+        transition: all 0.3s;
+        background: #fff;
+    }
+    .ptgs-input:focus {
+        outline: none;
+        border-color: #10b981;
+        box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
+    }
+    .ptgs-input::placeholder {
+        color: #94a3b8;
+    }
+    .ptgs-input.is-invalid {
+        border-color: #ef4444;
+    }
+    .ptgs-toggle-btn {
+        position: absolute;
+        right: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: #64748b;
+        cursor: pointer;
+        padding: 4px;
+    }
+    .ptgs-toggle-btn:hover {
+        color: #10b981;
+    }
+    .ptgs-error {
+        color: #ef4444;
+        font-size: 13px;
+        margin-top: 6px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+    .ptgs-hint {
+        color: #64748b;
+        font-size: 13px;
+        margin-top: 6px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    /* Alert */
+    .ptgs-alert {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 16px 20px;
+        border-radius: 12px;
+        margin-bottom: 24px;
+    }
+    .ptgs-alert.info {
+        background: #eff6ff;
+        color: #1d4ed8;
+        border: 1px solid #bfdbfe;
+    }
+    .ptgs-alert.danger {
+        background: #fee2e2;
+        color: #dc2626;
+        border: 1px solid #fecaca;
+    }
+    .ptgs-alert i {
+        font-size: 20px;
+        flex-shrink: 0;
+        margin-top: 2px;
+    }
+    .ptgs-alert-content strong {
+        display: block;
+        margin-bottom: 4px;
+    }
+
+    /* Buttons */
+    .ptgs-form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+        padding-top: 24px;
+        border-top: 1px solid #e2e8f0;
+        margin-top: 8px;
+    }
+    .ptgs-btn {
+        padding: 14px 28px;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 15px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+    }
+    .ptgs-btn.secondary {
+        background: #f1f5f9;
+        color: #475569;
+    }
+    .ptgs-btn.secondary:hover {
+        background: #e2e8f0;
+    }
+    .ptgs-btn.primary {
+        background: linear-gradient(135deg, #10b981, #059669);
+        color: #fff;
+    }
+    .ptgs-btn.primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+    }
+
+    /* Row Grid */
+    .ptgs-row {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+    }
+    @media (max-width: 768px) {
+        .ptgs-row { grid-template-columns: 1fr; }
+    }
+</style>
+
+<div class="ptgs-container">
+    <!-- Header Card -->
+    <div class="ptgs-header-card">
+        <div class="d-flex justify-content-between align-items-center flex-wrap" style="gap: 16px;">
+            <div class="d-flex align-items-center">
+                <div class="ptgs-header-icon">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <div>
+                    <h1>Tambah Petugas Baru</h1>
+                    <p>Daftarkan petugas baru ke dalam sistem</p>
                 </div>
             </div>
-            <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
-                <a href="{{ route('admin.petugas.index') }}" class="btn btn-modern-secondary">
-                    <i class="fas fa-arrow-left me-2"></i>Kembali ke Daftar
-                </a>
-            </div>
+            <a href="{{ route('admin.petugas.index') }}" class="ptgs-btn-back">
+                <i class="fas fa-arrow-left"></i>
+                <span>Kembali</span>
+            </a>
         </div>
     </div>
 
-    <!-- Form -->
-    <div class="row">
-        <div class="col-lg-9 mx-auto">
-            <div class="card form-card-modern">
-                <div class="card-header">
-                    <h6 class="mb-1"><i class="fas fa-clipboard-list me-2"></i>Form Pendaftaran Petugas</h6>
-                    <p class="text-sm text-muted mb-0">Lengkapi semua data yang diperlukan dengan benar</p>
-                </div>
-                <div class="card-body">
-                    @if ($errors->any())
-                        <div class="alert alert-modern alert-modern-danger mb-4">
-                            <i class="fas fa-exclamation-circle mt-1"></i>
-                            <div>
-                                <strong class="d-block mb-1">Oops! Ada kesalahan dalam formulir Anda</strong>
-                                <ul class="mb-0 mt-2 text-sm">
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        </div>
-                    @endif
-
-                    <form action="{{ route('admin.petugas.store') }}" method="POST">
-                        @csrf
-                        <div class="row">
-                            <!-- Nama Lengkap -->
-                            <div class="col-md-12 mb-4">
-                                <label for="name" class="form-label-modern">
-                                    <i class="fas fa-user text-emerald-600"></i>
-                                    Nama Lengkap <span class="text-danger">*</span>
-                                </label>
-                                <div class="input-group input-group-modern">
-                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                    <input type="text" class="form-control form-control-modern @error('name') is-invalid @enderror"
-                                           id="name" name="name" value="{{ old('name') }}"
-                                           placeholder="Contoh: Ahmad Suryadi" required>
-                                </div>
-                                @error('name')
-                                    <small class="text-danger d-block mt-1"><i class="fas fa-info-circle me-1"></i>{{ $message }}</small>
-                                @enderror
-                            </div>
-                            <!-- Email -->
-                            <div class="col-md-6 mb-4">
-                                <label for="email" class="form-label-modern">
-                                    <i class="fas fa-envelope text-blue-600"></i>
-                                    Email <span class="text-danger">*</span>
-                                </label>
-                                <div class="input-group input-group-modern">
-                                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                                    <input type="email" class="form-control form-control-modern @error('email') is-invalid @enderror"
-                                           id="email" name="email" value="{{ old('email') }}"
-                                           placeholder="petugas@example.com" required>
-                                </div>
-                                @error('email')
-                                    <small class="text-danger d-block mt-1"><i class="fas fa-info-circle me-1"></i>{{ $message }}</small>
-                                @enderror
-                            </div>
-                            <!-- Telepon -->
-                            <div class="col-md-6 mb-4">
-                                <label for="telepon" class="form-label-modern">
-                                    <i class="fas fa-phone text-purple-600"></i>
-                                    Nomor Telepon
-                                </label>
-                                <div class="input-group input-group-modern">
-                                    <span class="input-group-text"><i class="fas fa-phone"></i></span>
-                                    <input type="text" class="form-control form-control-modern @error('telepon') is-invalid @enderror"
-                                           id="telepon" name="telepon" value="{{ old('telepon') }}"
-                                           placeholder="08123456789">
-                                </div>
-                                @error('telepon')
-                                    <small class="text-danger d-block mt-1"><i class="fas fa-info-circle me-1"></i>{{ $message }}</small>
-                                @enderror
-                            </div>
-                            <!-- Password -->
-                            <div class="col-md-6 mb-4">
-                                <label for="password" class="form-label-modern">
-                                    <i class="fas fa-lock text-red-600"></i>
-                                    Password <span class="text-danger">*</span>
-                                </label>
-                                <div class="input-group input-group-modern">
-                                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                                    <input type="password" class="form-control form-control-modern @error('password') is-invalid @enderror"
-                                           id="password" name="password"
-                                           placeholder="Minimal 8 karakter" required>
-                                    <button class="btn btn-toggle-password" type="button" onclick="togglePassword('password')">
-                                        <i class="fas fa-eye" id="togglePasswordIcon"></i>
-                                    </button>
-                                </div>
-                                <small class="text-muted d-block mt-1"><i class="fas fa-info-circle me-1"></i>Minimal 8 karakter untuk keamanan</small>
-                                @error('password')
-                                    <small class="text-danger d-block mt-1"><i class="fas fa-exclamation-circle me-1"></i>{{ $message }}</small>
-                                @enderror
-                            </div>
-                            <!-- Password Confirmation -->
-                            <div class="col-md-6 mb-4">
-                                <label for="password_confirmation" class="form-label-modern">
-                                    <i class="fas fa-lock text-red-600"></i>
-                                    Konfirmasi Password <span class="text-danger">*</span>
-                                </label>
-                                <div class="input-group input-group-modern">
-                                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                                    <input type="password" class="form-control form-control-modern"
-                                           id="password_confirmation" name="password_confirmation"
-                                           placeholder="Ulangi password yang sama" required>
-                                    <button class="btn btn-toggle-password" type="button" onclick="togglePassword('password_confirmation')">
-                                        <i class="fas fa-eye" id="togglePasswordConfirmationIcon"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <!-- Alamat Desa -->
-                            <div class="col-md-6 mb-4">
-                                <label for="alamat_desa" class="form-label-modern">
-                                    <i class="fas fa-map-marker-alt text-yellow-600"></i>
-                                    Alamat Desa <span class="text-danger">*</span>
-                                </label>
-                                <div class="input-group input-group-modern">
-                                    <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
-                                    <input type="text" class="form-control form-control-modern @error('alamat_desa') is-invalid @enderror"
-                                           id="alamat_desa" name="alamat_desa" value="{{ old('alamat_desa') }}"
-                                           placeholder="Contoh: Desa Simanindo" required>
-                                </div>
-                                @error('alamat_desa')
-                                    <small class="text-danger d-block mt-1"><i class="fas fa-info-circle me-1"></i>{{ $message }}</small>
-                                @enderror
-                            </div>
-                            <!-- Alamat Kecamatan -->
-                            <div class="col-md-6 mb-4">
-                                <label for="alamat_kecamatan" class="form-label-modern">
-                                    <i class="fas fa-map text-orange-600"></i>
-                                    Alamat Kecamatan
-                                </label>
-                                <div class="input-group input-group-modern">
-                                    <span class="input-group-text"><i class="fas fa-map"></i></span>
-                                    <input type="text" class="form-control form-control-modern @error('alamat_kecamatan') is-invalid @enderror"
-                                           id="alamat_kecamatan" name="alamat_kecamatan" value="{{ old('alamat_kecamatan') }}"
-                                           placeholder="Contoh: Kecamatan Simanindo">
-                                </div>
-                                @error('alamat_kecamatan')
-                                    <small class="text-danger d-block mt-1"><i class="fas fa-info-circle me-1"></i>{{ $message }}</small>
-                                @enderror
-                            </div>
-                        </div>
-                        <!-- Info Box -->
-                        <div class="alert alert-modern alert-modern-info mb-4">
-                            <i class="fas fa-info-circle mt-1"></i>
-                            <div>
-                                <strong class="d-block mb-1">Informasi Penting</strong>
-                                <p class="mb-0 text-sm">Setelah didaftarkan, petugas dapat login menggunakan email dan password yang telah ditentukan. Pastikan semua data terisi dengan benar.</p>
-                            </div>
-                        </div>
-                        <!-- Submit Buttons -->
-                        <div class="d-flex justify-content-end gap-3 mt-4">
-                            <a href="{{ route('admin.petugas.index') }}" class="btn btn-modern-secondary">
-                                <i class="fas fa-times me-2"></i>Batal
-                            </a>
-                            <button type="submit" class="btn btn-modern-primary">
-                                <i class="fas fa-save me-2"></i>Simpan Petugas
-                            </button>
-                        </div>
-                    </form>
+    <!-- Form Card -->
+    <div class="ptgs-form-card">
+        <div class="ptgs-form-header">
+            <h5><i class="fas fa-edit me-2"></i>Form Data Petugas</h5>
+            <p>Lengkapi semua field yang diperlukan dengan tanda <span style="color: #ef4444;">*</span></p>
+        </div>
+        <div class="ptgs-form-body">
+            @if ($errors->any())
+            <div class="ptgs-alert danger">
+                <i class="fas fa-exclamation-circle"></i>
+                <div class="ptgs-alert-content">
+                    <strong>Terjadi kesalahan!</strong>
+                    <ul style="margin: 0; padding-left: 20px;">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
                 </div>
             </div>
+            @endif
+
+            <div class="ptgs-alert info">
+                <i class="fas fa-info-circle"></i>
+                <div class="ptgs-alert-content">
+                    <strong>Informasi Penting</strong>
+                    <span>Petugas yang didaftarkan akan mendapat akses untuk mengelola data petani dan bantuan di wilayah kerjanya.</span>
+                </div>
+            </div>
+
+            <form action="{{ route('admin.petugas.store') }}" method="POST">
+                @csrf
+                
+                <!-- Nama Lengkap -->
+                <div class="ptgs-form-group">
+                    <label class="ptgs-form-label">
+                        <i class="fas fa-user" style="color: #667eea;"></i>
+                        Nama Lengkap <span class="required">*</span>
+                    </label>
+                    <div class="ptgs-input-wrapper">
+                        <i class="fas fa-user input-icon"></i>
+                        <input type="text" name="name" class="ptgs-input @error('name') is-invalid @enderror" 
+                               value="{{ old('name') }}" placeholder="Masukkan nama lengkap petugas" required>
+                    </div>
+                    @error('name')
+                    <div class="ptgs-error"><i class="fas fa-exclamation-circle"></i> {{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="ptgs-row">
+                    <!-- Email -->
+                    <div class="ptgs-form-group">
+                        <label class="ptgs-form-label">
+                            <i class="fas fa-envelope" style="color: #3b82f6;"></i>
+                            Email <span class="required">*</span>
+                        </label>
+                        <div class="ptgs-input-wrapper">
+                            <i class="fas fa-envelope input-icon"></i>
+                            <input type="email" name="email" class="ptgs-input @error('email') is-invalid @enderror" 
+                                   value="{{ old('email') }}" placeholder="email@example.com" required>
+                        </div>
+                        @error('email')
+                        <div class="ptgs-error"><i class="fas fa-exclamation-circle"></i> {{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <!-- Telepon -->
+                    <div class="ptgs-form-group">
+                        <label class="ptgs-form-label">
+                            <i class="fas fa-phone" style="color: #10b981;"></i>
+                            Nomor Telepon
+                        </label>
+                        <div class="ptgs-input-wrapper">
+                            <i class="fas fa-phone input-icon"></i>
+                            <input type="text" name="telepon" class="ptgs-input @error('telepon') is-invalid @enderror" 
+                                   value="{{ old('telepon') }}" placeholder="08123456789">
+                        </div>
+                        @error('telepon')
+                        <div class="ptgs-error"><i class="fas fa-exclamation-circle"></i> {{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="ptgs-row">
+                    <!-- Password -->
+                    <div class="ptgs-form-group">
+                        <label class="ptgs-form-label">
+                            <i class="fas fa-lock" style="color: #ef4444;"></i>
+                            Password <span class="required">*</span>
+                        </label>
+                        <div class="ptgs-input-wrapper">
+                            <i class="fas fa-lock input-icon"></i>
+                            <input type="password" name="password" id="password" class="ptgs-input @error('password') is-invalid @enderror" 
+                                   placeholder="Minimal 8 karakter" required>
+                            <button type="button" class="ptgs-toggle-btn" onclick="togglePassword('password')">
+                                <i class="fas fa-eye" id="togglePasswordIcon"></i>
+                            </button>
+                        </div>
+                        <div class="ptgs-hint"><i class="fas fa-info-circle"></i> Minimal 8 karakter</div>
+                        @error('password')
+                        <div class="ptgs-error"><i class="fas fa-exclamation-circle"></i> {{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <!-- Konfirmasi Password -->
+                    <div class="ptgs-form-group">
+                        <label class="ptgs-form-label">
+                            <i class="fas fa-lock" style="color: #ef4444;"></i>
+                            Konfirmasi Password <span class="required">*</span>
+                        </label>
+                        <div class="ptgs-input-wrapper">
+                            <i class="fas fa-lock input-icon"></i>
+                            <input type="password" name="password_confirmation" id="password_confirmation" class="ptgs-input" 
+                                   placeholder="Ulangi password" required>
+                            <button type="button" class="ptgs-toggle-btn" onclick="togglePassword('password_confirmation')">
+                                <i class="fas fa-eye" id="togglePassword_confirmationIcon"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ptgs-row">
+                    <!-- Alamat Desa -->
+                    <div class="ptgs-form-group">
+                        <label class="ptgs-form-label">
+                            <i class="fas fa-map-marker-alt" style="color: #f59e0b;"></i>
+                            Alamat Desa <span class="required">*</span>
+                        </label>
+                        <div class="ptgs-input-wrapper">
+                            <i class="fas fa-map-marker-alt input-icon"></i>
+                            <input type="text" name="alamat_desa" class="ptgs-input @error('alamat_desa') is-invalid @enderror" 
+                                   value="{{ old('alamat_desa') }}" placeholder="Nama desa" required>
+                        </div>
+                        @error('alamat_desa')
+                        <div class="ptgs-error"><i class="fas fa-exclamation-circle"></i> {{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <!-- Alamat Kecamatan -->
+                    <div class="ptgs-form-group">
+                        <label class="ptgs-form-label">
+                            <i class="fas fa-map" style="color: #64748b;"></i>
+                            Alamat Kecamatan
+                        </label>
+                        <div class="ptgs-input-wrapper">
+                            <i class="fas fa-map input-icon"></i>
+                            <input type="text" name="alamat_kecamatan" class="ptgs-input @error('alamat_kecamatan') is-invalid @enderror" 
+                                   value="{{ old('alamat_kecamatan') }}" placeholder="Nama kecamatan">
+                        </div>
+                        @error('alamat_kecamatan')
+                        <div class="ptgs-error"><i class="fas fa-exclamation-circle"></i> {{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+
+                <!-- Form Actions -->
+                <div class="ptgs-form-actions">
+                    <a href="{{ route('admin.petugas.index') }}" class="ptgs-btn secondary">
+                        <i class="fas fa-times"></i>
+                        <span>Batal</span>
+                    </a>
+                    <button type="submit" class="ptgs-btn primary">
+                        <i class="fas fa-save"></i>
+                        <span>Simpan Petugas</span>
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
+
 <script>
 function togglePassword(inputId) {
     const input = document.getElementById(inputId);

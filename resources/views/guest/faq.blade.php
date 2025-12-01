@@ -17,7 +17,7 @@
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="headingOne">
                                 <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                    <i class="fas fa-user me-2 text-primary"></i>Akun dan Registrasi
+                                    👤 Akun dan Registrasi
                                 </button>
                             </h2>
                             <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
@@ -38,7 +38,7 @@
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="headingTwo">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                    <i class="fas fa-chart-line me-2 text-success"></i>Laporan Panen
+                                    📈 Laporan Panen
                                 </button>
                             </h2>
                             <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
@@ -63,7 +63,7 @@
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="headingThree">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                    <i class="fas fa-hand-holding-heart me-2 text-warning"></i>Bantuan Pertanian
+                                    🤝 Bantuan Pertanian
                                 </button>
                             </h2>
                             <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
@@ -88,7 +88,7 @@
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="headingFour">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                                    <i class="fas fa-newspaper me-2 text-info"></i>Berita dan Informasi
+                                    📰 Berita dan Informasi
                                 </button>
                             </h2>
                             <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
@@ -109,7 +109,7 @@
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="headingFive">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-                                    <i class="fas fa-images me-2 text-secondary"></i>Galeri
+                                    🖼️ Galeri
                                 </button>
                             </h2>
                             <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#faqAccordion">
@@ -130,7 +130,7 @@
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="headingSix">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
-                                    <i class="fas fa-headset me-2 text-danger"></i>Kontak dan Dukungan
+                                    🎧 Kontak dan Dukungan
                                 </button>
                             </h2>
                             <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix" data-bs-parent="#faqAccordion">
@@ -158,13 +158,13 @@
                         <p class="mb-2">Jika pertanyaan Anda tidak terjawab di FAQ ini, silakan hubungi kami melalui:</p>
                         <div class="d-flex flex-wrap gap-3">
                             <a href="{{ route('kontak') }}" class="btn btn-outline-primary btn-sm">
-                                <i class="fas fa-envelope me-1"></i>Halaman Kontak
+                                ✉️ Halaman Kontak
                             </a>
                             <a href="mailto:support@sistempertanian.com" class="btn btn-outline-info btn-sm">
-                                <i class="fas fa-envelope me-1"></i>Email Support
+                                📧 Email Support
                             </a>
                             <a href="tel:+62211234567" class="btn btn-outline-success btn-sm">
-                                <i class="fas fa-phone me-1"></i>Hotline
+                                📞 Hotline
                             </a>
                         </div>
                     </div>

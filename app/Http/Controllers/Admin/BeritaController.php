@@ -60,7 +60,14 @@ class BeritaController extends Controller
         // Generate slug
         $data['slug'] = Str::slug($request->judul);
 
-        Berita::create($data);
+        $berita = Berita::create($data);
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'message' => 'Berita created successfully',
+                'data' => $berita,
+            ], 201);
+        }
 
         return redirect()->route('admin.berita.index')->with('success', 'Berita berhasil ditambahkan.');
     }
@@ -122,6 +129,13 @@ class BeritaController extends Controller
 
         $berita->update($data);
 
+        if ($request->expectsJson()) {
+            return response()->json([
+                'message' => 'Berita updated successfully',
+                'data' => $berita,
+            ], 200);
+        }
+
         return redirect()->route('admin.berita.index')->with('success', 'Berita berhasil diperbarui.');
     }
 
@@ -138,6 +152,12 @@ class BeritaController extends Controller
         }
 
         $berita->delete();
+
+        if (request()->expectsJson()) {
+            return response()->json([
+                'message' => 'Berita deleted successfully',
+            ], 200);
+        }
 
         return redirect()->route('admin.berita.index')->with('success', 'Berita berhasil dihapus.');
     }

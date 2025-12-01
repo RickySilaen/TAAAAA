@@ -4,10 +4,10 @@
 
 @section('content')
 <div class="containe                        <a href="{{ route('hasil.panen') }}" class="btn btn-outline-success btn-sm">
-                            <i class="fas fa-seedling me-1"></i>Data Panen
+                            🌱 Data Panen
                         </a>
                         <a href="{{ route('bantuan.publik') }}" class="btn btn-outline-warning btn-sm">
-                            <i class="fas fa-hands-helping me-1"></i>Bantuan
+                            🤝 Bantuan
                         </a>
                         <a href="{{ route('galeri') }}" class="btn btn-outline-info btn-sm"> py-4">
     <div class="row">
@@ -33,8 +33,8 @@
                             <div>
                                 <h1 class="h2 mb-2">{{ $berita->judul }}</h1>
                                 <div class="d-flex align-items-center text-muted small">
-                                    <i class="fas fa-calendar me-2"></i>
-                                    <span>{{ \Carbon\Carbon::parse($berita->created_at)->format('d M Y, H:i') }}</span>
+                                    📅
+                                    <span class="ms-1">{{ \Carbon\Carbon::parse($berita->created_at)->format('d M Y, H:i') }}</span>
                                     @if($berita->kategori)
                                         <span class="mx-2">•</span>
                                         <span class="badge bg-primary">{{ $berita->kategori }}</span>
@@ -55,15 +55,15 @@
                         <div class="d-flex gap-2">
                             <a href="https://www.facebook.com/sharer/sharer.php?u={{ url()->current() }}"
                                target="_blank" class="btn btn-outline-primary btn-sm">
-                                <i class="fab fa-facebook-f me-1"></i>Facebook
+                                📘 Facebook
                             </a>
                             <a href="https://twitter.com/intent/tweet?url={{ url()->current() }}&text={{ urlencode($berita->judul) }}"
                                target="_blank" class="btn btn-outline-info btn-sm">
-                                <i class="fab fa-twitter me-1"></i>Twitter
+                                🐦 Twitter
                             </a>
                             <a href="https://wa.me/?text={{ urlencode($berita->judul . ' - ' . url()->current()) }}"
                                target="_blank" class="btn btn-outline-success btn-sm">
-                                <i class="fab fa-whatsapp me-1"></i>WhatsApp
+                                💬 WhatsApp
                             </a>
                         </div>
                     </div>
@@ -85,7 +85,7 @@
                                     <img src="{{ asset('storage/' . $item->gambar) }}" class="me-3 rounded" alt="{{ $item->judul }}" style="width: 80px; height: 60px; object-fit: cover;">
                                 @else
                                     <div class="me-3 bg-light rounded d-flex align-items-center justify-content-center" style="width: 80px; height: 60px;">
-                                        <i class="fas fa-newspaper text-muted"></i>
+                                        📰
                                     </div>
                                 @endif
                                 <div class="flex-grow-1">
@@ -95,7 +95,7 @@
                                         </a>
                                     </h6>
                                     <small class="text-muted">
-                                        <i class="fas fa-calendar me-1"></i>{{ \Carbon\Carbon::parse($item->created_at)->format('d M Y') }}
+                                        📅 {{ \Carbon\Carbon::parse($item->created_at)->format('d M Y') }}
                                     </small>
                                 </div>
                             </div>
@@ -122,7 +122,7 @@
                             <input type="text" class="form-control form-control-sm" id="nama" name="nama" placeholder="Nama (opsional)">
                         </div>
                         <button type="submit" class="btn btn-primary btn-sm w-100">
-                            <i class="fas fa-envelope me-1"></i>Berlangganan
+                            ✉️ Berlangganan
                         </button>
                     </form>
                 </div>
@@ -136,16 +136,16 @@
                 <div class="card-body">
                     <div class="d-grid gap-2">
                         <a href="{{ route('hasil.panen') }}" class="btn btn-outline-success btn-sm">
-                            <i class="fas fa-chart-line me-1"></i>Laporan Panen
+                            📈 Laporan Panen
                         </a>
                         <a href="{{ route('bantuan.publik') }}" class="btn btn-outline-warning btn-sm">
-                            <i class="fas fa-hand-holding-heart me-1"></i>Bantuan
+                            🤝 Bantuan
                         </a>
                         <a href="{{ route('galeri') }}" class="btn btn-outline-info btn-sm">
-                            <i class="fas fa-images me-1"></i>Galeri
+                            🖼️ Galeri
                         </a>
                         <a href="{{ route('kontak') }}" class="btn btn-outline-primary btn-sm">
-                            <i class="fas fa-envelope me-1"></i>Kontak Kami
+                            ✉️ Kontak Kami
                         </a>
                     </div>
                 </div>

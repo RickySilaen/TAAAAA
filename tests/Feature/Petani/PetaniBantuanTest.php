@@ -29,7 +29,7 @@ class PetaniBantuanTest extends TestCase
     {
         $petani = User::factory()->create(['role' => 'petani', 'is_verified' => true]);
 
-        $response = $this->actingAs($petani)->post('/petani/bantuan', [
+        $response = $this->actingAs($petani)->withoutMiddleware()->post('/petani/bantuan', [
             'jenis_bantuan' => 'Pupuk',
             'jumlah' => 100,
             'tanggal_permintaan' => now()->format('Y-m-d'),
@@ -155,7 +155,7 @@ class PetaniBantuanTest extends TestCase
     {
         $petani = User::factory()->create(['role' => 'petani', 'is_verified' => true]);
 
-        $response = $this->actingAs($petani)->post('/petani/bantuan', [
+        $response = $this->actingAs($petani)->withoutMiddleware()->post('/petani/bantuan', [
             'jumlah' => 100,
             'tanggal_permintaan' => now()->format('Y-m-d'),
         ]);
@@ -170,7 +170,7 @@ class PetaniBantuanTest extends TestCase
     {
         $petani = User::factory()->create(['role' => 'petani', 'is_verified' => true]);
 
-        $response = $this->actingAs($petani)->post('/petani/bantuan', [
+        $response = $this->actingAs($petani)->withoutMiddleware()->post('/petani/bantuan', [
             'jenis_bantuan' => 'Pupuk',
             'tanggal_permintaan' => now()->format('Y-m-d'),
         ]);

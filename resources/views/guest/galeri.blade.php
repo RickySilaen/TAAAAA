@@ -24,12 +24,12 @@
                                                      style="height: 200px; object-fit: cover; cursor: pointer;"
                                                      onclick="openModal('{{ asset('storage/' . $galeri->gambar) }}', '{{ $galeri->judul }}', '{{ $galeri->deskripsi }}')">
                                                 <div class="position-absolute top-50 start-50 translate-middle d-none d-lg-block">
-                                                    <i class="fas fa-search-plus fs-3 text-white bg-dark bg-opacity-50 rounded-circle p-2"></i>
+                                                    <span class="fs-3 text-white bg-dark bg-opacity-50 rounded-circle p-2">🔍</span>
                                                 </div>
                                             </div>
                                         @else
                                             <div class="bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
-                                                <i class="fas fa-image fa-3x text-muted"></i>
+                                                <span style="font-size: 3rem;">🖼️</span>
                                             </div>
                                         @endif
                                         <div class="card-body">
@@ -38,9 +38,9 @@
                                                 <p class="card-text small text-muted mb-2">{{ Str::limit($galeri->deskripsi, 80) }}</p>
                                             @endif
                                             <small class="text-muted">
-                                                <i class="fas fa-calendar me-1"></i>{{ \Carbon\Carbon::parse($galeri->created_at)->format('d M Y') }}
+                                                📅 {{ \Carbon\Carbon::parse($galeri->created_at)->format('d M Y') }}
                                                 @if($galeri->lokasi)
-                                                    <br><i class="fas fa-map-marker-alt me-1"></i>{{ $galeri->lokasi }}
+                                                    <br>📍 {{ $galeri->lokasi }}
                                                 @endif
                                             </small>
                                         </div>
@@ -55,7 +55,7 @@
                         </div>
                     @else
                         <div class="text-center py-5">
-                            <i class="fas fa-images fa-4x text-muted mb-3"></i>
+                            <div style="font-size: 4rem;">🖼️</div>
                             <h5 class="text-muted">Belum ada gambar di galeri</h5>
                             <p class="text-muted">Galeri akan segera diisi dengan dokumentasi kegiatan pertanian.</p>
                         </div>

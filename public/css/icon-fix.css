@@ -1,7 +1,70 @@
 /**
  * Icon Visibility Fix - SUPER STRONG VERSION
  * Memastikan semua icon FontAwesome terlihat dengan jelas
+ * Last Updated: 2025
  */
+
+/* Font Awesome Base Fix */
+.fas, .far, .fab, .fa, .fa-solid, .fa-regular, .fa-brands,
+i[class^="fa-"], i[class*=" fa-"] {
+    font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands", FontAwesome !important;
+    font-style: normal !important;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    text-rendering: auto !important;
+    line-height: 1 !important;
+}
+
+.fas, .fa-solid, .fa {
+    font-weight: 900 !important;
+}
+
+.far, .fa-regular {
+    font-weight: 400 !important;
+}
+
+.fab, .fa-brands {
+    font-family: "Font Awesome 6 Brands" !important;
+    font-weight: 400 !important;
+}
+
+/* ==== GLOBAL FIX FOR LARGE STRAY SVGs ==== */
+/* Hide any SVGs that appear directly as children of main containers without proper sizing */
+body > svg:not([class]):not([id]),
+.main-content > svg:not([class]):not([id]),
+.container-fluid > svg:not([class]):not([id]),
+div > svg:not([width]):not([class]):not([id]) {
+    display: none !important;
+}
+
+/* Hide stray large icons */
+body > i[class*="fa-chevron"],
+body > i[class*="fa-arrow"],
+.main-content > i[class*="fa-chevron"],
+.main-content > i[class*="fa-arrow"] {
+    display: none !important;
+}
+
+/* Force reasonable size for any uncontained SVGs */
+svg:not(.logo-svg):not(.wave-svg):not(.chart-svg) {
+    max-width: 100px;
+    max-height: 100px;
+}
+
+/* Ensure pagination SVGs stay small */
+.pagination svg,
+.page-item svg,
+.page-link svg {
+    width: 16px !important;
+    height: 16px !important;
+    max-width: 16px !important;
+    max-height: 16px !important;
+}
+
+/* ==== END GLOBAL FIX ==== */
 
 /* Stat Card Icons - Force Visibility */
 .stat-icon {
@@ -241,6 +304,47 @@
     visibility: visible !important;
 }
 
+/* ==== SOCIAL ICONS FIX ==== */
+.social-icon {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.social-icon i,
+.social-icon .fab,
+.social-icon .fa-brands {
+    font-family: "Font Awesome 6 Brands" !important;
+    font-weight: 400 !important;
+    font-size: 1.2rem !important;
+    visibility: visible !important;
+    display: inline-block !important;
+    opacity: 1 !important;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+}
+
+/* Feature Icons Fix */
+.feature-icon i,
+.feature-icon .fas {
+    font-family: "Font Awesome 6 Free" !important;
+    font-weight: 900 !important;
+    font-size: 2rem !important;
+    visibility: visible !important;
+    display: inline-block !important;
+    opacity: 1 !important;
+}
+
+/* Footer Contact Icons */
+.footer-contact i,
+.footer-links i {
+    font-family: "Font Awesome 6 Free" !important;
+    font-weight: 900 !important;
+    visibility: visible !important;
+    display: inline-block !important;
+    opacity: 1 !important;
+}
+
 /* Override any conflicting styles */
 * .stat-icon i {
     opacity: 1 !important;
@@ -266,6 +370,11 @@
 }
 
 .far {
+    font-weight: 400 !important;
+}
+
+.fab, .fa-brands {
+    font-family: "Font Awesome 6 Brands" !important;
     font-weight: 400 !important;
 }
 

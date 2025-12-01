@@ -88,7 +88,7 @@ class GuestControllerTest extends TestCase
      */
     public function test_guest_can_subscribe_to_newsletter(): void
     {
-        $response = $this->post('/newsletter/subscribe', [
+        $response = $this->withoutMiddleware()->post('/newsletter/subscribe', [
             'email' => 'subscriber@example.com',
         ]);
 
@@ -111,7 +111,7 @@ class GuestControllerTest extends TestCase
             'status' => 'active',
         ]);
 
-        $response = $this->post('/newsletter/subscribe', [
+        $response = $this->withoutMiddleware()->post('/newsletter/subscribe', [
             'email' => 'existing@example.com',
         ]);
 
@@ -123,7 +123,7 @@ class GuestControllerTest extends TestCase
      */
     public function test_guest_can_submit_feedback(): void
     {
-        $response = $this->post('/feedback', [
+        $response = $this->withoutMiddleware()->post('/feedback', [
             'nama' => 'John Doe',
             'email' => 'john@example.com',
             'subjek' => 'Test Feedback',
@@ -146,7 +146,7 @@ class GuestControllerTest extends TestCase
      */
     public function test_feedback_requires_nama(): void
     {
-        $response = $this->post('/feedback', [
+        $response = $this->withoutMiddleware()->post('/feedback', [
             'email' => 'john@example.com',
             'subjek' => 'Test',
             'pesan' => 'Test pesan',
@@ -160,7 +160,7 @@ class GuestControllerTest extends TestCase
      */
     public function test_feedback_requires_email(): void
     {
-        $response = $this->post('/feedback', [
+        $response = $this->withoutMiddleware()->post('/feedback', [
             'nama' => 'John Doe',
             'subjek' => 'Test',
             'pesan' => 'Test pesan',
@@ -174,7 +174,7 @@ class GuestControllerTest extends TestCase
      */
     public function test_feedback_requires_valid_email(): void
     {
-        $response = $this->post('/feedback', [
+        $response = $this->withoutMiddleware()->post('/feedback', [
             'nama' => 'John Doe',
             'email' => 'not-an-email',
             'subjek' => 'Test',
@@ -189,7 +189,7 @@ class GuestControllerTest extends TestCase
      */
     public function test_feedback_requires_subjek(): void
     {
-        $response = $this->post('/feedback', [
+        $response = $this->withoutMiddleware()->post('/feedback', [
             'nama' => 'John Doe',
             'email' => 'john@example.com',
             'pesan' => 'Test pesan',
@@ -203,7 +203,7 @@ class GuestControllerTest extends TestCase
      */
     public function test_feedback_requires_pesan(): void
     {
-        $response = $this->post('/feedback', [
+        $response = $this->withoutMiddleware()->post('/feedback', [
             'nama' => 'John Doe',
             'email' => 'john@example.com',
             'subjek' => 'Test',
@@ -217,7 +217,7 @@ class GuestControllerTest extends TestCase
      */
     public function test_newsletter_subscription_requires_email(): void
     {
-        $response = $this->post('/newsletter/subscribe', []);
+        $response = $this->withoutMiddleware()->post('/newsletter/subscribe', []);
 
         $response->assertSessionHasErrors('email');
     }
@@ -227,7 +227,7 @@ class GuestControllerTest extends TestCase
      */
     public function test_newsletter_subscription_requires_valid_email(): void
     {
-        $response = $this->post('/newsletter/subscribe', [
+        $response = $this->withoutMiddleware()->post('/newsletter/subscribe', [
             'email' => 'not-an-email',
         ]);
 

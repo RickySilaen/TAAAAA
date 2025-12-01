@@ -18,7 +18,7 @@ class IntegrationTest extends TestCase
         Notification::fake();
 
         // Step 1: Petani registers
-        $this->post('/register', [
+        $this->withoutMiddleware()->post('/register', [
             'name' => 'Integration Test Petani',
             'email' => 'integration@example.com',
             'password' => 'password123',
@@ -34,7 +34,7 @@ class IntegrationTest extends TestCase
         $this->assertFalse($petani->is_verified);
 
         // Step 2: Petani tries to login but is unverified
-        $response = $this->post('/login', [
+        $response = $this->withoutMiddleware()->post('/login', [
             'email' => 'integration@example.com',
             'password' => 'password123',
         ]);
@@ -45,13 +45,13 @@ class IntegrationTest extends TestCase
         // Step 3: Petugas verifies the petani
         $petugas = User::factory()->create(['role' => 'petugas']);
 
-        $this->actingAs($petugas)->post("/petugas/petani/{$petani->id}/verify");
+        $this->withoutMiddleware()->actingAs($petugas)->post("/petugas/petani/{$petani->id}/verify");
 
         $petani->refresh();
         $this->assertTrue($petani->is_verified);
 
         // Step 4: Now petani can login successfully
-        $response = $this->post('/login', [
+        $response = $this->withoutMiddleware()->post('/login', [
             'email' => 'integration@example.com',
             'password' => 'password123',
         ]);
@@ -74,7 +74,7 @@ class IntegrationTest extends TestCase
         $petugas = User::factory()->create(['role' => 'petugas']);
 
         // Step 1: Petani creates laporan
-        $response = $this->actingAs($petani)->post('/petani/laporan', [
+        $response = $this->withoutMiddleware()->actingAs($petani)->post('/petani/laporan', [
             'jenis_tanaman' => 'Padi',
             'hasil_panen' => 1500,
             'tanggal_panen' => now()->format('Y-m-d'),
@@ -92,7 +92,7 @@ class IntegrationTest extends TestCase
         $response->assertStatus(200);
 
         // Step 3: Petugas verifies the laporan
-        $this->actingAs($petugas)->post("/petugas/laporan/{$laporan->id}/verify");
+        $this->withoutMiddleware()->actingAs($petugas)->post("/petugas/laporan/{$laporan->id}/verify");
 
         $laporan->refresh();
         $this->assertEquals('verified', $laporan->status);
@@ -116,7 +116,7 @@ class IntegrationTest extends TestCase
         $admin = User::factory()->create(['role' => 'admin']);
 
         // Step 1: Petani creates bantuan request
-        $response = $this->actingAs($petani)->post('/petani/bantuan', [
+        $response = $this->withoutMiddleware()->actingAs($petani)->post('/petani/bantuan', [
             'jenis_bantuan' => 'Pupuk Subsidi',
             'jumlah' => 200,
             'tanggal_permintaan' => now()->format('Y-m-d'),
@@ -182,16 +182,16 @@ class IntegrationTest extends TestCase
         $petani2 = User::factory()->create(['role' => 'petani', 'is_verified' => false]);
 
         // Petugas verifies petani1
-        $this->actingAs($petugas)->post("/petugas/petani/{$petani1->id}/verify");
+        $this->withoutMiddleware()->actingAs($petugas)->post("/petugas/petani/{$petani1->id}/verify");
         $petani1->refresh();
         $this->assertTrue($petani1->is_verified);
 
         // Petugas rejects petani2
-        $this->actingAs($petugas)->delete("/petugas/petani/{$petani2->id}/reject");
+        $this->withoutMiddleware()->actingAs($petugas)->delete("/petugas/petani/{$petani2->id}/reject");
         $this->assertDatabaseMissing('users', ['id' => $petani2->id]);
 
         // Verified petani1 creates laporan
-        $this->actingAs($petani1)->post('/petani/laporan', [
+        $this->withoutMiddleware()->actingAs($petani1)->post('/petani/laporan', [
             'jenis_tanaman' => 'Jagung',
             'hasil_panen' => 800,
             'tanggal_panen' => now()->format('Y-m-d'),
@@ -202,7 +202,7 @@ class IntegrationTest extends TestCase
         $this->assertNotNull($laporan);
 
         // Petugas verifies the laporan
-        $this->actingAs($petugas)->post("/petugas/laporan/{$laporan->id}/verify");
+        $this->withoutMiddleware()->actingAs($petugas)->post("/petugas/laporan/{$laporan->id}/verify");
         $laporan->refresh();
         $this->assertEquals('verified', $laporan->status);
 

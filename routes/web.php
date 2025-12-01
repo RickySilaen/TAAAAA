@@ -14,6 +14,7 @@ use App\Http\Controllers\HealthCheckController;
 use App\Http\Controllers\InputDataController;
 use App\Http\Controllers\PetaniController;
 use App\Http\Controllers\PetugasController;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -55,14 +56,38 @@ Route::post('/feedback', [GuestController::class, 'feedback'])->name('feedback.s
 Route::get('/download/bantuan/pdf', [GuestController::class, 'downloadBantuanPdf'])->name('download.bantuan.pdf');
 Route::get('/download/laporan/pdf', [GuestController::class, 'downloadLaporanPdf'])->name('download.laporan.pdf');
 
+// Test PDF Route
+Route::get('/test-pdf', function () {
+    $pdf = Pdf::loadHTML('<html><body><h1>Test PDF</h1><p>Tanggal: ' . date('Y-m-d H:i:s') . '</p></body></html>');
+
+    return response($pdf->output())
+        ->header('Content-Type', 'application/pdf')
+        ->header('Content-Disposition', 'attachment; filename="test.pdf"')
+        ->header('Cache-Control', 'no-cache, no-store, must-revalidate')
+        ->header('Pragma', 'no-cache')
+        ->header('Expires', '0');
+})->name('test.pdf');
+
 /*
 |--------------------------------------------------------------------------
 | Authentication Routes (Login, Register, Logout)
 |--------------------------------------------------------------------------
 */
 
-// Authentication Routes (without email verification)
-Auth::routes();
+// Authentication Routes with email verification enabled
+Auth::routes(['verify' => true]);
+
+// Email Verification Routes (manually registered for compatibility)
+Route::middleware('auth')->group(function () {
+    Route::get('/email/verify', [\App\Http\Controllers\Auth\EmailVerificationPromptController::class, '__invoke'])
+        ->name('verification.notice');
+    Route::get('/email/verify/{id}/{hash}', [\App\Http\Controllers\Auth\VerifyEmailController::class, '__invoke'])
+        ->middleware(['signed', 'throttle:6,1'])
+        ->name('verification.verify');
+    Route::post('/email/verification-notification', [\App\Http\Controllers\Auth\EmailVerificationNotificationController::class, 'store'])
+        ->middleware('throttle:6,1')
+        ->name('verification.resend');
+});
 
 Route::middleware(['guest', 'throttle:5,1'])->group(function () {
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
@@ -81,7 +106,7 @@ Route::post('/logout', [LoginController::class, 'logout'])
 | Authenticated User Routes (Butuh Login)
 |--------------------------------------------------------------------------
 */
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'is_verified'])->group(function () {
     // Dashboard - Auto redirect berdasarkan role
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -177,6 +202,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         // Monitoring
         Route::get('monitoring', [PetugasController::class, 'monitoring'])->name('monitoring');
+
+        // Export PDF
+        Route::get('export/bantuan/pdf', [PetugasController::class, 'exportBantuanPdf'])->name('export.bantuan.pdf');
+        Route::get('export/laporan/pdf', [PetugasController::class, 'exportLaporanPdf'])->name('export.laporan.pdf');
     });
 
     /*

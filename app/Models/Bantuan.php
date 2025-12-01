@@ -7,6 +7,24 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\Bantuan.
+ *
+ * @property int $id
+ * @property int $user_id
+ * @property string $jenis_bantuan
+ * @property int|null $jumlah
+ * @property string|null $status
+ * @property \Illuminate\Support\Carbon|null $tanggal
+ * @property \Illuminate\Support\Carbon|null $tanggal_permintaan
+ * @property string|null $keterangan
+ * @property string|null $catatan
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \App\Models\User|null $user
+ *
+ * @method static \Illuminate\Database\Eloquent\Factories\Factory factory(...$parameters)
+ */
 class Bantuan extends Model
 {
     use HasFactory;

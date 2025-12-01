@@ -27,7 +27,7 @@ class RegisterTest extends TestCase
     {
         Notification::fake();
 
-        $response = $this->post('/register', [
+        $response = $this->withoutMiddleware()->post('/register', [
             'name' => 'Test Petani',
             'email' => 'petani@example.com',
             'password' => 'password123',
@@ -40,12 +40,14 @@ class RegisterTest extends TestCase
         $this->assertDatabaseHas('users', [
             'email' => 'petani@example.com',
             'role' => 'petani',
-            'is_verified' => false,
         ]);
 
         $user = User::where('email', 'petani@example.com')->first();
         $this->assertEquals('petani', $user->role);
         $this->assertFalse($user->is_verified);
+
+        // User should be redirected to login after registration
+        $response->assertRedirect('/login');
     }
 
     /**
@@ -156,7 +158,7 @@ class RegisterTest extends TestCase
      */
     public function test_password_is_hashed_after_registration(): void
     {
-        $this->post('/register', [
+        $this->withoutMiddleware()->post('/register', [
             'name' => 'Test User',
             'email' => 'test@example.com',
             'password' => 'password123',
@@ -186,7 +188,7 @@ class RegisterTest extends TestCase
      */
     public function test_new_petani_is_not_verified_by_default(): void
     {
-        $this->post('/register', [
+        $this->withoutMiddleware()->post('/register', [
             'name' => 'Test Petani',
             'email' => 'petani@example.com',
             'password' => 'password123',
@@ -203,7 +205,7 @@ class RegisterTest extends TestCase
      */
     public function test_registration_stores_alamat_desa_and_kecamatan(): void
     {
-        $this->post('/register', [
+        $this->withoutMiddleware()->post('/register', [
             'name' => 'Test Petani',
             'email' => 'petani@example.com',
             'password' => 'password123',

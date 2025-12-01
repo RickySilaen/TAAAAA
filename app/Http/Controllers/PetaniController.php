@@ -77,29 +77,30 @@ class PetaniController extends Controller
     {
         $validated = $request->validate([
             'jenis_tanaman' => 'required|string|max:255',
-            'luas_lahan' => 'required|numeric|min:0',
+            'luas_lahan' => 'nullable|numeric|min:0',
             'hasil_panen' => 'required|numeric|min:0',
             'tanggal_panen' => 'required|date',
-            'keterangan' => 'nullable|string',
+            'kualitas_panen' => 'nullable|string|max:255',
+            'catatan' => 'nullable|string',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
+
+        // Remove foto from validated since we don't have foto column in DB
+        unset($validated['foto']);
 
         $validated['user_id'] = Auth::id();
         $validated['status'] = 'pending';
 
-        // Handle foto upload
-        if ($request->hasFile('foto')) {
-            $file = $request->file('foto');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('uploads/laporan'), $filename);
-            $validated['foto'] = $filename;
-        }
-
         $laporan = Laporan::create($validated);
 
         // Kirim notifikasi ke admin/petugas
-        $admins = User::whereIn('role', ['admin', 'petugas'])->get();
-        Notification::send($admins, new LaporanCreated($laporan));
+        try {
+            $admins = User::whereIn('role', ['admin', 'petugas'])->get();
+            Notification::send($admins, new LaporanCreated($laporan));
+        } catch (\Exception $e) {
+            // Log error but don't fail the request
+            \Log::error('Failed to send laporan created notification: ' . $e->getMessage());
+        }
 
         return redirect()->route('petani.laporan.index')->with('success', 'Laporan berhasil dibuat!');
     }
@@ -145,10 +146,11 @@ class PetaniController extends Controller
 
         $validated = $request->validate([
             'jenis_tanaman' => 'required|string|max:255',
-            'luas_lahan' => 'required|numeric|min:0',
+            'luas_lahan' => 'nullable|numeric|min:0',
             'hasil_panen' => 'required|numeric|min:0',
             'tanggal_panen' => 'required|date',
-            'keterangan' => 'nullable|string',
+            'kualitas_panen' => 'nullable|string|max:255',
+            'catatan' => 'nullable|string',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 

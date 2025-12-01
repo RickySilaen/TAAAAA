@@ -4,10 +4,35 @@ namespace App\Models;
 
 use App\Traits\OptimizedQuery;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\Laporan.
+ *
+ * @property int $id
+ * @property int $user_id
+ * @property string|null $nama_petani
+ * @property string|null $alamat_desa
+ * @property string|null $deskripsi_kemajuan
+ * @property float|null $hasil_panen
+ * @property string|null $foto_bukti
+ * @property \Illuminate\Support\Carbon|null $tanggal
+ * @property \Illuminate\Support\Carbon|null $tanggal_panen
+ * @property string|null $jenis_tanaman
+ * @property string|null $catatan
+ * @property float|null $luas_lahan
+ * @property float|null $luas_panen
+ * @property string|null $status
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \App\Models\User|null $user
+ *
+ * @method static \Illuminate\Database\Eloquent\Factories\Factory factory(...$parameters)
+ */
 class Laporan extends Model
 {
+    use HasFactory;
     use OptimizedQuery;
 
     protected $fillable = [

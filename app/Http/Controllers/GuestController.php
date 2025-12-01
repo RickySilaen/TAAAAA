@@ -10,6 +10,7 @@ use App\Models\Laporan;
 use App\Models\Newsletter;
 use App\Models\User;
 use App\Notifications\LaporanCreated;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
 
@@ -17,8 +18,8 @@ class GuestController extends Controller
 {
     public function index()
     {
-        // Ambil data bantuan terbaru untuk ditampilkan di halaman publik
-        $bantuans = Bantuan::latest()->take(5)->get();
+        // Ambil data bantuan terbaru yang sudah dikirim (terverifikasi petugas)
+        $bantuans = Bantuan::where('status', 'Dikirim')->latest()->take(5)->get();
 
         // Ambil berita terbaru
         $beritas = Berita::where('status', 'published')->latest()->take(3)->get();
@@ -26,11 +27,11 @@ class GuestController extends Controller
         // Ambil galeri terbaru
         $galeris = Galeri::latest()->take(6)->get();
 
-        // Statistik umum untuk transparansi publik
+        // Statistik umum untuk transparansi publik - hanya data terverifikasi
         $totalPetani = User::where('role', 'petani')->count();
-        $totalBantuan = Bantuan::count();
-        $totalLaporan = Laporan::count();
-        $totalHasilPanen = Laporan::sum('hasil_panen');
+        $totalBantuan = Bantuan::where('status', 'Dikirim')->count();
+        $totalLaporan = Laporan::where('status', 'verified')->count();
+        $totalHasilPanen = Laporan::where('status', 'verified')->sum('hasil_panen');
 
         return view('index', compact('bantuans', 'beritas', 'galeris', 'totalPetani', 'totalBantuan', 'totalLaporan', 'totalHasilPanen'));
     }
@@ -57,9 +58,23 @@ class GuestController extends Controller
 
     public function bantuanPublik()
     {
-        $bantuans = Bantuan::with('user')->latest()->paginate(10);
+        // Hanya tampilkan bantuan yang sudah dikirim (sudah diproses petugas)
+        $bantuans = Bantuan::with('user')
+            ->where('status', 'Dikirim')
+            ->latest()
+            ->paginate(12);
 
-        return view('guest.bantuan', compact('bantuans'));
+        // Statistik untuk halaman publik
+        $totalBantuan = Bantuan::where('status', 'Dikirim')->count();
+        $totalPenerima = Bantuan::where('status', 'Dikirim')->distinct('user_id')->count('user_id');
+
+        // Statistik berdasarkan jenis bantuan
+        $bantuanPerJenis = Bantuan::where('status', 'Dikirim')
+            ->selectRaw('jenis_bantuan, COUNT(*) as total, SUM(jumlah) as jumlah_total')
+            ->groupBy('jenis_bantuan')
+            ->get();
+
+        return view('guest.bantuan', compact('bantuans', 'totalBantuan', 'totalPenerima', 'bantuanPerJenis'));
     }
 
     public function bantuanShow($id)
@@ -71,9 +86,26 @@ class GuestController extends Controller
 
     public function laporanPublik()
     {
-        $laporans = Laporan::with('user')->latest()->paginate(10);
+        // Hanya tampilkan laporan yang sudah diverifikasi oleh petugas
+        $laporans = Laporan::with('user')
+            ->where('status', 'verified')
+            ->latest()
+            ->paginate(12);
 
-        return view('guest.laporan', compact('laporans'));
+        // Statistik untuk halaman publik
+        $totalLaporan = Laporan::where('status', 'verified')->count();
+        $totalProduksi = Laporan::where('status', 'verified')->sum('hasil_panen') / 1000; // Convert to ton
+        $totalPetani = Laporan::where('status', 'verified')->distinct('user_id')->count('user_id');
+
+        // Data untuk chart - produksi per bulan
+        $produksiPerBulan = Laporan::where('status', 'verified')
+            ->selectRaw('MONTH(created_at) as bulan, SUM(hasil_panen) as total')
+            ->whereYear('created_at', date('Y'))
+            ->groupBy('bulan')
+            ->orderBy('bulan')
+            ->get();
+
+        return view('guest.laporan', compact('laporans', 'totalLaporan', 'totalProduksi', 'totalPetani', 'produksiPerBulan'));
     }
 
     public function berita()
@@ -112,7 +144,8 @@ class GuestController extends Controller
 
         Newsletter::create([
             'email' => $request->email,
-            'nama' => $request->nama,
+            'nama' => $request->nama ?? null,
+            'status' => 'active',
             'subscribed_at' => now(),
         ]);
 
@@ -155,7 +188,8 @@ class GuestController extends Controller
     public function downloadBantuanPdf()
     {
         $bantuans = Bantuan::with('user')->get();
-        $pdf = \PDF::loadView('guest.exports.bantuan-pdf', compact('bantuans'));
+        $pdf = Pdf::loadView('guest.exports.bantuan-pdf', compact('bantuans'));
+        $pdf->setPaper('a4', 'portrait');
 
         return $pdf->download('daftar-bantuan-' . date('Y-m-d') . '.pdf');
     }
@@ -163,7 +197,8 @@ class GuestController extends Controller
     public function downloadLaporanPdf()
     {
         $laporans = Laporan::with('user')->get();
-        $pdf = \PDF::loadView('guest.exports.laporan-pdf', compact('laporans'));
+        $pdf = Pdf::loadView('guest.exports.laporan-pdf', compact('laporans'));
+        $pdf->setPaper('a4', 'landscape');
 
         return $pdf->download('daftar-laporan-' . date('Y-m-d') . '.pdf');
     }

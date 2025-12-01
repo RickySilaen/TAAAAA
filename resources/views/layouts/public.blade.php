@@ -7,12 +7,13 @@
 
     <title>@yield('title', 'Dinas Pertanian Kabupaten Toba')</title>
     <link rel="icon" href="{{ asset('images/logo-dinas-pertanian-toba.png') }}" type="image/png">
+    <link rel="apple-touch-icon" href="{{ asset('images/logo-dinas-pertanian-toba.png') }}">
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <!-- Font Awesome 6.5 - Local Version -->
+    <link rel="stylesheet" href="{{ asset('css/fontawesome-local.css') }}">
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -25,6 +26,9 @@
 
     <!-- Modern Style -->
     <link rel="stylesheet" href="{{ asset('css/modern-style.css') }}">
+    
+    <!-- Icon Fix CSS -->
+    <link rel="stylesheet" href="{{ asset('css/icon-fix.css') }}">
 
     <style>
         :root {
@@ -35,6 +39,31 @@
             --yellow: #ffc107;
             --text-dark: #1a202c;
             --text-gray: #4a5568;
+        }
+        
+        /* Force Font Awesome Icons */
+        .fas, .far, .fab, .fa, .fa-solid, .fa-regular, .fa-brands,
+        i[class^="fa-"], i[class*=" fa-"] {
+            font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands", FontAwesome !important;
+            font-style: normal !important;
+            -webkit-font-smoothing: antialiased !important;
+            -moz-osx-font-smoothing: grayscale !important;
+            display: inline-block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+        
+        .fas, .fa-solid, .fa {
+            font-weight: 900 !important;
+        }
+        
+        .far, .fa-regular {
+            font-weight: 400 !important;
+        }
+        
+        .fab, .fa-brands {
+            font-family: "Font Awesome 6 Brands" !important;
+            font-weight: 400 !important;
         }
 
         body {
@@ -156,6 +185,12 @@
             color: white;
             padding: 3rem 0 1rem;
             margin-top: 4rem;
+        }
+
+        .footer-logo {
+            height: 50px;
+            width: auto;
+            object-fit: contain;
         }
 
         .footer-title {
@@ -313,9 +348,12 @@
         <div class="container">
             <div class="row g-4">
                 <div class="col-lg-4">
-                    <h5 class="footer-title">Dinas Pertanian Kabupaten Toba</h5>
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="{{ asset('images/logo-dinas-pertanian-toba.png') }}" alt="Logo Dinas Pertanian Kabupaten Toba" class="footer-logo me-3" style="height: 50px; width: auto; background: white; padding: 5px; border-radius: 5px;">
+                        <h5 class="footer-title mb-0">Dinas Pertanian<br>Kabupaten Toba</h5>
+                    </div>
                     <p class="text-white-50">
-                        Berkomitmen untuk meningkatkan kesejahteraan petani melalui program pembangunan pertanian berkelanjutan.
+                        Platform digital modern untuk pengelolaan sistem informasi pertanian, mendukung kemajuan sektor pertanian dan kesejahteraan petani Kabupaten Toba.
                     </p>
                     <div class="mt-3">
                         <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>

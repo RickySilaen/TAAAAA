@@ -45,7 +45,7 @@ class GaleriControllerTest extends TestCase
         Storage::fake('public');
         $admin = User::factory()->create(['role' => 'admin']);
 
-        $response = $this->actingAs($admin)->post('/admin/galeri', [
+        $response = $this->actingAs($admin)->withoutMiddleware()->post('/admin/galeri', [
             'judul' => 'Test Galeri Panen',
             'deskripsi' => 'Deskripsi test galeri panen',
             'kategori' => 'Panen',
@@ -73,7 +73,7 @@ class GaleriControllerTest extends TestCase
             'gambar' => 'old-image.jpg',
         ]);
 
-        $response = $this->actingAs($admin)->put("/admin/galeri/{$galeri->id}", [
+        $response = $this->actingAs($admin)->withoutMiddleware()->put("/admin/galeri/{$galeri->id}", [
             'judul' => 'Updated Galeri',
             'deskripsi' => 'Updated deskripsi',
             'kategori' => 'Penanaman',
@@ -100,7 +100,7 @@ class GaleriControllerTest extends TestCase
             'gambar' => 'test.jpg',
         ]);
 
-        $response = $this->actingAs($admin)->delete("/admin/galeri/{$galeri->id}");
+        $response = $this->actingAs($admin)->withoutMiddleware()->delete("/admin/galeri/{$galeri->id}");
 
         $this->assertDatabaseMissing('galeris', [
             'id' => $galeri->id,
@@ -117,7 +117,7 @@ class GaleriControllerTest extends TestCase
     {
         $admin = User::factory()->create(['role' => 'admin']);
 
-        $response = $this->actingAs($admin)->post('/admin/galeri', [
+        $response = $this->actingAs($admin)->withoutMiddleware()->post('/admin/galeri', [
             'deskripsi' => 'Test deskripsi',
         ]);
 
@@ -131,7 +131,7 @@ class GaleriControllerTest extends TestCase
     {
         $admin = User::factory()->create(['role' => 'admin']);
 
-        $response = $this->actingAs($admin)->post('/admin/galeri', [
+        $response = $this->actingAs($admin)->withoutMiddleware()->post('/admin/galeri', [
             'judul' => 'Test Galeri',
             'deskripsi' => 'Test deskripsi',
         ]);

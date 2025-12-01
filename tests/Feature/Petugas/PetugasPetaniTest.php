@@ -47,7 +47,7 @@ class PetugasPetaniTest extends TestCase
             'is_verified' => false,
         ]);
 
-        $response = $this->actingAs($petugas)->post("/petugas/petani/{$petani->id}/verify");
+        $response = $this->actingAs($petugas)->withoutMiddleware()->post("/petugas/petani/{$petani->id}/verify");
 
         $this->assertDatabaseHas('users', [
             'id' => $petani->id,
@@ -71,7 +71,7 @@ class PetugasPetaniTest extends TestCase
 
         $petaniId = $petani->id;
 
-        $response = $this->actingAs($petugas)->delete("/petugas/petani/{$petani->id}/reject");
+        $response = $this->withoutMiddleware()->actingAs($petugas)->delete("/petugas/petani/{$petani->id}/reject");
 
         $this->assertDatabaseMissing('users', [
             'id' => $petaniId,

@@ -15,6 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin' => \App\Http\Middleware\CheckRole::class . ':admin',
             'petugas' => \App\Http\Middleware\CheckRole::class . ':petugas',
             'petani' => \App\Http\Middleware\CheckRole::class . ':petani',
+            'is_verified' => \App\Http\Middleware\IsVerified::class,
         ]);
 
         // Rate Limiting for API (using cache driver from .env - database)

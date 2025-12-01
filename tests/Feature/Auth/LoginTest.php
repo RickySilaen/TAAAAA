@@ -24,13 +24,13 @@ class LoginTest extends TestCase
      */
     public function test_user_can_login_with_valid_credentials(): void
     {
-        $user = User::factory()->create([
+        $user = User::factory()->verified()->create([
             'email' => 'test@example.com',
             'password' => Hash::make('password'),
-            'role' => 'admin',
+            'role' => 'petani',
         ]);
 
-        $response = $this->post('/login', [
+        $response = $this->withoutMiddleware()->post('/login', [
             'email' => 'test@example.com',
             'password' => 'password',
         ]);
@@ -44,12 +44,12 @@ class LoginTest extends TestCase
      */
     public function test_user_cannot_login_with_invalid_credentials(): void
     {
-        $user = User::factory()->create([
+        $user = User::factory()->verified()->create([
             'email' => 'test@example.com',
             'password' => Hash::make('password'),
         ]);
 
-        $response = $this->post('/login', [
+        $response = $this->withoutMiddleware()->post('/login', [
             'email' => 'test@example.com',
             'password' => 'wrong-password',
         ]);
@@ -63,13 +63,13 @@ class LoginTest extends TestCase
      */
     public function test_admin_redirected_to_dashboard_after_login(): void
     {
-        $admin = User::factory()->create([
+        $admin = User::factory()->verified()->create([
             'email' => 'admin@example.com',
             'password' => Hash::make('password'),
             'role' => 'admin',
         ]);
 
-        $response = $this->post('/login', [
+        $response = $this->withoutMiddleware()->post('/login', [
             'email' => 'admin@example.com',
             'password' => 'password',
         ]);
@@ -83,13 +83,13 @@ class LoginTest extends TestCase
      */
     public function test_petugas_redirected_to_dashboard_after_login(): void
     {
-        $petugas = User::factory()->create([
+        $petugas = User::factory()->verified()->create([
             'email' => 'petugas@example.com',
             'password' => Hash::make('password'),
             'role' => 'petugas',
         ]);
 
-        $response = $this->post('/login', [
+        $response = $this->withoutMiddleware()->post('/login', [
             'email' => 'petugas@example.com',
             'password' => 'password',
         ]);
@@ -103,14 +103,13 @@ class LoginTest extends TestCase
      */
     public function test_petani_redirected_to_dashboard_after_login(): void
     {
-        $petani = User::factory()->create([
+        $petani = User::factory()->verified()->create([
             'email' => 'petani@example.com',
             'password' => Hash::make('password'),
             'role' => 'petani',
-            'is_verified' => true,
         ]);
 
-        $response = $this->post('/login', [
+        $response = $this->withoutMiddleware()->post('/login', [
             'email' => 'petani@example.com',
             'password' => 'password',
         ]);
@@ -124,14 +123,13 @@ class LoginTest extends TestCase
      */
     public function test_unverified_petani_cannot_login(): void
     {
-        $petani = User::factory()->create([
+        $petani = User::factory()->unverified()->create([
             'email' => 'petani@example.com',
             'password' => Hash::make('password'),
             'role' => 'petani',
-            'is_verified' => false,
         ]);
 
-        $response = $this->post('/login', [
+        $response = $this->withoutMiddleware()->post('/login', [
             'email' => 'petani@example.com',
             'password' => 'password',
         ]);
@@ -157,12 +155,14 @@ class LoginTest extends TestCase
      */
     public function test_user_can_logout(): void
     {
-        $user = User::factory()->create();
+        $user = User::factory()->verified()->create([
+            'role' => 'admin',
+        ]);
 
         $this->actingAs($user);
         $this->assertAuthenticated();
 
-        $response = $this->post('/logout');
+        $response = $this->withoutMiddleware()->post('/logout');
 
         $this->assertGuest();
         $response->assertRedirect('/');
@@ -173,7 +173,7 @@ class LoginTest extends TestCase
      */
     public function test_login_requires_email(): void
     {
-        $response = $this->post('/login', [
+        $response = $this->withoutMiddleware()->post('/login', [
             'password' => 'password',
         ]);
 
@@ -185,7 +185,7 @@ class LoginTest extends TestCase
      */
     public function test_login_requires_password(): void
     {
-        $response = $this->post('/login', [
+        $response = $this->withoutMiddleware()->post('/login', [
             'email' => 'test@example.com',
         ]);
 
@@ -197,7 +197,7 @@ class LoginTest extends TestCase
      */
     public function test_login_requires_valid_email_format(): void
     {
-        $response = $this->post('/login', [
+        $response = $this->withoutMiddleware()->post('/login', [
             'email' => 'not-an-email',
             'password' => 'password',
         ]);

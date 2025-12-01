@@ -7,13 +7,17 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>@yield('title', 'Sistem Bantuan Pertanian - Dinas Pertanian Kabupaten Toba')</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="{{ asset('images/logo-dinas-pertanian-toba.png') }}" type="image/png">
+    <link rel="apple-touch-icon" href="{{ asset('images/logo-dinas-pertanian-toba.png') }}">
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Font Awesome Icons - Local Version -->
+    <link rel="stylesheet" href="{{ asset('css/fontawesome-local.css') }}?v={{ time() }}">
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -25,23 +29,71 @@
     <link rel="stylesheet" href="{{ asset('css/dashboard-modern.css') }}?v={{ time() }}">
     <link rel="stylesheet" href="{{ asset('css/dashboard-enhancements.css') }}?v={{ time() }}">
     <link rel="stylesheet" href="{{ asset('css/icon-fix.css') }}?v={{ time() }}">
+    <!-- Unified Theme - Consistent Green Color for All Roles -->
+    <link rel="stylesheet" href="{{ asset('css/unified-theme.css') }}?v={{ time() }}">
 
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
-    <!-- SVG Icon Replacer - AUTO REPLACE ALL FONTAWESOME ICONS -->
-    <script src="{{ asset('js/svg-icon-replacer.js') }}"></script>
+    <!-- SVG Icon Replacer - DISABLED to prevent large arrow issue -->
+    <!-- <script src="{{ asset('js/svg-icon-replacer.js') }}"></script> -->
     
-    <!-- Icon Debug & Fix -->
-    <script src="{{ asset('js/icon-debug.js') }}"></script>
+    <!-- Icon Debug & Fix - DISABLED -->
+    <!-- <script src="{{ asset('js/icon-debug.js') }}"></script> -->
     
     <!-- Dashboard JS -->
     <script src="{{ asset('js/dashboard-enhanced.js') }}" defer></script>
     <script src="{{ asset('js/dashboard-modern.js') }}" defer></script>
     <script src="{{ asset('js/dashboard-interactive.js') }}" defer></script>
 
+    @yield('styles')
+
     <!-- Custom CSS -->
     <style>
+        /* ==== FORCE FONT AWESOME LOAD ==== */
+        .fas, .far, .fab, .fa, .fa-solid, .fa-regular, .fa-brands {
+            font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands", FontAwesome !important;
+            font-style: normal !important;
+            font-weight: 900 !important;
+            -webkit-font-smoothing: antialiased !important;
+            -moz-osx-font-smoothing: grayscale !important;
+            display: inline-block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+        
+        .far, .fa-regular {
+            font-weight: 400 !important;
+        }
+        
+        .fab, .fa-brands {
+            font-family: "Font Awesome 6 Brands" !important;
+            font-weight: 400 !important;
+        }
+        
+        /* ==== GLOBAL SVG & ICON FIX ==== */
+        /* Hide any large stray SVGs that appear outside proper containers - but not icon SVGs */
+        body > svg:not([class]):not([id]):not([width]),
+        .main-content > svg:not([class]):not([id]):not([width]) {
+            display: none !important;
+        }
+        
+        /* Ensure all SVGs have reasonable max size unless explicitly set */
+        svg:not(.chart-svg):not(.logo-svg):not(.wave-svg):not([width]) {
+            max-width: 200px;
+            max-height: 200px;
+        }
+        
+        /* Ensure Font Awesome icons are always visible */
+        i.fas, i.far, i.fab,
+        .fa, .fa-solid, .fa-regular, .fa-brands {
+            display: inline-block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+        
+        /* ==== END SVG FIX ==== */
+        
         :root {
             --primary-dark: #2D3748;
             --sidebar-white: #FFFFFF;
@@ -107,6 +159,11 @@
             position: relative;
             max-width: 300px;
             margin: 0 auto;
+            display: none;
+        }
+        
+        .search-container {
+            display: none !important;
         }
 
         .search-box input {
@@ -756,7 +813,7 @@
             <!-- Brand Logo -->
             <a class="navbar-brand" href="{{ route('home') }}">
                 <div class="brand-logo">
-                    <i class="fas fa-leaf"></i>
+                    <img src="{{ asset('images/logo-dinas-pertanian-toba.png') }}" alt="Logo" style="width: 35px; height: 35px; border-radius: 8px;">
                 </div>
                 <div class="brand-text">
                     <div class="brand-title">Dinas Pertanian Toba</div>

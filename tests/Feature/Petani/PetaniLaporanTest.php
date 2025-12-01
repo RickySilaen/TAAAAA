@@ -29,14 +29,16 @@ class PetaniLaporanTest extends TestCase
     {
         $petani = User::factory()->create(['role' => 'petani', 'is_verified' => true]);
 
-        $response = $this->actingAs($petani)->post('/petani/laporan', [
-            'jenis_tanaman' => 'Padi',
-            'hasil_panen' => 1500,
-            'tanggal_panen' => now()->format('Y-m-d'),
-            'luas_lahan' => 2.5,
-            'kualitas_panen' => 'Baik',
-            'catatan' => 'Panen tahun ini sangat baik',
-        ]);
+        $response = $this->actingAs($petani)
+            ->withoutMiddleware()
+            ->post('/petani/laporan', [
+                'jenis_tanaman' => 'Padi',
+                'hasil_panen' => 1500,
+                'tanggal_panen' => now()->format('Y-m-d'),
+                'luas_lahan' => 2.5,
+                'kualitas_panen' => 'Baik',
+                'catatan' => 'Panen tahun ini sangat baik',
+            ]);
 
         $this->assertDatabaseHas('laporans', [
             'user_id' => $petani->id,
@@ -158,7 +160,7 @@ class PetaniLaporanTest extends TestCase
     {
         $petani = User::factory()->create(['role' => 'petani', 'is_verified' => true]);
 
-        $response = $this->actingAs($petani)->post('/petani/laporan', [
+        $response = $this->actingAs($petani)->withoutMiddleware()->post('/petani/laporan', [
             'hasil_panen' => 1000,
             'tanggal_panen' => now()->format('Y-m-d'),
         ]);
@@ -173,7 +175,7 @@ class PetaniLaporanTest extends TestCase
     {
         $petani = User::factory()->create(['role' => 'petani', 'is_verified' => true]);
 
-        $response = $this->actingAs($petani)->post('/petani/laporan', [
+        $response = $this->actingAs($petani)->withoutMiddleware()->post('/petani/laporan', [
             'jenis_tanaman' => 'Padi',
             'tanggal_panen' => now()->format('Y-m-d'),
         ]);
@@ -188,7 +190,7 @@ class PetaniLaporanTest extends TestCase
     {
         $petani = User::factory()->create(['role' => 'petani', 'is_verified' => true]);
 
-        $response = $this->actingAs($petani)->post('/petani/laporan', [
+        $response = $this->actingAs($petani)->withoutMiddleware()->post('/petani/laporan', [
             'jenis_tanaman' => 'Padi',
             'hasil_panen' => 1000,
         ]);

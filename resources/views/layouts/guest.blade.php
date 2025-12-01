@@ -9,23 +9,32 @@
 
     <title>@yield('title', 'Dinas Pertanian Kabupaten Toba - Platform Digital Pertanian Modern')</title>
     <link rel="icon" href="{{ asset('images/logo-dinas-pertanian-toba.png') }}" type="image/png">
+    <link rel="apple-touch-icon" href="{{ asset('images/logo-dinas-pertanian-toba.png') }}">
 
     <!-- Google Fonts - Poppins & Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Font Awesome 6.5 -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <!-- Font Awesome 6.5 - CDN Primary -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Font Awesome 6.5 - Local Fallback -->
+    <link rel="stylesheet" href="{{ asset('css/fontawesome-local.css') }}">
 
     <!-- Bootstrap 5.3.3 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Icon Fix CSS -->
+    <link rel="stylesheet" href="{{ asset('css/icon-fix.css') }}">
 
     <!-- AOS Animation -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <!-- Particles.js for background effects -->
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    
+    @stack('styles')
 
     <style>
         /* ===== MODERN CSS VARIABLES ===== */
@@ -100,6 +109,31 @@
             text-decoration: none;
             color: inherit;
             transition: var(--transition-normal);
+        }
+        
+        /* ===== FORCE FONT AWESOME ICONS ===== */
+        .fas, .far, .fab, .fa, .fa-solid, .fa-regular, .fa-brands,
+        i[class^="fa-"], i[class*=" fa-"] {
+            font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands", FontAwesome !important;
+            font-style: normal !important;
+            -webkit-font-smoothing: antialiased !important;
+            -moz-osx-font-smoothing: grayscale !important;
+            display: inline-block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+        
+        .fas, .fa-solid, .fa {
+            font-weight: 900 !important;
+        }
+        
+        .far, .fa-regular {
+            font-weight: 400 !important;
+        }
+        
+        .fab, .fa-brands {
+            font-family: "Font Awesome 6 Brands" !important;
+            font-weight: 400 !important;
         }
 
         /* ===== MODERN NAVBAR ===== */
@@ -374,9 +408,23 @@
             align-items: center;
         }
 
+        .footer-links a i,
+        .footer-links a i.fas {
+            font-family: "Font Awesome 6 Free" !important;
+            font-weight: 900 !important;
+            visibility: visible !important;
+            display: inline-block !important;
+            margin-right: 8px;
+            color: rgba(255,255,255,0.7);
+        }
+
         .footer-links a:hover {
             color: var(--accent-yellow);
             transform: translateX(5px);
+        }
+
+        .footer-links a:hover i {
+            color: var(--accent-yellow);
         }
 
         .footer-contact {
@@ -396,6 +444,12 @@
             margin-right: 12px;
             margin-top: 4px;
             font-size: 1.1rem;
+            font-family: "Font Awesome 6 Free" !important;
+            font-weight: 900 !important;
+            visibility: visible !important;
+            display: inline-block !important;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         .social-icons {
@@ -416,11 +470,28 @@
             backdrop-filter: blur(10px);
         }
 
+        .social-icon i,
+        .social-icon i.fab,
+        .social-icon i.fa-brands {
+            font-family: "Font Awesome 6 Brands" !important;
+            font-weight: 400 !important;
+            font-size: 1.2rem !important;
+            color: #fff !important;
+            visibility: visible !important;
+            display: inline-block !important;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
         .social-icon:hover {
             background: var(--accent-yellow);
             color: #000;
             transform: translateY(-5px) rotate(10deg);
             box-shadow: 0 8px 20px rgba(255,193,7,0.4);
+        }
+
+        .social-icon:hover i {
+            color: #000 !important;
         }
 
         .footer-bottom {
@@ -671,7 +742,9 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="footer-section">
                         <div class="d-flex align-items-center mb-4">
-                            <img src="{{ asset('images/logo-dinas-pertanian-toba.png') }}" alt="Logo" style="height: 50px; margin-right: 15px; filter: brightness(0) invert(1);">
+                            <div style="width: 50px; height: 50px; background: white; border-radius: 8px; padding: 5px; margin-right: 15px; display: flex; align-items: center; justify-content: center;">
+                                <img src="{{ asset('images/logo-dinas-pertanian-toba.png') }}" alt="Logo" style="max-height: 40px; max-width: 40px; object-fit: contain;">
+                            </div>
                             <h5 class="mb-0 text-white fw-bold">Dinas Pertanian<br>Kabupaten Toba</h5>
                         </div>
                         <p class="text-white-50 mb-4">

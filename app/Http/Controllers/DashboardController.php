@@ -330,18 +330,36 @@ class DashboardController extends Controller
 
     public function exportBantuanPDF()
     {
-        $bantuans = Bantuan::all();
-        $pdf = Pdf::loadView('admin.exports.bantuan_pdf', compact('bantuans'));
+        try {
+            $bantuans = Bantuan::with('user')->get();
+            $pdf = Pdf::loadView('admin.exports.bantuan_pdf', compact('bantuans'));
+            $pdf->setPaper('a4', 'portrait');
 
-        return $pdf->download('daftar_bantuan.pdf');
+            $filename = 'daftar_bantuan_' . date('Y-m-d') . '.pdf';
+
+            return $pdf->download($filename);
+        } catch (\Exception $e) {
+            \Log::error('PDF Export Error: ' . $e->getMessage());
+
+            return back()->with('error', 'Gagal mengekspor PDF: ' . $e->getMessage());
+        }
     }
 
     public function exportLaporanPDF()
     {
-        $laporans = Laporan::all();
-        $pdf = Pdf::loadView('admin.exports.laporan_pdf', compact('laporans'));
+        try {
+            $laporans = Laporan::with('user')->get();
+            $pdf = Pdf::loadView('admin.exports.laporan_pdf', compact('laporans'));
+            $pdf->setPaper('a4', 'portrait');
 
-        return $pdf->download('daftar_laporan.pdf');
+            $filename = 'daftar_laporan_' . date('Y-m-d') . '.pdf';
+
+            return $pdf->download($filename);
+        } catch (\Exception $e) {
+            \Log::error('PDF Export Error: ' . $e->getMessage());
+
+            return back()->with('error', 'Gagal mengekspor PDF: ' . $e->getMessage());
+        }
     }
 
     public function markNotificationAsRead($id)

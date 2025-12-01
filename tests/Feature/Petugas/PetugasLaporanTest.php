@@ -74,7 +74,7 @@ class PetugasLaporanTest extends TestCase
             'status' => 'pending',
         ]);
 
-        $response = $this->actingAs($petugas)->post("/petugas/laporan/{$laporan->id}/verify");
+        $response = $this->withoutMiddleware()->actingAs($petugas)->post("/petugas/laporan/{$laporan->id}/verify");
 
         $this->assertDatabaseHas('laporans', [
             'id' => $laporan->id,
@@ -101,7 +101,7 @@ class PetugasLaporanTest extends TestCase
             'status' => 'pending',
         ]);
 
-        $response = $this->actingAs($petugas)->delete("/petugas/laporan/{$laporan->id}/reject", [
+        $response = $this->withoutMiddleware()->actingAs($petugas)->delete("/petugas/laporan/{$laporan->id}/reject", [
             'alasan' => 'Data tidak valid',
         ]);
 

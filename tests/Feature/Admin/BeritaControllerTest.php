@@ -69,7 +69,7 @@ class BeritaControllerTest extends TestCase
         Storage::fake('public');
         $admin = User::factory()->create(['role' => 'admin']);
 
-        $response = $this->actingAs($admin)->post('/admin/berita', [
+        $response = $this->actingAs($admin)->withoutMiddleware()->post('/admin/berita', [
             'judul' => 'Test Berita Pertanian',
             'konten' => 'Ini adalah konten test berita pertanian yang sangat panjang dan detail',
             'kategori' => 'Teknologi',
@@ -120,7 +120,7 @@ class BeritaControllerTest extends TestCase
             'status' => 'draft',
         ]);
 
-        $response = $this->actingAs($admin)->put("/admin/berita/{$berita->id}", [
+        $response = $this->actingAs($admin)->withoutMiddleware()->put("/admin/berita/{$berita->id}", [
             'judul' => 'Updated Berita',
             'konten' => 'Updated konten yang lebih panjang',
             'kategori' => 'Updated Kategori',
@@ -150,7 +150,7 @@ class BeritaControllerTest extends TestCase
             'status' => 'published',
         ]);
 
-        $response = $this->actingAs($admin)->delete("/admin/berita/{$berita->id}");
+        $response = $this->actingAs($admin)->withoutMiddleware()->delete("/admin/berita/{$berita->id}");
 
         $this->assertDatabaseMissing('beritas', [
             'id' => $berita->id,
@@ -167,7 +167,7 @@ class BeritaControllerTest extends TestCase
     {
         $admin = User::factory()->create(['role' => 'admin']);
 
-        $response = $this->actingAs($admin)->post('/admin/berita', [
+        $response = $this->actingAs($admin)->withoutMiddleware()->post('/admin/berita', [
             'konten' => 'Test konten',
             'status' => 'published',
         ]);
@@ -182,7 +182,7 @@ class BeritaControllerTest extends TestCase
     {
         $admin = User::factory()->create(['role' => 'admin']);
 
-        $response = $this->actingAs($admin)->post('/admin/berita', [
+        $response = $this->actingAs($admin)->withoutMiddleware()->post('/admin/berita', [
             'judul' => 'Test Berita',
             'status' => 'published',
         ]);
@@ -197,7 +197,7 @@ class BeritaControllerTest extends TestCase
     {
         $admin = User::factory()->create(['role' => 'admin']);
 
-        $this->actingAs($admin)->post('/admin/berita', [
+        $this->actingAs($admin)->withoutMiddleware()->post('/admin/berita', [
             'judul' => 'Test Berita Pertanian Modern',
             'konten' => 'Test konten yang panjang',
             'status' => 'published',

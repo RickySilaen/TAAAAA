@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Notifications\BantuanCreated;
 use App\Notifications\LaporanCreated;
 use App\Notifications\PetaniVerified;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -146,11 +147,18 @@ class PetugasController extends Controller
     public function laporanIndex()
     {
         $user = Auth::user();
-        $desa = $user->alamat_desa;
+        $kecamatan = $user->alamat_kecamatan;
 
-        $laporans = Laporan::whereHas('user', function ($q) use ($desa) {
-            $q->where('alamat_desa', $desa);
-        })->with('user')->get();
+        // Query laporan berdasarkan kecamatan petugas, atau semua jika tidak ada kecamatan
+        $query = Laporan::with('user');
+
+        if ($kecamatan) {
+            $query->whereHas('user', function ($q) use ($kecamatan) {
+                $q->where('alamat_kecamatan', $kecamatan);
+            });
+        }
+
+        $laporans = $query->orderBy('created_at', 'desc')->get();
 
         return view('petugas.laporan.index', compact('laporans'));
     }
@@ -158,11 +166,17 @@ class PetugasController extends Controller
     public function laporanShow($id)
     {
         $user = Auth::user();
-        $desa = $user->alamat_desa;
+        $kecamatan = $user->alamat_kecamatan;
 
-        $laporan = Laporan::whereHas('user', function ($q) use ($desa) {
-            $q->where('alamat_desa', $desa);
-        })->with('user')->findOrFail($id);
+        $query = Laporan::with('user');
+
+        if ($kecamatan) {
+            $query->whereHas('user', function ($q) use ($kecamatan) {
+                $q->where('alamat_kecamatan', $kecamatan);
+            });
+        }
+
+        $laporan = $query->findOrFail($id);
 
         return view('petugas.laporan.show', compact('laporan'));
     }
@@ -170,11 +184,17 @@ class PetugasController extends Controller
     public function laporanVerify(Request $request, $id)
     {
         $user = Auth::user();
-        $desa = $user->alamat_desa;
+        $kecamatan = $user->alamat_kecamatan;
 
-        $laporan = Laporan::whereHas('user', function ($q) use ($desa) {
-            $q->where('alamat_desa', $desa);
-        })->findOrFail($id);
+        $query = Laporan::query();
+
+        if ($kecamatan) {
+            $query->whereHas('user', function ($q) use ($kecamatan) {
+                $q->where('alamat_kecamatan', $kecamatan);
+            });
+        }
+
+        $laporan = $query->findOrFail($id);
 
         $laporan->update([
             'status' => 'verified',
@@ -190,11 +210,17 @@ class PetugasController extends Controller
     public function laporanReject(Request $request, $id)
     {
         $user = Auth::user();
-        $desa = $user->alamat_desa;
+        $kecamatan = $user->alamat_kecamatan;
 
-        $laporan = Laporan::whereHas('user', function ($q) use ($desa) {
-            $q->where('alamat_desa', $desa);
-        })->findOrFail($id);
+        $query = Laporan::query();
+
+        if ($kecamatan) {
+            $query->whereHas('user', function ($q) use ($kecamatan) {
+                $q->where('alamat_kecamatan', $kecamatan);
+            });
+        }
+
+        $laporan = $query->findOrFail($id);
 
         $laporan->update([
             'status' => 'rejected',
@@ -208,11 +234,17 @@ class PetugasController extends Controller
     public function bantuanIndex()
     {
         $user = Auth::user();
-        $desa = $user->alamat_desa;
+        $kecamatan = $user->alamat_kecamatan;
 
-        $bantuans = Bantuan::whereHas('user', function ($q) use ($desa) {
-            $q->where('alamat_desa', $desa);
-        })->with('user')->get();
+        $query = Bantuan::with('user');
+
+        if ($kecamatan) {
+            $query->whereHas('user', function ($q) use ($kecamatan) {
+                $q->where('alamat_kecamatan', $kecamatan);
+            });
+        }
+
+        $bantuans = $query->orderBy('created_at', 'desc')->get();
 
         return view('petugas.bantuan.index', compact('bantuans'));
     }
@@ -220,11 +252,17 @@ class PetugasController extends Controller
     public function bantuanShow($id)
     {
         $user = Auth::user();
-        $desa = $user->alamat_desa;
+        $kecamatan = $user->alamat_kecamatan;
 
-        $bantuan = Bantuan::whereHas('user', function ($q) use ($desa) {
-            $q->where('alamat_desa', $desa);
-        })->with('user')->findOrFail($id);
+        $query = Bantuan::with('user');
+
+        if ($kecamatan) {
+            $query->whereHas('user', function ($q) use ($kecamatan) {
+                $q->where('alamat_kecamatan', $kecamatan);
+            });
+        }
+
+        $bantuan = $query->findOrFail($id);
 
         return view('petugas.bantuan.show', compact('bantuan'));
     }
@@ -232,11 +270,17 @@ class PetugasController extends Controller
     public function bantuanUpdateStatus(Request $request, $id)
     {
         $user = Auth::user();
-        $desa = $user->alamat_desa;
+        $kecamatan = $user->alamat_kecamatan;
 
-        $bantuan = Bantuan::whereHas('user', function ($q) use ($desa) {
-            $q->where('alamat_desa', $desa);
-        })->findOrFail($id);
+        $query = Bantuan::query();
+
+        if ($kecamatan) {
+            $query->whereHas('user', function ($q) use ($kecamatan) {
+                $q->where('alamat_kecamatan', $kecamatan);
+            });
+        }
+
+        $bantuan = $query->findOrFail($id);
 
         $request->validate([
             'status' => 'required|in:Diproses,Dikirim,Ditolak',
@@ -258,26 +302,80 @@ class PetugasController extends Controller
     public function monitoring()
     {
         $user = Auth::user();
-        $desa = $user->alamat_desa;
+        $kecamatan = $user->alamat_kecamatan;
 
-        $bantuans = Bantuan::whereHas('user', function ($q) use ($desa) {
-            $q->where('alamat_desa', $desa);
-        })->with('user')->paginate(10);
+        $query = Bantuan::with('user');
+
+        if ($kecamatan) {
+            $query->whereHas('user', function ($q) use ($kecamatan) {
+                $q->where('alamat_kecamatan', $kecamatan);
+            });
+        }
+
+        $bantuans = $query->orderBy('created_at', 'desc')->paginate(10);
 
         // Statistik berdasarkan jenis bantuan
-        $statsByType = Bantuan::whereHas('user', function ($q) use ($desa) {
-            $q->where('alamat_desa', $desa);
-        })->selectRaw('jenis_bantuan, COUNT(*) as total')
+        $statsQuery = Bantuan::query();
+        if ($kecamatan) {
+            $statsQuery->whereHas('user', function ($q) use ($kecamatan) {
+                $q->where('alamat_kecamatan', $kecamatan);
+            });
+        }
+        $statsByType = $statsQuery->selectRaw('jenis_bantuan, COUNT(*) as total')
             ->groupBy('jenis_bantuan')
             ->get();
 
         // Statistik berdasarkan status
-        $statsByStatus = Bantuan::whereHas('user', function ($q) use ($desa) {
-            $q->where('alamat_desa', $desa);
-        })->selectRaw('status, COUNT(*) as total')
+        $statusQuery = Bantuan::query();
+        if ($kecamatan) {
+            $statusQuery->whereHas('user', function ($q) use ($kecamatan) {
+                $q->where('alamat_kecamatan', $kecamatan);
+            });
+        }
+        $statsByStatus = $statusQuery->selectRaw('status, COUNT(*) as total')
             ->groupBy('status')
             ->get();
 
         return view('petugas.monitoring', compact('bantuans', 'statsByType', 'statsByStatus'));
+    }
+
+    // Export Bantuan to PDF
+    public function exportBantuanPdf()
+    {
+        $user = Auth::user();
+        $kecamatan = $user->alamat_kecamatan;
+
+        $query = Bantuan::with('user');
+        if ($kecamatan) {
+            $query->whereHas('user', function ($q) use ($kecamatan) {
+                $q->where('alamat_kecamatan', $kecamatan);
+            });
+        }
+        $bantuans = $query->orderBy('created_at', 'desc')->get();
+
+        $pdf = Pdf::loadView('petugas.exports.bantuan-pdf', compact('bantuans', 'kecamatan'));
+        $pdf->setPaper('a4', 'portrait');
+
+        return $pdf->download('daftar-bantuan-petugas-' . date('Y-m-d') . '.pdf');
+    }
+
+    // Export Laporan to PDF
+    public function exportLaporanPdf()
+    {
+        $user = Auth::user();
+        $kecamatan = $user->alamat_kecamatan;
+
+        $query = Laporan::with('user');
+        if ($kecamatan) {
+            $query->whereHas('user', function ($q) use ($kecamatan) {
+                $q->where('alamat_kecamatan', $kecamatan);
+            });
+        }
+        $laporans = $query->orderBy('created_at', 'desc')->get();
+
+        $pdf = Pdf::loadView('petugas.exports.laporan-pdf', compact('laporans', 'kecamatan'));
+        $pdf->setPaper('a4', 'landscape');
+
+        return $pdf->download('daftar-laporan-petugas-' . date('Y-m-d') . '.pdf');
     }
 }

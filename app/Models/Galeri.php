@@ -21,4 +21,12 @@ class Galeri extends Model
     protected $casts = [
         'tanggal' => 'datetime',
     ];
+
+    /**
+     * Get the user that owns the gallery.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

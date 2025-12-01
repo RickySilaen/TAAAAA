@@ -52,6 +52,17 @@ class LoginController extends Controller
     }
 
     /**
+     * Validate the user login request.
+     */
+    protected function validateLogin(Request $request)
+    {
+        $request->validate([
+            $this->username() => 'required|email',
+            'password' => 'required|string',
+        ]);
+    }
+
+    /**
      * Override method untuk cek verifikasi setelah kredensial valid.
      */
     protected function attemptLogin(Request $request)
