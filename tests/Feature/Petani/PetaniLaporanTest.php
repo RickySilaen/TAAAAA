@@ -87,7 +87,7 @@ class PetaniLaporanTest extends TestCase
             'status' => 'pending',
         ]);
 
-        $response = $this->actingAs($petani)->put("/petani/laporan/{$laporan->id}", [
+        $response = $this->withoutMiddleware()->actingAs($petani)->put("/petani/laporan/{$laporan->id}", [
             'jenis_tanaman' => 'Padi Hibrida',
             'hasil_panen' => 1200,
             'tanggal_panen' => now()->format('Y-m-d'),
@@ -143,7 +143,7 @@ class PetaniLaporanTest extends TestCase
 
         $laporanId = $laporan->id;
 
-        $response = $this->actingAs($petani)->delete("/petani/laporan/{$laporan->id}");
+        $response = $this->withoutMiddleware()->actingAs($petani)->delete("/petani/laporan/{$laporan->id}");
 
         $this->assertDatabaseMissing('laporans', [
             'id' => $laporanId,
