@@ -41,3 +41,32 @@ public_html/hot
 *-modern.blade.php
 *-v2.blade.php
 
+# Test results and audit files
+test_results.txt
+test_results.log
+test_output.txt
+latest_test_results.txt
+*AUDIT*.md
+*PROJECT_STATUS*.md
+*QUICK_FIX*.md
+*RINGKASAN*.md
+*VISUAL_AUDIT*.md
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# IDE
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+

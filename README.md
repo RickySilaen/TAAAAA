@@ -1,50 +1,135 @@
 # 🌾 Sistem Informasi Pertanian
 
-Aplikasi web untuk manajemen data pertanian, laporan hasil panen, dan distribusi bantuan kepada petani.
+[![Laravel](https://img.shields.io/badge/Laravel-12.40.2-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com)
+[![PHP](https://img.shields.io/badge/PHP-8.2+-777BB4?style=for-the-badge&logo=php&logoColor=white)](https://php.net)
+[![MySQL](https://img.shields.io/badge/MySQL-8.0+-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://mysql.com)
+[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
+[![Tests](https://img.shields.io/badge/Tests-153%20Passed-success?style=for-the-badge)](tests)
 
-![Laravel](https://img.shields.io/badge/Laravel-12.31.1-red?style=flat&logo=laravel)
-![PHP](https://img.shields.io/badge/PHP-8.3.2-blue?style=flat&logo=php)
-![License](https://img.shields.io/badge/License-MIT-green?style=flat)
-
-## 🚀 Quick Deploy
-
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/laravel?referralCode=railway)
-
-[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/vanchristjh/DPT)
-
-**Rekomendasi:** Gunakan Railway untuk deployment yang lebih mudah dan gratis!
+Aplikasi web modern untuk manajemen data pertanian, laporan hasil panen, dan distribusi bantuan kepada petani dengan sistem multi-role yang terintegrasi.
 
 ---
 
-## 📋 Tentang Project
+## 📋 Daftar Isi
 
-Sistem Informasi Pertanian adalah aplikasi berbasis web yang dirancang untuk membantu pengelolaan data pertanian dengan fitur:
+- [Tentang Project](#-tentang-project)
+- [Fitur Utama](#-fitur-utama)
+- [Tech Stack](#-tech-stack)
+- [Quick Start](#-quick-start)
+- [Deployment](#-deployment)
+- [Testing](#-testing)
+- [Dokumentasi](#-dokumentasi)
+- [Kontribusi](#-kontribusi)
+- [License](#-license)
 
-- 👥 **Multi-Role System** (Admin, Petugas, Petani)
-- 📊 **Dashboard Modern** dengan visualisasi data
-- 🌾 **Manajemen Laporan Panen**
-- 🎁 **Sistem Distribusi Bantuan**
-- ✅ **Verifikasi Petani** oleh Petugas
-- 📰 **Berita & Newsletter**
-- 🖼️ **Galeri Foto**
-- 📱 **Responsive Design**
+---
+
+## 🎯 Tentang Project
+
+Sistem Informasi Pertanian adalah aplikasi berbasis web yang dirancang untuk membantu pengelolaan data pertanian secara modern, transparan, dan efisien. Aplikasi ini memfasilitasi komunikasi antara petani, petugas lapangan, dan administrator dalam satu platform terpadu.
+
+### 🎭 Roles & Permissions
+
+| Role | Akses |
+|------|-------|
+| **Admin** | Manajemen penuh sistem, berita, galeri, newsletter, feedback |
+| **Petugas** | Verifikasi petani, validasi laporan panen, monitoring bantuan |
+| **Petani** | Submit laporan panen, request bantuan, akses informasi |
+| **Guest** | Lihat berita, galeri, statistik publik, subscribe newsletter |
+
+---
+
+## ✨ Fitur Utama
+
+### 👥 User Management
+- ✅ Multi-role authentication (Admin, Petugas, Petani)
+- ✅ Email verification system
+- ✅ Profile management dengan foto
+- ✅ Role-based access control (RBAC)
+
+### 🌾 Laporan Pertanian
+- 📊 Dashboard dengan visualisasi data real-time
+- 📝 Form laporan hasil panen (jenis tanaman, luas lahan, hasil)
+- ✅ Sistem verifikasi laporan oleh petugas
+- 📈 Statistik produksi pertanian
+- 📱 Responsive interface untuk mobile
+
+### 🎁 Manajemen Bantuan
+- 📋 Request bantuan dari petani
+- ✅ Approval workflow multi-level
+- 📊 Tracking status bantuan
+- 🔍 Transparansi distribusi bantuan publik
+- 📄 Generate PDF reports
+
+### 📰 Content Management
+- ✍️ Berita pertanian dengan slug SEO-friendly
+- 🖼️ Galeri foto kegiatan
+- 📧 Newsletter system dengan subscription
+- 💬 Feedback & communication system
+
+### 🔒 Security Features
+- 🛡️ XSS Protection
+- 🔐 CSRF Protection
+- ⚡ Rate Limiting
+- 🔑 Password hashing (bcrypt)
+- 🚫 SQL Injection prevention
+- 🔒 Secure headers
+
+### 📊 Transparansi Publik
+- 📈 Dashboard publik statistik pertanian
+- 🗂️ Data bantuan yang telah didistribusikan
+- 📊 Laporan hasil panen yang terverifikasi
+- 📰 Akses berita dan informasi
+
+---
+
+## 🛠️ Tech Stack
+
+### Backend
+- **Framework**: Laravel 12.40.2
+- **PHP**: 8.2+
+- **Database**: MySQL 8.0+
+- **ORM**: Eloquent
+- **Authentication**: Laravel UI + Custom RBAC
+
+### Frontend
+- **Template Engine**: Blade
+- **CSS Framework**: Bootstrap 5
+- **Icons**: Font Awesome, Feather Icons
+- **Charts**: Chart.js
+- **Build Tool**: Vite
+
+### Testing
+- **Framework**: PHPUnit
+- **Coverage**: 153 tests, 400 assertions
+- **Success Rate**: 100%
+
+### DevOps
+- **Containerization**: Docker, Docker Compose
+- **CI/CD**: GitHub Actions
+- **Deployment**: Railway, Heroku support
+- **Code Quality**: PHPStan, Laravel Pint
 
 ---
 
 ## 🚀 Quick Start
 
 ### Prerequisites
+
+```bash
 - PHP >= 8.2
 - Composer
-- MySQL
-- Node.js & NPM
+- MySQL >= 8.0
+- Node.js >= 18.x
+- NPM or Yarn
+```
 
 ### Installation
 
 1. **Clone Repository**
    ```bash
    git clone https://github.com/RickySilaen/TAAAAA.git
-   cd sistem_pertanian
+   cd TAAAAA
    ```
 
 2. **Install Dependencies**
@@ -59,25 +144,23 @@ Sistem Informasi Pertanian adalah aplikasi berbasis web yang dirancang untuk mem
    php artisan key:generate
    ```
 
-4. **Database Configuration**
-   
+4. **Configure Database**
    Edit `.env` file:
    ```env
    DB_CONNECTION=mysql
    DB_HOST=127.0.0.1
    DB_PORT=3306
-   DB_DATABASE=your_database_name
-   DB_USERNAME=your_username
-   DB_PASSWORD=your_password
+   DB_DATABASE=sistem_pertanian
+   DB_USERNAME=root
+   DB_PASSWORD=
    ```
 
-5. **Run Migration & Seeder**
+5. **Run Migrations & Seeders**
    ```bash
-   php artisan migrate
-   php artisan db:seed
+   php artisan migrate --seed
    ```
 
-6. **Storage Link**
+6. **Create Storage Link**
    ```bash
    php artisan storage:link
    ```
@@ -87,260 +170,163 @@ Sistem Informasi Pertanian adalah aplikasi berbasis web yang dirancang untuk mem
    npm run build
    ```
 
-8. **Run Application**
+8. **Start Development Server**
    ```bash
    php artisan serve
    ```
 
-   Akses di: `http://localhost:8000`
+   Access: `http://localhost:8000`
 
----
-
-## 👤 Default Users
-
-Setelah seeding, gunakan akun berikut:
+### 🔑 Default Credentials
 
 | Role | Email | Password |
 |------|-------|----------|
-| Admin | admin@pertanian.com | password |
-| Petugas | petugas@pertanian.com | password |
-| Petani | petani@pertanian.com | password |
+| Admin | admin@pertanian.com | admin123 |
+| Petugas | petugas@pertanian.com | petugas123 |
+| Petani | petani@pertanian.com | petani123 |
 
 ---
 
-## 📁 Struktur Project
+## 🚢 Deployment
 
+### Railway (Recommended)
+
+1. Fork this repository
+2. Connect to Railway
+3. Add environment variables
+4. Deploy automatically
+
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new)
+
+Detailed guide: [Railway Deployment Guide](docs/RAILWAY_DEPLOYMENT_GUIDE.md)
+
+### Docker
+
+```bash
+docker-compose up -d
 ```
-sistem_pertanian/
-├── app/                    # Application code
-│   ├── Http/              # Controllers, Middleware
-│   ├── Models/            # Eloquent models
-│   └── Notifications/     # Email notifications
-├── config/                # Configuration files
-├── database/              # Migrations, seeders
-├── docs/                  # 📚 Dokumentasi (BARU!)
-│   ├── panduan/          # User guides
-│   ├── guides/           # Technical docs
-│   ├── logs/             # Change logs
-│   └── summaries/        # Summary docs
-├── public/               # Public assets
-├── resources/            # Views, CSS, JS
-│   ├── views/           # Blade templates
-│   └── css/             # Stylesheets
-├── routes/              # Route definitions
-└── storage/             # Uploaded files, logs
+
+### Heroku
+
+```bash
+heroku create your-app-name
+git push heroku main
+```
+
+Detailed guide: [Heroku Deployment Guide](docs/HEROKU_DEPLOYMENT_GUIDE.md)
+
+---
+
+## 🧪 Testing
+
+### Run All Tests
+```bash
+php artisan test
+```
+
+### Run Specific Test Suite
+```bash
+php artisan test --testsuite=Feature
+php artisan test --testsuite=Unit
+```
+
+### Run with Coverage
+```bash
+php artisan test --coverage
+```
+
+### Code Quality
+```bash
+# PHP Stan
+./vendor/bin/phpstan analyse
+
+# Laravel Pint (Code Style)
+./vendor/bin/pint
 ```
 
 ---
 
 ## 📚 Dokumentasi
 
-Dokumentasi lengkap tersedia di folder [`docs/`](docs/):
-
-### 📖 Panduan Pengguna
-- [Panduan Dashboard Admin](docs/panduan/PANDUAN_DASHBOARD_ADMIN.md)
-- [Panduan Kelola Petugas](docs/panduan/PANDUAN_KELOLA_PETUGAS.md)
-- [Panduan Kelola Petani](docs/panduan/PANDUAN_KELOLA_PETANI.md)
-- [Panduan Sistem Verifikasi](docs/panduan/PANDUAN_SISTEM_VERIFIKASI.md)
-
-### 🔧 Dokumentasi Teknis
-Lihat [docs/guides/](docs/guides/) untuk dokumentasi teknis lengkap
-
-### 📝 Change Logs
-Lihat [docs/logs/](docs/logs/) untuk riwayat perubahan
-
-### 📊 Laporan Pembersihan
-- [Laporan Pembersihan Project](docs/LAPORAN_PEMBERSIHAN_PROJECT.md)
+- [API Documentation](docs/API_DOCUMENTATION.md)
+- [Database Schema](docs/DATABASE_SCHEMA.md)
+- [Architecture Overview](docs/ARCHITECTURE.md)
+- [Deployment Guides](docs/)
+- [User Guides](docs/)
+  - [Panduan Akses Berita dan Transparansi](docs/PANDUAN_AKSES_BERITA_DAN_TRANSPARANSI.md)
+  - [Panduan Penggunaan Transparansi](docs/PANDUAN_PENGGUNAAN_TRANSPARANSI.md)
+  - [Quick Start Laporan Bantuan](docs/QUICK_START_LAPORAN_BANTUAN.md)
 
 ---
 
-## 🎨 Fitur Utama
+## 🤝 Kontribusi
 
-### Untuk Admin
-- ✅ Dashboard dengan statistik lengkap
-- ✅ Manajemen Petugas & Petani
-- ✅ Kelola Berita & Newsletter
-- ✅ Galeri Foto
-- ✅ Laporan & Export PDF
+Kontribusi sangat diterima! Silakan baca [CONTRIBUTING.md](CONTRIBUTING.md) untuk detail proses development dan pull request.
 
-### Untuk Petugas
-- ✅ Verifikasi Petani
-- ✅ Monitoring Laporan
-- ✅ Validasi Bantuan
-- ✅ Dashboard Wilayah
+### Development Workflow
 
-### Untuk Petani
-- ✅ Input Laporan Panen
-- ✅ Pengajuan Bantuan
-- ✅ Riwayat Transaksi
-- ✅ Notifikasi Status
+1. Fork repository
+2. Create feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to branch (`git push origin feature/AmazingFeature`)
+5. Open Pull Request
+
+### Code Standards
+
+- Follow PSR-12 coding standard
+- Write meaningful commit messages
+- Add tests for new features
+- Update documentation as needed
 
 ---
 
-## 🛠️ Tech Stack
+## 🐛 Bug Reports
 
-- **Framework:** Laravel 12.31.1
-- **PHP:** 8.3.2
-- **Database:** MySQL
-- **Frontend:** Bootstrap 5, Vite
-- **Icons:** Font Awesome
-- **PDF:** DomPDF
-
----
-
-## 🔧 Development
-
-### Running Tests
-```bash
-php artisan test
-```
-
-### Code Style
-```bash
-./vendor/bin/pint
-```
-
-### Clear Cache
-```bash
-php artisan optimize:clear
-```
-
-### Watch Assets
-```bash
-npm run dev
-```
+Temukan bug? Silakan buat [issue](https://github.com/RickySilaen/TAAAAA/issues) dengan detail:
+- Deskripsi bug
+- Steps to reproduce
+- Expected behavior
+- Screenshots (jika ada)
+- Environment info
 
 ---
 
-## 🌐 Deployment
+## 📄 License
 
-### Deploy to Heroku
-
-**Option 1: One-Click Deploy (Recommended)**
-## 🌐 Deployment
-
-### 🚂 Deploy to Railway (Recommended) ⭐
-
-Railway adalah platform deployment modern yang mudah dan gratis!
-
-**Quick Deploy:**
-
-1. Buka [railway.app](https://railway.app/)
-2. Login dengan GitHub
-3. Klik **"New Project"** → **"Deploy from GitHub repo"**
-4. Pilih repository **vanchristjh/DPT**
-5. Klik **"+ New"** → **"Database"** → **"MySQL"**
-6. Set environment variables (lihat panduan)
-7. Railway akan auto-deploy!
-
-**URL:** `https://your-app.up.railway.app`
-
-📖 **Panduan Lengkap:** [RAILWAY_DEPLOYMENT_GUIDE.md](RAILWAY_DEPLOYMENT_GUIDE.md)
-
-**Keunggulan Railway:**
-- ✅ **$5 credit gratis/bulan**
-- ✅ **No sleep** - selalu online
-- ✅ **Auto SSL** (HTTPS gratis)
-- ✅ **Database included**
-- ✅ **Auto deploy** dari GitHub
-- ✅ **Super mudah** - tanpa CLI
-
----
-
-### 🔴 Deploy to Heroku
-
-**Option 1: One-Click Deploy**
-
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/vanchristjh/DPT)
-
-Klik tombol di atas dan ikuti wizard Heroku untuk deploy aplikasi.
-
-**Option 2: Manual Deploy via CLI**
-
-Lihat panduan lengkap di [HEROKU_DEPLOYMENT_GUIDE.md](HEROKU_DEPLOYMENT_GUIDE.md)
-
-```bash
-# Login ke Heroku
-heroku login
-
-# Buat aplikasi
-heroku create nama-aplikasi-anda
-
-# Tambahkan database
-heroku addons:create jawsdb:kitefin
-
-# Deploy
-git push heroku main
-
-# Run migration
-heroku run php artisan migrate --force
-```
-
-**Option 3: Deploy via Web Browser**
-
-1. Buka [dashboard.heroku.com](https://dashboard.heroku.com)
-2. Klik "New" → "Create new app"
-3. Pilih "Connect to GitHub"
-4. Search repository "DPT" dan connect
-5. Enable "Automatic Deploys"
-6. Klik "Deploy Branch"
-
----
-
-### 🐳 Other Deployment Options
-
-- **Docker**: Gunakan `Dockerfile` dan `docker-compose.yml` yang sudah tersedia
-- **DigitalOcean App Platform**: [digitalocean.com](https://www.digitalocean.com)
-- **AWS Elastic Beanstalk**: [aws.amazon.com](https://aws.amazon.com)
-- **VPS (Ubuntu/CentOS)**: Deploy manual dengan Nginx/Apache
-
----
-
-### 📊 Comparison
-
-| Platform | Gratis | Mudah | Database | Sleep | SSL |
-|----------|--------|-------|----------|-------|-----|
-| **Railway** | ✅ $5/mo | ⭐⭐⭐⭐⭐ | ✅ Included | ❌ Never | ✅ Auto |
-| **Heroku** | ❌ Eco only | ⭐⭐⭐⭐ | ➕ Addon | ✅ 30min | ✅ Auto |
-| **VPS** | ❌ | ⭐⭐ | 🔧 Manual | ❌ Never | 🔧 Manual |
-
-**Rekomendasi:** Railway 🏆
-
----
-
-## 📝 License
-
-Project ini menggunakan [MIT License](LICENSE).
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
 ## 👨‍💻 Author
 
-**Ricky Silaen**  
-GitHub: [@RickySilaen](https://github.com/RickySilaen)
+**Ricky Silaen**
+
+- GitHub: [@RickySilaen](https://github.com/RickySilaen)
+- Project: [Sistem Informasi Pertanian](https://github.com/RickySilaen/TAAAAA)
 
 ---
 
 ## 🙏 Acknowledgments
 
-- Laravel Framework
-- Bootstrap
-- Font Awesome
-- Semua kontributor open source
+- Laravel Community
+- Bootstrap Team
+- All Contributors
 
 ---
 
 ## 📞 Support
 
-Jika ada pertanyaan atau masalah:
-- 📧 Email: support@pertanian.com
-- 🐛 Issues: [GitHub Issues](https://github.com/RickySilaen/TAAAAA/issues)
-- 📖 Docs: [Documentation](docs/)
-- 🚀 Deployment Guide: [HEROKU_DEPLOYMENT_GUIDE.md](HEROKU_DEPLOYMENT_GUIDE.md)
+Untuk pertanyaan atau dukungan, silakan:
+- Buka [Issue](https://github.com/RickySilaen/TAAAAA/issues)
+- Email: support@pertanian.com
 
 ---
 
-<p align="center">
-  Made with ❤️ using Laravel
-</p>
+<div align="center">
+
+**Made with ❤️ for Indonesian Farmers**
+
+⭐ Star project ini jika membantu!
+
+</div>
 

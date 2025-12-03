@@ -78,9 +78,9 @@ class PetaniController extends Controller
         $validated = $request->validate([
             'jenis_tanaman' => 'required|string|max:255',
             'luas_lahan' => 'nullable|numeric|min:0',
+            'luas_panen' => 'nullable|numeric|min:0',
             'hasil_panen' => 'required|numeric|min:0',
             'tanggal_panen' => 'required|date',
-            'kualitas_panen' => 'nullable|string|max:255',
             'catatan' => 'nullable|string',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
@@ -147,9 +147,9 @@ class PetaniController extends Controller
         $validated = $request->validate([
             'jenis_tanaman' => 'required|string|max:255',
             'luas_lahan' => 'nullable|numeric|min:0',
+            'luas_panen' => 'nullable|numeric|min:0',
             'hasil_panen' => 'required|numeric|min:0',
             'tanggal_panen' => 'required|date',
-            'kualitas_panen' => 'nullable|string|max:255',
             'catatan' => 'nullable|string',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
