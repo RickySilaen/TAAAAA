@@ -317,11 +317,11 @@
                         </span>
                     </div>
                     <div class="stat-info">
-                        <h6 class="stat-label">Published</h6>
-                        <h2 class="stat-value">{{ \App\Models\Galeri::where('status', 'published')->count() }}</h2>
+                        <h6 class="stat-label">Total Foto</h6>
+                        <h2 class="stat-value">{{ \App\Models\Galeri::count() }}</h2>
                         <p class="stat-desc">
-                            <i class="fas fa-globe me-1"></i>
-                            Foto publik
+                            <i class="fas fa-images me-1"></i>
+                            Semua galeri
                         </p>
                     </div>
                 </div>
@@ -336,15 +336,15 @@
                             <i class="fas fa-clock"></i>
                         </div>
                         <span class="trend-badge warning">
-                            <i class="fas fa-hourglass-half"></i>
+                            <i class="fas fa-calendar"></i>
                         </span>
                     </div>
                     <div class="stat-info">
-                        <h6 class="stat-label">Draft</h6>
-                        <h2 class="stat-value">{{ \App\Models\Galeri::where('status', 'draft')->count() }}</h2>
+                        <h6 class="stat-label">Bulan Ini</h6>
+                        <h2 class="stat-value">{{ \App\Models\Galeri::whereYear('created_at', date('Y'))->whereMonth('created_at', date('m'))->count() }}</h2>
                         <p class="stat-desc">
-                            <i class="fas fa-edit me-1"></i>
-                            Belum publish
+                            <i class="fas fa-plus me-1"></i>
+                            Ditambahkan
                         </p>
                     </div>
                 </div>

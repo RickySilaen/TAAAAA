@@ -32,5 +32,8 @@ class AppServiceProvider extends ServiceProvider
         Event::listen(BantuanStatusChanged::class, HandleBantuanStatusChange::class);
         Event::listen(LaporanStatusChanged::class, HandleLaporanStatusChange::class);
         Event::listen(DataExportRequested::class, HandleDataExportRequest::class);
+
+        // Register policies
+        \Illuminate\Support\Facades\Gate::policy(\App\Models\LaporanBantuan::class, \App\Policies\LaporanBantuanPolicy::class);
     }
 }

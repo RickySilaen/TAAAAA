@@ -87,12 +87,13 @@ class PetaniLaporanTest extends TestCase
             'status' => 'pending',
         ]);
 
-        $response = $this->withoutMiddleware()->actingAs($petani)->put("/petani/laporan/{$laporan->id}", [
+        $response = $this->withSession([])->actingAs($petani)->put("/petani/laporan/{$laporan->id}", [
             'jenis_tanaman' => 'Padi Hibrida',
             'hasil_panen' => 1200,
             'tanggal_panen' => now()->format('Y-m-d'),
             'luas_lahan' => 2.0,
             'kualitas_panen' => 'Sangat Baik',
+            '_token' => csrf_token(),
         ]);
 
         $this->assertDatabaseHas('laporans', [
@@ -143,7 +144,9 @@ class PetaniLaporanTest extends TestCase
 
         $laporanId = $laporan->id;
 
-        $response = $this->withoutMiddleware()->actingAs($petani)->delete("/petani/laporan/{$laporan->id}");
+        $response = $this->withSession([])->actingAs($petani)->delete("/petani/laporan/{$laporan->id}", [
+            '_token' => csrf_token(),
+        ]);
 
         $this->assertDatabaseMissing('laporans', [
             'id' => $laporanId,
@@ -207,7 +210,7 @@ class PetaniLaporanTest extends TestCase
 
         $response = $this->actingAs($petani)->get('/petani/laporan');
 
-        $response->assertRedirect('/dashboard');
-        $response->assertSessionHas('error');
+        // Unverified users are redirected to email verification page
+        $response->assertRedirect('/email/verify');
     }
 }

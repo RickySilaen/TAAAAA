@@ -77,6 +77,22 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
+     * Laporan bantuan yang dibuat user.
+     */
+    public function laporanBantuans()
+    {
+        return $this->hasMany(LaporanBantuan::class);
+    }
+
+    /**
+     * Laporan bantuan yang diverifikasi oleh user (admin/petugas).
+     */
+    public function verifiedLaporanBantuans()
+    {
+        return $this->hasMany(LaporanBantuan::class, 'verified_by');
+    }
+
+    /**
      * Relasi ke petugas yang memverifikasi akun ini.
      */
     public function verifiedBy()

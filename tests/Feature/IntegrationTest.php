@@ -18,7 +18,7 @@ class IntegrationTest extends TestCase
         Notification::fake();
 
         // Step 1: Petani registers
-        $this->withoutMiddleware()->post('/register', [
+        $this->withSession([])->post('/register', [
             'name' => 'Integration Test Petani',
             'email' => 'integration@example.com',
             'password' => 'password123',
@@ -26,6 +26,7 @@ class IntegrationTest extends TestCase
             'alamat_desa' => 'Desa Integration',
             'alamat_kecamatan' => 'Kecamatan Test',
             'luas_lahan' => 2.5,
+            '_token' => csrf_token(),
         ]);
 
         $petani = User::where('email', 'integration@example.com')->first();
@@ -34,9 +35,10 @@ class IntegrationTest extends TestCase
         $this->assertFalse($petani->is_verified);
 
         // Step 2: Petani tries to login but is unverified
-        $response = $this->withoutMiddleware()->post('/login', [
+        $response = $this->withSession([])->post('/login', [
             'email' => 'integration@example.com',
             'password' => 'password123',
+            '_token' => csrf_token(),
         ]);
 
         $this->assertGuest();
@@ -45,15 +47,18 @@ class IntegrationTest extends TestCase
         // Step 3: Petugas verifies the petani
         $petugas = User::factory()->create(['role' => 'petugas']);
 
-        $this->withoutMiddleware()->actingAs($petugas)->post("/petugas/petani/{$petani->id}/verify");
+        $this->withSession([])->actingAs($petugas)->post("/petugas/petani/{$petani->id}/verify", [
+            '_token' => csrf_token(),
+        ]);
 
         $petani->refresh();
         $this->assertTrue($petani->is_verified);
 
         // Step 4: Now petani can login successfully
-        $response = $this->withoutMiddleware()->post('/login', [
+        $response = $this->withSession([])->post('/login', [
             'email' => 'integration@example.com',
             'password' => 'password123',
+            '_token' => csrf_token(),
         ]);
 
         $this->assertAuthenticated();
@@ -74,13 +79,14 @@ class IntegrationTest extends TestCase
         $petugas = User::factory()->create(['role' => 'petugas']);
 
         // Step 1: Petani creates laporan
-        $response = $this->withoutMiddleware()->actingAs($petani)->post('/petani/laporan', [
+        $response = $this->withSession([])->actingAs($petani)->post('/petani/laporan', [
             'jenis_tanaman' => 'Padi',
             'hasil_panen' => 1500,
             'tanggal_panen' => now()->format('Y-m-d'),
             'luas_lahan' => 2.0,
             'kualitas_panen' => 'Baik',
             'catatan' => 'Panen tahun ini baik',
+            '_token' => csrf_token(),
         ]);
 
         $laporan = Laporan::where('user_id', $petani->id)->first();
@@ -92,7 +98,9 @@ class IntegrationTest extends TestCase
         $response->assertStatus(200);
 
         // Step 3: Petugas verifies the laporan
-        $this->withoutMiddleware()->actingAs($petugas)->post("/petugas/laporan/{$laporan->id}/verify");
+        $this->withSession([])->actingAs($petugas)->post("/petugas/laporan/{$laporan->id}/verify", [
+            '_token' => csrf_token(),
+        ]);
 
         $laporan->refresh();
         $this->assertEquals('verified', $laporan->status);
@@ -116,11 +124,12 @@ class IntegrationTest extends TestCase
         $admin = User::factory()->create(['role' => 'admin']);
 
         // Step 1: Petani creates bantuan request
-        $response = $this->withoutMiddleware()->actingAs($petani)->post('/petani/bantuan', [
+        $response = $this->withSession([])->actingAs($petani)->post('/petani/bantuan', [
             'jenis_bantuan' => 'Pupuk Subsidi',
             'jumlah' => 200,
             'tanggal_permintaan' => now()->format('Y-m-d'),
             'keterangan' => 'Membutuhkan pupuk untuk musim tanam',
+            '_token' => csrf_token(),
         ]);
 
         $bantuan = Bantuan::where('user_id', $petani->id)->first();
@@ -182,27 +191,34 @@ class IntegrationTest extends TestCase
         $petani2 = User::factory()->create(['role' => 'petani', 'is_verified' => false]);
 
         // Petugas verifies petani1
-        $this->withoutMiddleware()->actingAs($petugas)->post("/petugas/petani/{$petani1->id}/verify");
+        $this->withSession([])->actingAs($petugas)->post("/petugas/petani/{$petani1->id}/verify", [
+            '_token' => csrf_token(),
+        ]);
         $petani1->refresh();
         $this->assertTrue($petani1->is_verified);
 
         // Petugas rejects petani2
-        $this->withoutMiddleware()->actingAs($petugas)->delete("/petugas/petani/{$petani2->id}/reject");
+        $this->withSession([])->actingAs($petugas)->delete("/petugas/petani/{$petani2->id}/reject", [
+            '_token' => csrf_token(),
+        ]);
         $this->assertDatabaseMissing('users', ['id' => $petani2->id]);
 
         // Verified petani1 creates laporan
-        $this->withoutMiddleware()->actingAs($petani1)->post('/petani/laporan', [
+        $this->withSession([])->actingAs($petani1)->post('/petani/laporan', [
             'jenis_tanaman' => 'Jagung',
             'hasil_panen' => 800,
             'tanggal_panen' => now()->format('Y-m-d'),
             'luas_lahan' => 1.5,
+            '_token' => csrf_token(),
         ]);
 
         $laporan = Laporan::where('user_id', $petani1->id)->first();
         $this->assertNotNull($laporan);
 
         // Petugas verifies the laporan
-        $this->withoutMiddleware()->actingAs($petugas)->post("/petugas/laporan/{$laporan->id}/verify");
+        $this->withSession([])->actingAs($petugas)->post("/petugas/laporan/{$laporan->id}/verify", [
+            '_token' => csrf_token(),
+        ]);
         $laporan->refresh();
         $this->assertEquals('verified', $laporan->status);
 

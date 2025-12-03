@@ -150,6 +150,31 @@
             margin-top: 20px;
         }
     }
+
+    /* Card Hover Effects */
+    .card {
+        transition: all 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.2) !important;
+    }
+
+    /* News Card Styles */
+    .card-img-top {
+        transition: transform 0.3s ease;
+    }
+
+    .card:hover .card-img-top {
+        transform: scale(1.05);
+    }
+
+    .card-body {
+        position: relative;
+        overflow: hidden;
+    }
+
 </style>
 @endsection
 
@@ -213,6 +238,168 @@
                 <img src="{{ asset('images/kegiatan-pertanian.png') }}"
                      alt="Kegiatan Pertanian Toba"
                      class="img-fluid rounded-3 shadow">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-5" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+    <div class="container">
+        <div class="text-center text-white mb-5">
+            <h2 class="fw-bold mb-3">Layanan Kami</h2>
+            <p class="lead mb-0">Berbagai fitur untuk mendukung transparansi dan produktivitas pertanian</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 border-0 shadow-lg" style="border-radius: 15px; transition: transform 0.3s;">
+                    <div class="card-body text-center p-4">
+                        <div class="mb-3">
+                            <i class="fas fa-hands-helping fa-3x text-primary"></i>
+                        </div>
+                        <h5 class="card-title fw-bold">Bantuan Pertanian</h5>
+                        <p class="card-text text-muted">Informasi program bantuan untuk petani Kabupaten Toba</p>
+                        <a href="{{ route('bantuan.publik') }}" class="btn btn-outline-primary btn-sm">Lihat Detail</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 border-0 shadow-lg" style="border-radius: 15px; transition: transform 0.3s;">
+                    <div class="card-body text-center p-4">
+                        <div class="mb-3">
+                            <i class="fas fa-file-alt fa-3x text-success"></i>
+                        </div>
+                        <h5 class="card-title fw-bold">Laporan Panen</h5>
+                        <p class="card-text text-muted">Data hasil panen dan produktivitas pertanian</p>
+                        <a href="{{ route('laporan.publik') }}" class="btn btn-outline-success btn-sm">Lihat Laporan</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 border-0 shadow-lg" style="border-radius: 15px; transition: transform 0.3s;">
+                    <div class="card-body text-center p-4">
+                        <div class="mb-3">
+                            <i class="fas fa-eye fa-3x text-info"></i>
+                        </div>
+                        <h5 class="card-title fw-bold">Transparansi Bantuan</h5>
+                        <p class="card-text text-muted">Pantau penyaluran bantuan secara transparan</p>
+                        <a href="{{ route('transparansi.bantuan') }}" class="btn btn-outline-info btn-sm">Lihat Transparansi</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 border-0 shadow-lg" style="border-radius: 15px; transition: transform 0.3s;">
+                    <div class="card-body text-center p-4">
+                        <div class="mb-3">
+                            <i class="fas fa-newspaper fa-3x text-warning"></i>
+                        </div>
+                        <h5 class="card-title fw-bold">Berita & Informasi</h5>
+                        <p class="card-text text-muted">Update berita dan informasi terkini pertanian</p>
+                        <a href="{{ route('berita') }}" class="btn btn-outline-warning btn-sm">Baca Berita</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Berita Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold" style="color: var(--green);">Berita & Informasi Pertanian</h2>
+            <p class="text-muted">Informasi terbaru seputar pertanian di Kabupaten Toba</p>
+        </div>
+        
+        @php
+            $beritas = \App\Models\Berita::where('status', 'published')
+                ->latest()
+                ->take(3)
+                ->get();
+        @endphp
+
+        @if($beritas->count() > 0)
+        <div class="row g-4">
+            @foreach($beritas as $berita)
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm" style="border-radius: 15px; overflow: hidden; transition: transform 0.3s;">
+                    @if($berita->gambar)
+                    <img src="{{ asset('storage/' . $berita->gambar) }}" 
+                         class="card-img-top" 
+                         alt="{{ $berita->judul }}"
+                         style="height: 200px; object-fit: cover;">
+                    @else
+                    <div class="card-img-top bg-gradient" style="height: 200px; background: linear-gradient(135deg, var(--green), var(--dark-green)); display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-newspaper fa-4x text-white opacity-50"></i>
+                    </div>
+                    @endif
+                    <div class="card-body">
+                        <div class="mb-2">
+                            <span class="badge bg-success">{{ $berita->kategori ?? 'Umum' }}</span>
+                            <small class="text-muted ms-2">
+                                <i class="fas fa-calendar-alt"></i> {{ $berita->created_at->format('d M Y') }}
+                            </small>
+                        </div>
+                        <h5 class="card-title fw-bold">{{ Str::limit($berita->judul, 60) }}</h5>
+                        <p class="card-text text-muted">{{ Str::limit(strip_tags($berita->konten), 100) }}</p>
+                        <a href="{{ route('berita.detail', $berita->slug) }}" class="btn btn-outline-success btn-sm">
+                            Baca Selengkapnya <i class="fas fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            @endforeach
+        </div>
+        
+        <div class="text-center mt-5">
+            <a href="{{ route('berita') }}" class="btn btn-success btn-lg">
+                Lihat Semua Berita <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+        </div>
+        @else
+        <div class="text-center py-5">
+            <i class="fas fa-inbox fa-4x text-muted mb-3"></i>
+            <p class="text-muted">Belum ada berita tersedia</p>
+        </div>
+        @endif
+    </div>
+</section>
+
+<!-- Statistik Section -->
+<section class="py-5" style="background: linear-gradient(135deg, var(--green), var(--dark-green));">
+    <div class="container">
+        <div class="text-center text-white mb-5">
+            <h2 class="fw-bold mb-3">Statistik Sistem</h2>
+            <p class="lead mb-0">Data real-time sistem informasi pertanian</p>
+        </div>
+        <div class="row g-4 text-center text-white">
+            <div class="col-md-3 col-6">
+                <div class="p-4" style="background: rgba(255,255,255,0.1); border-radius: 15px; backdrop-filter: blur(10px);">
+                    <i class="fas fa-users fa-3x mb-3"></i>
+                    <h2 class="fw-bold mb-2">{{ \App\Models\User::where('role', 'petani')->count() }}</h2>
+                    <p class="mb-0 opacity-75">Petani Terdaftar</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="p-4" style="background: rgba(255,255,255,0.1); border-radius: 15px; backdrop-filter: blur(10px);">
+                    <i class="fas fa-hands-helping fa-3x mb-3"></i>
+                    <h2 class="fw-bold mb-2">{{ \App\Models\Bantuan::count() }}</h2>
+                    <p class="mb-0 opacity-75">Program Bantuan</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="p-4" style="background: rgba(255,255,255,0.1); border-radius: 15px; backdrop-filter: blur(10px);">
+                    <i class="fas fa-file-alt fa-3x mb-3"></i>
+                    <h2 class="fw-bold mb-2">{{ \App\Models\Laporan::count() }}</h2>
+                    <p class="mb-0 opacity-75">Laporan Panen</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="p-4" style="background: rgba(255,255,255,0.1); border-radius: 15px; backdrop-filter: blur(10px);">
+                    <i class="fas fa-eye fa-3x mb-3"></i>
+                    <h2 class="fw-bold mb-2">{{ \App\Models\LaporanBantuan::where('is_public', true)->count() }}</h2>
+                    <p class="mb-0 opacity-75">Laporan Transparan</p>
+                </div>
             </div>
         </div>
     </div>

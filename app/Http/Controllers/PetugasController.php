@@ -73,15 +73,19 @@ class PetugasController extends Controller
         $user = Auth::user();
         $kecamatan = $user->alamat_kecamatan;
 
-        // Jika petugas punya kecamatan, filter berdasarkan kecamatan
-        // Jika tidak, tampilkan semua petani
-        $query = User::where('role', 'petani')->where('id', $id);
+        // Cek apakah petani ada
+        $petani = User::where('role', 'petani')->where('id', $id)->first();
 
-        if ($kecamatan) {
-            $query->where('alamat_kecamatan', $kecamatan);
+        if (! $petani) {
+            return redirect()->route('petugas.petani.index')
+                ->with('error', 'Data petani tidak ditemukan.');
         }
 
-        $petani = $query->firstOrFail();
+        // Jika petugas punya kecamatan, cek apakah petani dari kecamatan yang sama
+        if ($kecamatan && $petani->alamat_kecamatan !== $kecamatan) {
+            return redirect()->route('petugas.petani.index')
+                ->with('error', 'Anda tidak memiliki akses untuk melihat petani dari kecamatan ' . ($petani->alamat_kecamatan ?? 'tidak diketahui') . '. Anda hanya dapat mengelola petani dari kecamatan ' . $kecamatan . '.');
+        }
 
         return view('petugas.petani.show', compact('petani'));
     }
@@ -168,15 +172,19 @@ class PetugasController extends Controller
         $user = Auth::user();
         $kecamatan = $user->alamat_kecamatan;
 
-        $query = Laporan::with('user');
+        // Cek apakah laporan ada
+        $laporan = Laporan::with('user')->find($id);
 
-        if ($kecamatan) {
-            $query->whereHas('user', function ($q) use ($kecamatan) {
-                $q->where('alamat_kecamatan', $kecamatan);
-            });
+        if (! $laporan) {
+            return redirect()->route('petugas.laporan.index')
+                ->with('error', 'Data laporan tidak ditemukan.');
         }
 
-        $laporan = $query->findOrFail($id);
+        // Cek apakah petugas memiliki akses ke laporan ini (berdasarkan kecamatan)
+        if ($kecamatan && $laporan->user->alamat_kecamatan !== $kecamatan) {
+            return redirect()->route('petugas.laporan.index')
+                ->with('error', 'Anda tidak memiliki akses ke laporan ini. Laporan ini berasal dari kecamatan ' . ($laporan->user->alamat_kecamatan ?? 'tidak diketahui') . ', sedangkan Anda bertanggung jawab untuk kecamatan ' . $kecamatan . '.');
+        }
 
         return view('petugas.laporan.show', compact('laporan'));
     }
@@ -254,15 +262,19 @@ class PetugasController extends Controller
         $user = Auth::user();
         $kecamatan = $user->alamat_kecamatan;
 
-        $query = Bantuan::with('user');
+        // Cek apakah bantuan ada
+        $bantuan = Bantuan::with('user')->find($id);
 
-        if ($kecamatan) {
-            $query->whereHas('user', function ($q) use ($kecamatan) {
-                $q->where('alamat_kecamatan', $kecamatan);
-            });
+        if (! $bantuan) {
+            return redirect()->route('petugas.bantuan.index')
+                ->with('error', 'Data bantuan tidak ditemukan.');
         }
 
-        $bantuan = $query->findOrFail($id);
+        // Cek apakah petugas memiliki akses ke bantuan ini (berdasarkan kecamatan)
+        if ($kecamatan && $bantuan->user->alamat_kecamatan !== $kecamatan) {
+            return redirect()->route('petugas.bantuan.index')
+                ->with('error', 'Anda tidak memiliki akses ke bantuan ini. Bantuan ini berasal dari kecamatan ' . ($bantuan->user->alamat_kecamatan ?? 'tidak diketahui') . ', sedangkan Anda bertanggung jawab untuk kecamatan ' . $kecamatan . '.');
+        }
 
         return view('petugas.bantuan.show', compact('bantuan'));
     }

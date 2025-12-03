@@ -47,6 +47,7 @@
     <script src="{{ asset('js/dashboard-interactive.js') }}" defer></script>
 
     @yield('styles')
+    @stack('styles')
 
     <!-- Custom CSS -->
     <style>
@@ -187,30 +188,64 @@
             color: rgba(255, 255, 255, 0.7);
         }
 
-        .notification-bell {
+        /* Notification Button - Enhanced */
+        .notification-container {
             position: relative;
-            cursor: pointer;
             margin-right: 1rem;
         }
 
-        .notification-bell .fa-bell {
-            font-size: 1.2rem;
+        .notification-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
             color: white;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .notification-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .notification-btn i {
+            font-size: 1.25rem;
         }
 
         .notification-badge {
             position: absolute;
-            top: -5px;
-            right: -5px;
-            background-color: #EF4444;
+            top: -6px;
+            right: -6px;
+            background: linear-gradient(135deg, #ef5350 0%, #e53935 100%);
             color: white;
-            border-radius: 50%;
-            width: 18px;
-            height: 18px;
+            border-radius: 10px;
+            min-width: 20px;
+            height: 20px;
+            padding: 0 6px;
             font-size: 0.7rem;
+            font-weight: 700;
             display: flex;
             align-items: center;
             justify-content: center;
+            border: 2px solid #1b5e20;
+            box-shadow: 0 2px 8px rgba(239, 83, 80, 0.4);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
         }
 
         .user-menu .dropdown-toggle::after {
@@ -673,18 +708,31 @@
             background: linear-gradient(135deg, #FFD54F, #FFEB3B);
         }
 
-        /* Notification Panel */
+        /* Notification Panel - Enhanced */
         .notification-panel {
             position: fixed;
-            top: 90px;
+            top: 70px;
             right: 20px;
-            width: 350px;
-            max-height: 400px;
+            width: 380px;
+            max-height: 500px;
             background: white;
-            border-radius: 12px;
-            box-shadow: var(--shadow);
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
             z-index: 1100;
             display: none;
+            overflow: hidden;
+            animation: slideInRight 0.3s ease;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         .notification-panel.show {
@@ -692,25 +740,212 @@
         }
 
         .notification-header {
-            padding: 1rem 1.5rem;
-            border-bottom: 1px solid var(--border-color);
-            background-color: var(--leaf-green);
+            padding: 1.25rem 1.5rem;
+            border-bottom: 2px solid #e0e0e0;
+            background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%);
             color: white;
-            border-radius: 12px 12px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .notification-header h6 {
+            margin: 0;
+            font-weight: 700;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .notification-header .mark-all-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 0.375rem 0.75rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .notification-header .mark-all-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-1px);
+        }
+
+        .notification-body {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .notification-body::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .notification-body::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .notification-body::-webkit-scrollbar-thumb {
+            background: #1b5e20;
+            border-radius: 3px;
         }
 
         .notification-item {
-            padding: 1rem 1.5rem;
-            border-bottom: 1px solid var(--border-color);
-            transition: background-color 0.3s ease;
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid #f0f0f0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
         }
 
         .notification-item:hover {
-            background-color: #F8F9FA;
+            background: linear-gradient(90deg, #f9fdf9 0%, #ffffff 100%);
+            transform: translateX(3px);
         }
 
         .notification-item:last-child {
             border-bottom: none;
+        }
+
+        .notification-item.unread {
+            background: #f1f8e9;
+        }
+
+        .notification-item.unread::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, #1b5e20 0%, #4caf50 100%);
+        }
+
+        .notification-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .notification-icon.success {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            color: #155724;
+        }
+
+        .notification-icon.warning {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeeba 100%);
+            color: #856404;
+        }
+
+        .notification-icon.danger {
+            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+            color: #721c24;
+        }
+
+        .notification-icon.info {
+            background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
+            color: #0c5460;
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-title {
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 0.25rem;
+            font-size: 0.95rem;
+        }
+
+        .notification-message {
+            color: #666;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            margin-bottom: 0.5rem;
+        }
+
+        .notification-time {
+            color: #999;
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .notification-actions {
+            margin-top: 0.75rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .notification-btn {
+            padding: 0.375rem 0.875rem;
+            border-radius: 8px;
+            border: none;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .notification-btn.btn-read {
+            background: linear-gradient(135deg, #4caf50 0%, #66bb6a 100%);
+            color: white;
+        }
+
+        .notification-btn.btn-read:hover {
+            background: linear-gradient(135deg, #66bb6a 0%, #4caf50 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+        }
+
+        .notification-empty {
+            text-align: center;
+            padding: 3rem 1.5rem;
+        }
+
+        .notification-empty i {
+            font-size: 3rem;
+            color: #e0e0e0;
+            margin-bottom: 1rem;
+        }
+
+        .notification-empty p {
+            color: #999;
+            margin: 0;
+        }
+
+        .notification-footer {
+            padding: 1rem 1.5rem;
+            border-top: 2px solid #e0e0e0;
+            background: #f8f9fa;
+            text-align: center;
+        }
+
+        .notification-footer a {
+            color: #1b5e20;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .notification-footer a:hover {
+            color: #2e7d32;
+            gap: 0.75rem;
         }
 
         /* Responsive Design */
@@ -732,8 +967,14 @@
             }
 
             .notification-panel {
-                width: calc(100vw - 40px);
+                width: calc(100vw - 20px);
                 right: 10px;
+                top: 60px;
+                max-height: 80vh;
+            }
+
+            .notification-body {
+                max-height: calc(80vh - 140px);
             }
 
             .table-responsive {
@@ -980,6 +1221,42 @@
                 </div>
 
                 <div class="sidebar-menu-section">
+                    <div class="sidebar-section-title">TRANSPARANSI</div>
+                    <div class="sidebar-menu-item">
+                        <a class="sidebar-menu-link {{ request()->routeIs('admin.laporan-bantuan.*') ? 'active' : '' }}" href="{{ route('admin.laporan-bantuan.index') }}">
+                            <div class="sidebar-menu-icon">
+                                <i class="fas fa-clipboard-check"></i>
+                            </div>
+                            <span class="sidebar-menu-text">Kelola Laporan Bantuan</span>
+                            @php
+                                $pending_laporan = \App\Models\LaporanBantuan::where('status', 'pending')->count();
+                            @endphp
+                            @if($pending_laporan > 0)
+                                <span class="sidebar-badge badge-warning">{{ $pending_laporan }}</span>
+                            @endif
+                        </a>
+                    </div>
+                    
+                    <div class="sidebar-menu-item">
+                        <a class="sidebar-menu-link {{ request()->routeIs('admin.berita.*') ? 'active' : '' }}" href="{{ route('admin.berita.index') }}">
+                            <div class="sidebar-menu-icon">
+                                <i class="fas fa-newspaper"></i>
+                            </div>
+                            <span class="sidebar-menu-text">Kelola Berita</span>
+                        </a>
+                    </div>
+                    
+                    <div class="sidebar-menu-item">
+                        <a class="sidebar-menu-link {{ request()->routeIs('admin.galeri.*') ? 'active' : '' }}" href="{{ route('admin.galeri.index') }}">
+                            <div class="sidebar-menu-icon">
+                                <i class="fas fa-images"></i>
+                            </div>
+                            <span class="sidebar-menu-text">Kelola Galeri</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="sidebar-menu-section">
                     <div class="sidebar-section-title">MONITORING</div>
                     <div class="sidebar-menu-item">
                         <a class="sidebar-menu-link {{ request()->routeIs('monitoring') ? 'active' : '' }}" href="{{ route('monitoring') }}">
@@ -1106,6 +1383,18 @@
                         </a>
                     </div>
                 </div>
+
+                <div class="sidebar-menu-section">
+                    <div class="sidebar-section-title">TRANSPARANSI</div>
+                    <div class="sidebar-menu-item">
+                        <a class="sidebar-menu-link {{ request()->routeIs('petani.laporan-bantuan.*') ? 'active' : '' }}" href="{{ route('petani.laporan-bantuan.index') }}">
+                            <div class="sidebar-menu-icon">
+                                <i class="fas fa-camera"></i>
+                            </div>
+                            <span class="sidebar-menu-text">Laporan Bantuan (Foto)</span>
+                        </a>
+                    </div>
+                </div>
             @endif
         </nav>
 
@@ -1125,41 +1414,54 @@
     @auth
     <div class="notification-panel" id="notificationPanel">
         <div class="notification-header">
-            <h6><i class="fas fa-bell me-2"></i>Notifikasi</h6>
+            <h6><i class="fas fa-bell"></i> Notifikasi</h6>
+            @if(Auth::user()->unreadNotifications->count() > 0)
+            <button class="mark-all-btn" onclick="markAllAsRead()">
+                <i class="fas fa-check-double"></i> Tandai Semua
+            </button>
+            @endif
         </div>
-            @forelse(Auth::user()->unreadNotifications->take(5) as $notification)
-            <div class="notification-item">
+        <div class="notification-body">
+            @forelse(Auth::user()->unreadNotifications->take(10) as $notification)
+            <div class="notification-item unread" id="notification-{{ $notification->id }}">
                 <div class="d-flex align-items-start">
                     @php
                         $color = $notification->data['color'] ?? 'info';
-                        $colorClass = $color == 'success' ? 'text-success' : ($color == 'warning' ? 'text-warning' : ($color == 'danger' ? 'text-danger' : 'text-info'));
+                        $iconClass = 'notification-icon ' . $color;
                     @endphp
-                    <i class="fas {{ $notification->data['icon'] ?? 'fa-bell' }} {{ $colorClass }} me-3 mt-1"></i>
-                    <div class="flex-grow-1">
-                        <strong>{{ $notification->data['title'] ?? 'Notifikasi' }}</strong>
-                        <p class="mb-0 small">{{ $notification->data['message'] ?? 'Tidak ada pesan' }}</p>
-                        <small class="text-muted">{{ $notification->created_at->diffForHumans() }}</small>
-                        <div class="mt-2">
-                            <button class="btn btn-xs btn-outline-success" onclick="markAsReadFromPanel('{{ $notification->id }}')">
-                                <i class="fas fa-check me-1"></i>Tandai Dibaca
+                    <div class="{{ $iconClass }}">
+                        <i class="fas {{ $notification->data['icon'] ?? 'fa-bell' }}"></i>
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-title">{{ $notification->data['title'] ?? 'Notifikasi' }}</div>
+                        <div class="notification-message">{{ $notification->data['message'] ?? 'Tidak ada pesan' }}</div>
+                        <div class="notification-time">
+                            <i class="fas fa-clock"></i>
+                            {{ $notification->created_at->diffForHumans() }}
+                        </div>
+                        <div class="notification-actions">
+                            <button class="notification-btn btn-read" onclick="markAsRead('{{ $notification->id }}')">
+                                <i class="fas fa-check"></i> Tandai Dibaca
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
             @empty
-            <div class="notification-item text-center">
-                <i class="fas fa-inbox fa-2x text-muted mb-2"></i>
-                <p class="mb-0">Tidak ada notifikasi baru</p>
+            <div class="notification-empty">
+                <i class="fas fa-inbox"></i>
+                <p>Tidak ada notifikasi baru</p>
             </div>
             @endforelse
-            @if(Auth::user()->unreadNotifications->count() > 5)
-            <div class="notification-item text-center">
-                <a href="{{ route('notifications.index') }}" class="text-decoration-none">
-                    <small class="text-primary">Lihat semua notifikasi ({{ Auth::user()->unreadNotifications->count() }})</small>
-                </a>
-            </div>
-            @endif
+        </div>
+        @if(Auth::user()->notifications->count() > 0)
+        <div class="notification-footer">
+            <a href="{{ route('notifications.index') }}">
+                Lihat Semua Notifikasi
+                <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+        @endif
     </div>
     @endauth
 
@@ -1319,7 +1621,7 @@
             });
 
             // ============================================
-            // NOTIFICATION PANEL FUNCTIONALITY
+            // NOTIFICATION FUNCTIONALITY - Enhanced
             // ============================================
             const notificationToggle = document.getElementById('notificationToggle');
             const notificationPanel = document.getElementById('notificationPanel');
@@ -1337,6 +1639,125 @@
                     }
                 });
             }
+
+            // Mark single notification as read
+            window.markAsRead = function(notificationId) {
+                const notificationItem = document.getElementById('notification-' + notificationId);
+                
+                fetch('/notifications/' + notificationId + '/read', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Remove notification with animation
+                        if (notificationItem) {
+                            notificationItem.style.opacity = '0';
+                            notificationItem.style.transform = 'translateX(20px)';
+                            setTimeout(() => {
+                                notificationItem.remove();
+                                
+                                // Update badge count
+                                const badge = document.querySelector('.notification-badge');
+                                if (badge) {
+                                    const currentCount = parseInt(badge.textContent);
+                                    if (currentCount <= 1) {
+                                        badge.remove();
+                                    } else {
+                                        badge.textContent = currentCount - 1;
+                                    }
+                                }
+                                
+                                // Check if there are no more notifications
+                                const remainingNotifications = document.querySelectorAll('.notification-item.unread');
+                                if (remainingNotifications.length === 0) {
+                                    const notificationBody = document.querySelector('.notification-body');
+                                    if (notificationBody) {
+                                        notificationBody.innerHTML = `
+                                            <div class="notification-empty">
+                                                <i class="fas fa-inbox"></i>
+                                                <p>Tidak ada notifikasi baru</p>
+                                            </div>
+                                        `;
+                                    }
+                                    // Remove "mark all" button
+                                    const markAllBtn = document.querySelector('.mark-all-btn');
+                                    if (markAllBtn) {
+                                        markAllBtn.remove();
+                                    }
+                                }
+                            }, 300);
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Gagal menandai notifikasi sebagai dibaca');
+                });
+            };
+
+            // Mark all notifications as read
+            window.markAllAsRead = function() {
+                if (!confirm('Tandai semua notifikasi sebagai sudah dibaca?')) {
+                    return;
+                }
+                
+                fetch('/notifications/mark-all-read', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Remove all notification items with animation
+                        const notificationItems = document.querySelectorAll('.notification-item.unread');
+                        notificationItems.forEach((item, index) => {
+                            setTimeout(() => {
+                                item.style.opacity = '0';
+                                item.style.transform = 'translateX(20px)';
+                            }, index * 50);
+                        });
+                        
+                        setTimeout(() => {
+                            const notificationBody = document.querySelector('.notification-body');
+                            if (notificationBody) {
+                                notificationBody.innerHTML = `
+                                    <div class="notification-empty">
+                                        <i class="fas fa-check-circle" style="color: #4caf50;"></i>
+                                        <p>Semua notifikasi telah dibaca</p>
+                                    </div>
+                                `;
+                            }
+                            
+                            // Remove badge
+                            const badge = document.querySelector('.notification-badge');
+                            if (badge) {
+                                badge.remove();
+                            }
+                            
+                            // Remove "mark all" button
+                            const markAllBtn = document.querySelector('.mark-all-btn');
+                            if (markAllBtn) {
+                                markAllBtn.remove();
+                            }
+                        }, notificationItems.length * 50 + 300);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Gagal menandai semua notifikasi');
+                });
+            };
+
+            // Deprecated function for backward compatibility
+            window.markAsReadFromPanel = window.markAsRead;
 
             // ============================================
             // GLOBAL SEARCH FUNCTIONALITY
@@ -1392,22 +1813,9 @@
             }
 
             // ============================================
-            // NOTIFICATION MARK AS READ
+            // NOTIFICATION MARK AS READ (Removed - replaced with enhanced version above)
             // ============================================
-            window.markAsReadFromPanel = function(notificationId) {
-                fetch('/notifications/' + notificationId + '/read', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    }
-                }).then(response => {
-                    if (response.ok) {
-                        location.reload();
-                    }
-                });
-            };
-
+            
             // ============================================
             // SMOOTH SCROLL FOR SIDEBAR ACTIVE ITEM
             // ============================================
@@ -1430,5 +1838,6 @@
         });
     </script>
     @yield('scripts')
+    @stack('scripts')
 </body>
 </html>

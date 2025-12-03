@@ -888,6 +888,151 @@
 </section>
 @endif
 
+<!-- ===== TRANSPARANSI SECTION ===== -->
+<section class="features-section">
+    <div class="container">
+        <h2 class="section-title" data-aos="fade-up">Transparansi Bantuan Pertanian</h2>
+        <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">
+            Laporan bantuan pertanian yang transparan dan terbuka untuk publik
+        </p>
+
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                    <h3 class="feature-title">Upload Foto Bukti</h3>
+                    <p class="feature-description">
+                        Petani dapat mengunggah foto bukti penerimaan bantuan untuk transparansi
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3 class="feature-title">Dashboard Publik</h3>
+                    <p class="feature-description">
+                        Pantau distribusi bantuan secara real-time melalui dashboard publik
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3 class="feature-title">Verifikasi Admin</h3>
+                    <p class="feature-description">
+                        Setiap laporan diverifikasi oleh admin untuk memastikan keasliannya
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-5" data-aos="fade-up">
+            <a href="{{ route('transparansi.bantuan') }}" class="btn btn-hero-primary">
+                <i class="fas fa-eye me-2"></i>Lihat Dashboard Transparansi
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ===== BERITA SECTION ===== -->
+@if($beritas && $beritas->count() > 0)
+<section class="programs-section" style="background: #f5f7fa;">
+    <div class="container">
+        <h2 class="section-title" data-aos="fade-up">Berita & Informasi Terkini</h2>
+        <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">
+            Update terbaru seputar kegiatan pertanian di Kabupaten Toba
+        </p>
+
+        <div class="row g-4">
+            @foreach($beritas as $index => $berita)
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="{{ 200 + ($index * 100) }}">
+                <div class="program-card">
+                    <div class="program-image">
+                        @if($berita->gambar)
+                            <img src="{{ asset('storage/' . $berita->gambar) }}" alt="{{ $berita->judul }}">
+                        @else
+                            <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=600&h=400&fit=crop" alt="{{ $berita->judul }}">
+                        @endif
+                        <div class="program-badge">
+                            <i class="fas fa-newspaper me-1"></i>Berita
+                        </div>
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">{{ Str::limit($berita->judul, 50) }}</h3>
+                        <p class="program-description">
+                            {{ Str::limit(strip_tags($berita->konten), 100) }}
+                        </p>
+                        <div class="program-meta">
+                            <div class="program-meta-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                {{ \Carbon\Carbon::parse($berita->created_at)->format('d M Y') }}
+                            </div>
+                            <a href="{{ route('berita.detail', $berita->slug) }}" class="btn btn-sm btn-outline-success">
+                                Baca Selengkapnya →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endforeach
+        </div>
+
+        <div class="text-center mt-5" data-aos="fade-up">
+            <a href="{{ route('berita') }}" class="btn btn-hero-primary">
+                <i class="fas fa-arrow-right me-2"></i>Lihat Semua Berita
+            </a>
+        </div>
+    </div>
+</section>
+@endif
+
+<!-- ===== GALERI SECTION ===== -->
+@if($galeris && $galeris->count() > 0)
+<section class="programs-section">
+    <div class="container">
+        <h2 class="section-title" data-aos="fade-up">Galeri Kegiatan</h2>
+        <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">
+            Dokumentasi kegiatan pertanian dan program bantuan di lapangan
+        </p>
+
+        <div class="row g-4">
+            @foreach($galeris as $index => $galeri)
+            <div class="col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="{{ 200 + ($index * 100) }}">
+                <div class="program-card">
+                    <div class="program-image">
+                        <img src="{{ asset('storage/' . $galeri->foto) }}" alt="{{ $galeri->keterangan }}">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">{{ $galeri->keterangan }}</h3>
+                        <div class="program-meta">
+                            <div class="program-meta-item">
+                                <i class="fas fa-camera"></i>
+                                {{ \Carbon\Carbon::parse($galeri->created_at)->format('d M Y') }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endforeach
+        </div>
+
+        <div class="text-center mt-5" data-aos="fade-up">
+            <a href="{{ route('galeri') }}" class="btn btn-hero-primary">
+                <i class="fas fa-images me-2"></i>Lihat Semua Galeri
+            </a>
+        </div>
+    </div>
+</section>
+@endif
+
 <!-- ===== CTA SECTION ===== -->
 <section class="cta-section">
     <div class="container">

@@ -62,6 +62,14 @@ class Bantuan extends Model
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * Relationship: Bantuan has many LaporanBantuan.
+     */
+    public function laporanBantuans()
+    {
+        return $this->hasMany(LaporanBantuan::class);
+    }
+
     // ============================================
     // QUERY SCOPES
     // ============================================

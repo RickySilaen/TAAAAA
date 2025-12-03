@@ -700,6 +700,16 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link-ultra-modern {{ request()->routeIs('transparansi.bantuan*') ? 'active' : '' }}" href="{{ route('transparansi.bantuan') }}">
+                            <i class="fas fa-eye"></i> Transparansi
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link-ultra-modern {{ request()->routeIs('berita*') ? 'active' : '' }}" href="{{ route('berita') }}">
+                            <i class="fas fa-newspaper"></i> Berita
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link-ultra-modern {{ request()->routeIs('tentang') ? 'active' : '' }}" href="{{ route('tentang') }}">
                             <i class="fas fa-info-circle"></i> Tentang
                         </a>

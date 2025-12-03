@@ -30,9 +30,10 @@ class LoginTest extends TestCase
             'role' => 'petani',
         ]);
 
-        $response = $this->withoutMiddleware()->post('/login', [
+        $response = $this->withSession([])->post('/login', [
             'email' => 'test@example.com',
             'password' => 'password',
+            '_token' => csrf_token(),
         ]);
 
         $this->assertAuthenticated();
@@ -49,9 +50,10 @@ class LoginTest extends TestCase
             'password' => Hash::make('password'),
         ]);
 
-        $response = $this->withoutMiddleware()->post('/login', [
-            'email' => 'test@example.com',
-            'password' => 'wrong-password',
+        $response = $this->withSession([])->post('/login', [
+            'email' => 'invalid@example.com',
+            'password' => 'wrongpassword',
+            '_token' => csrf_token(),
         ]);
 
         $this->assertGuest();
@@ -69,9 +71,10 @@ class LoginTest extends TestCase
             'role' => 'admin',
         ]);
 
-        $response = $this->withoutMiddleware()->post('/login', [
+        $response = $this->withSession([])->post('/login', [
             'email' => 'admin@example.com',
             'password' => 'password',
+            '_token' => csrf_token(),
         ]);
 
         $this->assertAuthenticated();
@@ -89,9 +92,10 @@ class LoginTest extends TestCase
             'role' => 'petugas',
         ]);
 
-        $response = $this->withoutMiddleware()->post('/login', [
+        $response = $this->withSession([])->post('/login', [
             'email' => 'petugas@example.com',
             'password' => 'password',
+            '_token' => csrf_token(),
         ]);
 
         $this->assertAuthenticated();
@@ -109,9 +113,10 @@ class LoginTest extends TestCase
             'role' => 'petani',
         ]);
 
-        $response = $this->withoutMiddleware()->post('/login', [
+        $response = $this->withSession([])->post('/login', [
             'email' => 'petani@example.com',
             'password' => 'password',
+            '_token' => csrf_token(),
         ]);
 
         $this->assertAuthenticated();
@@ -129,9 +134,10 @@ class LoginTest extends TestCase
             'role' => 'petani',
         ]);
 
-        $response = $this->withoutMiddleware()->post('/login', [
+        $response = $this->withSession([])->post('/login', [
             'email' => 'petani@example.com',
             'password' => 'password',
+            '_token' => csrf_token(),
         ]);
 
         $this->assertGuest();
@@ -162,7 +168,9 @@ class LoginTest extends TestCase
         $this->actingAs($user);
         $this->assertAuthenticated();
 
-        $response = $this->withoutMiddleware()->post('/logout');
+        $response = $this->withSession([])->post('/logout', [
+            '_token' => csrf_token(),
+        ]);
 
         $this->assertGuest();
         $response->assertRedirect('/');

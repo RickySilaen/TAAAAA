@@ -83,11 +83,12 @@ class PetaniBantuanTest extends TestCase
             'status' => 'pending',
         ]);
 
-        $response = $this->actingAs($petani)->put("/petani/bantuan/{$bantuan->id}", [
+        $response = $this->withSession([])->actingAs($petani)->put("/petani/bantuan/{$bantuan->id}", [
             'jenis_bantuan' => 'Pupuk Organik',
             'jumlah' => 150,
             'tanggal_permintaan' => now()->format('Y-m-d'),
             'keterangan' => 'Updated keterangan',
+            '_token' => csrf_token(),
         ]);
 
         $this->assertDatabaseHas('bantuans', [
@@ -138,7 +139,9 @@ class PetaniBantuanTest extends TestCase
 
         $bantuanId = $bantuan->id;
 
-        $response = $this->actingAs($petani)->delete("/petani/bantuan/{$bantuan->id}");
+        $response = $this->withSession([])->actingAs($petani)->delete("/petani/bantuan/{$bantuan->id}", [
+            '_token' => csrf_token(),
+        ]);
 
         $this->assertDatabaseMissing('bantuans', [
             'id' => $bantuanId,

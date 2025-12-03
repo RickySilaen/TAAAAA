@@ -2,21 +2,62 @@
 
 @section('title', 'Edit Berita')
 
+@push('styles')
+<style>
+    .edit-hero {
+        background: linear-gradient(135deg, #f57c00 0%, #ef6c00 100%);
+        border-radius: 24px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        color: white;
+        box-shadow: 0 10px 40px rgba(245,124,0,0.3);
+    }
+    .edit-card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        border: none;
+    }
+    .form-control, .form-select {
+        border-radius: 12px;
+        border: 2px solid #e0e0e0;
+        padding: 0.75rem 1rem;
+        transition: all 0.3s;
+    }
+    .form-control:focus, .form-select:focus {
+        border-color: #f57c00;
+        box-shadow: 0 0 0 0.2rem rgba(245,124,0,0.15);
+    }
+    .preview-image {
+        border-radius: 16px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .submit-btn {
+        border-radius: 12px;
+        padding: 0.75rem 2rem;
+        font-weight: 700;
+        transition: all 0.3s;
+    }
+    .submit-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+</style>
+@endpush
+
 @section('content')
 <div class="container-fluid py-4">
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header pb-0">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h6>Edit Berita</h6>
-                        <a href="{{ route('admin.berita.index') }}" class="btn btn-secondary btn-sm">
-                            <i class="fas fa-arrow-left"></i> Kembali
-                        </a>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <form action="{{ route('admin.berita.update', $berita->id) }}" method="POST" enctype="multipart/form-data">
+    <div class="edit-hero">
+        <div class="d-flex justify-content-between align-items-center">
+            <h1 class="h3 mb-0" style="font-weight: 800;">Edit Berita</h1>
+            <a href="{{ route('admin.berita.index') }}" class="btn btn-light">
+                <i class="fas fa-arrow-left me-2"></i>Kembali
+            </a>
+        </div>
+    </div>
+    
+    <div class="edit-card p-4">
+        <form action="{{ route('admin.berita.update', $berita->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
 

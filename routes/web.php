@@ -51,6 +51,10 @@ Route::get('/berita/{slug}', [GuestController::class, 'beritaDetail'])->name('be
 Route::get('/galeri', [GuestController::class, 'galeri'])->name('galeri');
 Route::get('/faq', [GuestController::class, 'faq'])->name('faq');
 
+// Laporan Bantuan - Public Dashboard for Transparency
+Route::get('/transparansi-bantuan', [\App\Http\Controllers\LaporanBantuanController::class, 'publicDashboard'])->name('transparansi.bantuan');
+Route::get('/transparansi-bantuan/{id}', [\App\Http\Controllers\LaporanBantuanController::class, 'show'])->name('transparansi.bantuan.show');
+
 Route::post('/newsletter/subscribe', [GuestController::class, 'subscribeNewsletter'])->name('newsletter.subscribe');
 Route::post('/feedback', [GuestController::class, 'feedback'])->name('feedback.submit');
 Route::get('/download/bantuan/pdf', [GuestController::class, 'downloadBantuanPdf'])->name('download.bantuan.pdf');
@@ -234,6 +238,14 @@ Route::middleware(['auth', 'is_verified'])->group(function () {
         Route::get('bantuan/{bantuan}/edit', [PetaniController::class, 'bantuanEdit'])->name('bantuan.edit');
         Route::put('bantuan/{bantuan}', [PetaniController::class, 'bantuanUpdate'])->name('bantuan.update');
         Route::delete('bantuan/{bantuan}', [PetaniController::class, 'bantuanDestroy'])->name('bantuan.destroy');
+
+        // Laporan Bantuan (Transparansi)
+        Route::get('laporan-bantuan', [\App\Http\Controllers\LaporanBantuanController::class, 'index'])->name('laporan-bantuan.index');
+        Route::get('laporan-bantuan/create', [\App\Http\Controllers\LaporanBantuanController::class, 'create'])->name('laporan-bantuan.create');
+        Route::post('laporan-bantuan', [\App\Http\Controllers\LaporanBantuanController::class, 'store'])->name('laporan-bantuan.store');
+        Route::get('laporan-bantuan/{id}/edit', [\App\Http\Controllers\LaporanBantuanController::class, 'edit'])->name('laporan-bantuan.edit');
+        Route::put('laporan-bantuan/{id}', [\App\Http\Controllers\LaporanBantuanController::class, 'update'])->name('laporan-bantuan.update');
+        Route::delete('laporan-bantuan/{id}', [\App\Http\Controllers\LaporanBantuanController::class, 'destroy'])->name('laporan-bantuan.destroy');
     });
 
     /*
@@ -264,6 +276,15 @@ Route::middleware(['auth', 'is_verified'])->group(function () {
         Route::resource('newsletter', NewsletterController::class);
         Route::post('newsletter/{id}/send', [NewsletterController::class, 'send'])->name('newsletter.send');
         Route::get('newsletter-subscribers', [NewsletterController::class, 'getSubscribers'])->name('newsletter.subscribers');
+
+        // Laporan Bantuan - Admin Management & Decision Support
+        Route::get('laporan-bantuan', [\App\Http\Controllers\Admin\AdminLaporanBantuanController::class, 'index'])->name('laporan-bantuan.index');
+        Route::get('laporan-bantuan/dashboard', [\App\Http\Controllers\Admin\AdminLaporanBantuanController::class, 'dashboard'])->name('laporan-bantuan.dashboard');
+        Route::get('laporan-bantuan/{id}', [\App\Http\Controllers\Admin\AdminLaporanBantuanController::class, 'show'])->name('laporan-bantuan.show');
+        Route::post('laporan-bantuan/{id}/verify', [\App\Http\Controllers\Admin\AdminLaporanBantuanController::class, 'verify'])->name('laporan-bantuan.verify');
+        Route::post('laporan-bantuan/{id}/reject', [\App\Http\Controllers\Admin\AdminLaporanBantuanController::class, 'reject'])->name('laporan-bantuan.reject');
+        Route::post('laporan-bantuan/{id}/publish', [\App\Http\Controllers\Admin\AdminLaporanBantuanController::class, 'publish'])->name('laporan-bantuan.publish');
+        Route::post('laporan-bantuan/{id}/unpublish', [\App\Http\Controllers\Admin\AdminLaporanBantuanController::class, 'unpublish'])->name('laporan-bantuan.unpublish');
     });
     Route::post('/log/error', function (Request $request) {
         \Log::channel('form_errors')->error('Form Validation Error', [
