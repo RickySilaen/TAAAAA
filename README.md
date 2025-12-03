@@ -6,6 +6,12 @@ Aplikasi web untuk manajemen data pertanian, laporan hasil panen, dan distribusi
 ![PHP](https://img.shields.io/badge/PHP-8.3.2-blue?style=flat&logo=php)
 ![License](https://img.shields.io/badge/License-MIT-green?style=flat)
 
+## 🚀 Deploy to Heroku
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/vanchristjh/DPT)
+
+Klik tombol di atas untuk deploy aplikasi ke Heroku dengan satu klik!
+
 ---
 
 ## 📋 Tentang Project
@@ -204,6 +210,55 @@ npm run dev
 
 ---
 
+## 🌐 Deployment
+
+### Deploy to Heroku
+
+**Option 1: One-Click Deploy (Recommended)**
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/vanchristjh/DPT)
+
+Klik tombol di atas dan ikuti wizard Heroku untuk deploy aplikasi.
+
+**Option 2: Manual Deploy via CLI**
+
+Lihat panduan lengkap di [HEROKU_DEPLOYMENT_GUIDE.md](HEROKU_DEPLOYMENT_GUIDE.md)
+
+```bash
+# Login ke Heroku
+heroku login
+
+# Buat aplikasi
+heroku create nama-aplikasi-anda
+
+# Tambahkan database
+heroku addons:create jawsdb:kitefin
+
+# Deploy
+git push heroku main
+
+# Run migration
+heroku run php artisan migrate --force
+```
+
+**Option 3: Deploy via Web Browser**
+
+1. Buka [dashboard.heroku.com](https://dashboard.heroku.com)
+2. Klik "New" → "Create new app"
+3. Pilih "Connect to GitHub"
+4. Search repository "DPT" dan connect
+5. Enable "Automatic Deploys"
+6. Klik "Deploy Branch"
+
+### Other Deployment Options
+
+- **Railway**: [railway.app](https://railway.app)
+- **DigitalOcean**: [digitalocean.com](https://www.digitalocean.com)
+- **AWS**: [aws.amazon.com](https://aws.amazon.com)
+- **VPS**: Gunakan Docker (lihat `Dockerfile` dan `docker-compose.yml`)
+
+---
+
 ## 📝 License
 
 Project ini menggunakan [MIT License](LICENSE).
@@ -232,6 +287,7 @@ Jika ada pertanyaan atau masalah:
 - 📧 Email: support@pertanian.com
 - 🐛 Issues: [GitHub Issues](https://github.com/RickySilaen/TAAAAA/issues)
 - 📖 Docs: [Documentation](docs/)
+- 🚀 Deployment Guide: [HEROKU_DEPLOYMENT_GUIDE.md](HEROKU_DEPLOYMENT_GUIDE.md)
 
 ---
 
