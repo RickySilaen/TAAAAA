@@ -1,0 +1,59 @@
+{
+  "name": "Sistem Pertanian",
+  "description": "Aplikasi Manajemen Sistem Pertanian dengan Laravel",
+  "keywords": ["laravel", "php", "pertanian", "agriculture"],
+  "website": "https://github.com/vanchristjh/DPT",
+  "repository": "https://github.com/vanchristjh/DPT",
+  "logo": "",
+  "success_url": "/",
+  "env": {
+    "APP_NAME": {
+      "description": "Application name",
+      "value": "Sistem Pertanian"
+    },
+    "APP_ENV": {
+      "description": "Application environment",
+      "value": "production"
+    },
+    "APP_DEBUG": {
+      "description": "Debug mode (set to false in production)",
+      "value": "false"
+    },
+    "APP_URL": {
+      "description": "Application URL",
+      "required": true
+    },
+    "DB_CONNECTION": {
+      "description": "Database connection type",
+      "value": "mysql"
+    },
+    "LOG_CHANNEL": {
+      "description": "Log channel",
+      "value": "stack"
+    },
+    "QUEUE_CONNECTION": {
+      "description": "Queue connection",
+      "value": "database"
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "basic"
+    }
+  },
+  "addons": [
+    {
+      "plan": "jawsdb:kitefin",
+      "as": "DATABASE"
+    }
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/php"
+    }
+  ],
+  "scripts": {
+    "postdeploy": "php artisan migrate --force && php artisan config:cache && php artisan route:cache && php artisan view:cache"
+  }
+}
