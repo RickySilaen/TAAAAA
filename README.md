@@ -6,11 +6,13 @@ Aplikasi web untuk manajemen data pertanian, laporan hasil panen, dan distribusi
 ![PHP](https://img.shields.io/badge/PHP-8.3.2-blue?style=flat&logo=php)
 ![License](https://img.shields.io/badge/License-MIT-green?style=flat)
 
-## 🚀 Deploy to Heroku
+## 🚀 Quick Deploy
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/vanchristjh/DPT)
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/laravel?referralCode=railway)
 
-Klik tombol di atas untuk deploy aplikasi ke Heroku dengan satu klik!
+[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/vanchristjh/DPT)
+
+**Rekomendasi:** Gunakan Railway untuk deployment yang lebih mudah dan gratis!
 
 ---
 
@@ -215,6 +217,39 @@ npm run dev
 ### Deploy to Heroku
 
 **Option 1: One-Click Deploy (Recommended)**
+## 🌐 Deployment
+
+### 🚂 Deploy to Railway (Recommended) ⭐
+
+Railway adalah platform deployment modern yang mudah dan gratis!
+
+**Quick Deploy:**
+
+1. Buka [railway.app](https://railway.app/)
+2. Login dengan GitHub
+3. Klik **"New Project"** → **"Deploy from GitHub repo"**
+4. Pilih repository **vanchristjh/DPT**
+5. Klik **"+ New"** → **"Database"** → **"MySQL"**
+6. Set environment variables (lihat panduan)
+7. Railway akan auto-deploy!
+
+**URL:** `https://your-app.up.railway.app`
+
+📖 **Panduan Lengkap:** [RAILWAY_DEPLOYMENT_GUIDE.md](RAILWAY_DEPLOYMENT_GUIDE.md)
+
+**Keunggulan Railway:**
+- ✅ **$5 credit gratis/bulan**
+- ✅ **No sleep** - selalu online
+- ✅ **Auto SSL** (HTTPS gratis)
+- ✅ **Database included**
+- ✅ **Auto deploy** dari GitHub
+- ✅ **Super mudah** - tanpa CLI
+
+---
+
+### 🔴 Deploy to Heroku
+
+**Option 1: One-Click Deploy**
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/vanchristjh/DPT)
 
@@ -250,12 +285,26 @@ heroku run php artisan migrate --force
 5. Enable "Automatic Deploys"
 6. Klik "Deploy Branch"
 
-### Other Deployment Options
+---
 
-- **Railway**: [railway.app](https://railway.app)
-- **DigitalOcean**: [digitalocean.com](https://www.digitalocean.com)
-- **AWS**: [aws.amazon.com](https://aws.amazon.com)
-- **VPS**: Gunakan Docker (lihat `Dockerfile` dan `docker-compose.yml`)
+### 🐳 Other Deployment Options
+
+- **Docker**: Gunakan `Dockerfile` dan `docker-compose.yml` yang sudah tersedia
+- **DigitalOcean App Platform**: [digitalocean.com](https://www.digitalocean.com)
+- **AWS Elastic Beanstalk**: [aws.amazon.com](https://aws.amazon.com)
+- **VPS (Ubuntu/CentOS)**: Deploy manual dengan Nginx/Apache
+
+---
+
+### 📊 Comparison
+
+| Platform | Gratis | Mudah | Database | Sleep | SSL |
+|----------|--------|-------|----------|-------|-----|
+| **Railway** | ✅ $5/mo | ⭐⭐⭐⭐⭐ | ✅ Included | ❌ Never | ✅ Auto |
+| **Heroku** | ❌ Eco only | ⭐⭐⭐⭐ | ➕ Addon | ✅ 30min | ✅ Auto |
+| **VPS** | ❌ | ⭐⭐ | 🔧 Manual | ❌ Never | 🔧 Manual |
+
+**Rekomendasi:** Railway 🏆
 
 ---
 
